@@ -52,7 +52,7 @@ version is available, only this has to be done.
 Download the latest release image we provide here and flash it:
 
 
-     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w example.rom
+     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w x230_coreboot_seabios_example_top.rom
 
 ## How to flash
 We flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
