@@ -9,6 +9,10 @@ These imges:
 ## Latest build
 See our [releases](https://github.com/merge/coreboot-x230/releases)
 
+## Currrent microcode file
+* Source: [2018-01-08](https://downloadmirror.intel.com/27431/eng/microcode-20180108.tgz) md5 871df55f0ab010ee384dabfc424f2c12
+* 06-3a-09 for Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
+
 ## Flashing for the first time
 
 ### EC firmware
