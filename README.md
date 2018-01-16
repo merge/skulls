@@ -7,6 +7,7 @@ These images:
 * include Intel's proprietary microcode update binary.
 * include [SeaBIOS](https://seabios.org/SeaBIOS) as coreboot payload, for maximum compatibility.
 * are meant to be [flashed externally](#how-to-flash)
+* are compatible with Windows and Linux
 
 ## Latest build
 See our [releases](https://github.com/merge/coreboot-x230/releases)
