@@ -19,6 +19,12 @@ See our [releases](https://github.com/merge/coreboot-x230/releases)
 ### SeaBIOS version from 2017-11-10
 * [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0)
 
+### When do we do a release?
+Either when
+* There is a new SeaBIOS release,
+* There is a new Intel microcode release, or
+* There is a coreboot issue that affects us (unlikely)
+
 ## Flashing for the first time
 
 ### EC firmware
@@ -109,4 +115,3 @@ coreboot is not hard at all. Please refer to [coreboot's own documentation](http
 
 When building, testing and doing a release here, we always try to upload our
 result to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards).
-
