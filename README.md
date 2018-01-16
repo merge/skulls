@@ -76,11 +76,13 @@ one easily.
 
 We connect it to a Raspberry Pi 3, running [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and the following setup
+* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" Adapter and picocom or minicom
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
-* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
+* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet.
 * install `flashrom`
 * connect the Clip to the Raspberry Pi 3:
+
 
 		   Edge of pi (furthest from you)
 		 L                                                CS
@@ -94,7 +96,8 @@ and the following setup
 		 E                                 (VCC)         CLK
 		   Body of Pi (closest to you)
 
-and you X230:
+
+  and to your X230:
 
 
 		Screen (furthest from you)
