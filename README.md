@@ -13,8 +13,7 @@ See our [releases](https://github.com/merge/coreboot-x230/releases)
 
 ### coreboot
 * We simply take coreboot's current state in it's master branch at the time we build a release image.
-That's the preferred way to use coreboot. The git HEAD we use it always included in
-the release.
+That's the preferred way to use coreboot. The git revision we use is always included in the release.
 
 ### Intel microcode
 * version [20180108](https://downloadcenter.intel.com/download/27431/Linux-Processor-Microcode-Data-File)
