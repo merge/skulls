@@ -58,7 +58,7 @@ and [me_cleaner](https://github.com/corna/me_cleaner) on it:
       flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E/MX25L3208E" -r ifdmegbe2.rom
       diff ifdmegbe.rom ifdmegbe2.rom
       git clone https://github.com/corna/me_cleaner.git && cd me_cleaner
-      ./me_cleaner.py -O ifdmegbe_meclean.rom ifdmegbe.rom
+      ./me_cleaner.py -S -O ifdmegbe_meclean.rom ifdmegbe.rom
       ifdtool -u ifdmegbe_meclean.rom
       flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E/MX25L3208E" -w ifdmegbe_meclean.rom.new
 
