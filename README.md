@@ -125,15 +125,6 @@ and have the following setup
 Now you should be able to copy the image over to your Rasperry Pi and run the
 mentioned `flashrom` commands.
 
-### Example: DLN2
-If using a [Diolan DLN2](https://diolan.com/dln-2) as USB-SPI Adapter, we can
-stay on the host system to run flashrom. Make sure you have the Linux driver
-configured in, i.e. `CONFIG_SPI_DLN2=m`. Connect the Pomona Clip according to the
-[DLN2 Connectors](http://dlnware.com/sites/dlnware.com/files/downloads/dln-2-connectors-jumpers.pdf).
-MOSI, MISO, CS, CLK and VCC are Pin 1, 3, 5, 7, 9 on the J4 SPI Connector. Set JP3
-to 3,3V.
-
-TODO
 
 ## How we build
 Everything necessary to build coreboot is included in this project and building
