@@ -20,12 +20,19 @@ See our [releases](https://github.com/merge/coreboot-x230/releases)
 * version [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0) from 2017-11-10
 * (in coreboot upstream)
 
-### When do we do a release?
+## When do we do a release?
 Either when
 * There is a new SeaBIOS release,
-* There is a new Intel microcode release (and included in coreboot), or
-* There is a coreboot issue that affects us (unlikely)
-* Config change we need
+* There is a new Intel microcode release (included in coreboot AND affecting our CPU ID),
+* There is a coreboot issue that affects us (unlikely), or
+* We need to change the config
+
+## TL;DR
+Download a released image, connect your hardware SPI flasher to the "upper"
+4MB chip in your X230, and do
+
+     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w x230_coreboot_seabios_example_top.rom
+
 
 ## Flashing for the first time
 
