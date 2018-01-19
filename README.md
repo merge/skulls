@@ -40,14 +40,14 @@ Download a released image, connect your hardware SPI flasher to the "upper"
 
 ## Flashing for the first time
 
-### EC firmware
+### EC firmware (optional)
 Enter Lenovo's BIOS with __F1__ and check the embedded controller (EC) version to be
 __1.14__ and upgrade using [the latest bootable CD](https://support.lenovo.com/at/en/downloads/ds029188)
 if it isn't. The EC cannot be upgraded when coreboot is installed. (In case a newer
 version should ever be available (I doubt it), you could temporarily flash back your
 original Lenovo BIOS image)
 
-### me_cleaner
+### me_cleaner (optional)
 The Intel Management Engine resides on the 8MB chip. We don't need to touch it
 for coreboot-upgrades in the future, but while opening up the Thinkpad anyways,
 we can save it and run [ifdtool](https://github.com/coreboot/coreboot/tree/master/util/ifdtool)
@@ -67,7 +67,7 @@ and [me_cleaner](https://github.com/corna/me_cleaner) on it:
 part, but we can essientially ignore that)
 
 For the first time, we have to save the original image, just like we did with
-the 8MB chip above:
+the 8MB chip. It's important to keep this image somewhere safe:
 
 
       flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -r top1.rom
@@ -141,3 +141,10 @@ coreboot is not hard at all. Please refer to [coreboot's own documentation](http
 
 When building, testing and doing a release here, we always try to upload our
 result to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards).
+
+## Why does this work?
+On the X230, there are 2 physical "BIOS" chips. The "upper" 4MB
+one holds the actual bios we can generate using coreboot, and the "lower" 8MB
+one holds the rest that you can [modify yourself once](#flashing-for-the-first-time),
+if you like, but strictly speaking, you don't need to touch it at all. What's this "rest"?
+Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
