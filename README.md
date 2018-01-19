@@ -86,11 +86,22 @@ Download the latest release image we provide here and flash it:
 
 ## How to flash
 We flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
-one easily.
+one easily. This is how the X230's SPI connection looks on both chips:
+
+
+		Screen (furthest from you)
+			     __
+		  MOSI  5 --|  |-- 4  GND
+		   CLK  6 --|  |-- 3  N/C
+		   N/C  7 --|  |-- 2  MISO
+		   VCC  8 --|__|-- 1  CS
+
+		   Edge (closest to you)
+
 
 ### Example: Raspberry Pi 3
-We connect it to a Raspberry Pi 3, running [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
-and the following setup
+We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
+and have the following setup
 * [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" Adapter and picocom or minicom
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
@@ -112,21 +123,18 @@ and the following setup
 		   Body of Pi (closest to you)
 
 
-  and to your X230:
-
-
-		Screen (furthest from you)
-			     __
-		  MOSI  5 --|  |-- 4  GND
-		   CLK  6 --|  |-- 3  N/C
-		   N/C  7 --|  |-- 2  MISO
-		   VCC  8 --|__|-- 1  CS
-
-		   Edge (closest to you)
-
-
 Now you should be able to copy the image over to your Rasperry Pi and run the
 mentioned `flashrom` commands.
+
+### Example: DLN2
+If using a [Diolan DLN2](https://diolan.com/dln-2) as USB-SPI Adapter, we can
+stay on the host system to run flashrom. Make sure you have the Linux driver
+configured in, i.e. `CONFIG_SPI_DLN2=m`. Connect the Pomona Clip according to the
+[DLN2 Connectors](http://dlnware.com/sites/dlnware.com/files/downloads/dln-2-connectors-jumpers.pdf).
+MOSI, MISO, CS, CLK and VCC are Pin 1, 3, 5, 7, 9 on the J4 SPI Connector. Set JP3
+to 3,3V.
+
+TODO
 
 ## How we build
 Everything necessary to build coreboot is included in this project and building
