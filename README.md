@@ -11,6 +11,11 @@ See our [releases](https://github.com/merge/coreboot-x230/releases)
 
 * Lenovo's proprietary VGA BIOS ROM is executed in "secure" mode
 
+### coreboot
+* We simply take coreboot's current state in it's master branch at the time we build a release image.
+That's the preferred way to use coreboot. The git HEAD we use it always included in
+the release.
+
 ### Intel microcode
 * version [20180108](https://downloadcenter.intel.com/download/27431/Linux-Processor-Microcode-Data-File)
 * in 20180108, for the X230's CPU ID (306ax) the latest update is 2015-02-26
@@ -72,7 +77,7 @@ the 8MB chip above:
 
 ## Flashing the coreboot / SeaBIOS image
 When __upgrading__ to a new version, for example when a new [SeaBIOS](https://seabios.org/Releases)
-version is available, only this has to be done.
+version is available, only the "upper" 4MB chip has to be written.
 
 Download the latest release image we provide here and flash it:
 
@@ -83,6 +88,7 @@ Download the latest release image we provide here and flash it:
 We flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
 one easily.
 
+### Example: Raspberry Pi 3
 We connect it to a Raspberry Pi 3, running [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and the following setup
 * [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" Adapter and picocom or minicom
@@ -119,7 +125,8 @@ and the following setup
 		   Edge (closest to you)
 
 
-Now you should be able to run the above mentioned `flashrom` commands.
+Now you should be able to copy the image over to your Rasperry Pi and run the
+mentioned `flashrom` commands.
 
 ## How we build
 Everything necessary to build coreboot is included in this project and building
