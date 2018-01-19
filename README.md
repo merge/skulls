@@ -1,29 +1,31 @@
 # coreboot-x230
 pre-built coreboot images and documentation on how to flash them for the Thinkpad X230
 
-These images:
-* only support Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
-* include Lenovo's proprietary VGA BIOS ROM. (if it might not be needed anymore, I'm happy for hints)
-* include Intel's proprietary microcode update binary.
+These images
 * include [SeaBIOS](https://seabios.org/SeaBIOS) as coreboot payload, for maximum compatibility.
 * are meant to be [flashed externally](#how-to-flash)
 * are compatible with Windows and Linux
 
-## Latest build
+## Latest build (config overview and version info)
 See our [releases](https://github.com/merge/coreboot-x230/releases)
 
-### Intel microcode version from 2018-01-08
-* [20180108](https://downloadmirror.intel.com/27431/eng/microcode-20180108.tgz) (md5 871df55f0ab010ee384dabfc424f2c12)
-* 06-3a-09 for Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
+* Lenovo's proprietary VGA BIOS ROM is executed in "secure" mode
 
-### SeaBIOS version from 2017-11-10
-* [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0)
+### Intel microcode
+* version [20180108](https://downloadcenter.intel.com/download/27431/Linux-Processor-Microcode-Data-File)
+* in 20180108, for the X230's CPU ID (306ax) the latest update is 2015-02-26
+* (not yet in coreboot upstream)
+
+### SeaBIOS
+* version [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0) from 2017-11-10
+* (in coreboot upstream)
 
 ### When do we do a release?
 Either when
 * There is a new SeaBIOS release,
-* There is a new Intel microcode release, or
+* There is a new Intel microcode release (and included in coreboot), or
 * There is a coreboot issue that affects us (unlikely)
+* Config change we need
 
 ## Flashing for the first time
 
