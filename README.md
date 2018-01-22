@@ -110,8 +110,9 @@ and have the following setup
 
 
 		   Edge of pi (furthest from you)
-		 L                                                CS
-		 E                                                |
+		               (UART)
+		 L           GND TX  RX                           CS
+		 E            |   |   |                           |
 		 F +---------------------------------------------------------------------------------+
 		 T |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
 		   |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
