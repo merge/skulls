@@ -125,16 +125,20 @@ and have the following setup
 
 Now you should be able to copy the image over to your Rasperry Pi and run the
 mentioned `flashrom` commands. One way to copy, is convertig it to ascii using
-`uuencode`:
+`uuencode` (part of Debian's sharutils package) described below. Another way
+is of course using a USB Stick :)
 
-
+		(convert)
 	host$ uuencode coreboot.rom coreboot.rom.ascii > coreboot.rom.ascii
+		(transfer)
 	rpi$ cat > coreboot.rom.ascii
-		(close picocom / minicom on host)
-	host$ cat coreboot.rom.ascii > /dev/ttyUSBX
-	host$ sha1sum coreboot.rom
-		(open picocom / minicom again)
+	host$ pv coreboot.rom.ascii > /dev/ttyUSBX
+		(wait)
+	rpi$ (CTRL-D)
+		(convert back)
 	rpi$ uudecode -o coreboot.rom coreboot.rom.ascii
+		(verify)
+	host$ sha1sum coreboot.rom
 	rpi$ sha1sum coreboot.rom
 
 
