@@ -1,9 +1,14 @@
 
-coreboot-x230 0.0.2 - tbd
+coreboot-x230 0.1.0 - tbd
+-----------------------------------------
+
+
+coreboot-x230 0.0.2 - released 2018-01-17
 -----------------------------------------
 This release includes the following changes:
 * Intel microcode 20180108 included (in CBFS)
 * only the i5-3320M CPU model is supported now
+* VGA BIOS rom (proprietary binary) executed in secure mode
 
 
 coreboot-x230 0.0.1 - released 2018-01-02
