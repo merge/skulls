@@ -156,8 +156,8 @@ NOT YET AVAILABLE HERE
 * here you'll use the ...full.rom release file
 
 
-	0x00000000:0x007fffff ifdmegbe
-	0x00800000:0x00bfffff bios
+		0x00000000:0x007fffff ifdmegbe
+		0x00800000:0x00bfffff bios
 
 
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub) and use
