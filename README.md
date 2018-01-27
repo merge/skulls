@@ -37,6 +37,8 @@ Download a released image, connect your hardware SPI flasher to the "upper"
 
      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w x230_coreboot_seabios_example_top.rom
 
+where `linux_spi:` is the example of using your SPI pins of, for example, a
+Raspberry Pi.
 
 ## Flashing for the first time
 
@@ -101,7 +103,8 @@ one easily. This is how the X230's SPI connection looks on both chips:
 ### Example: Raspberry Pi 3
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and have the following setup
-* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" Adapter and picocom or minicom
+* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" UART Adapter and picocom or minicom
+* Yes, in this case you need a second PC connected to the RPi over UART
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
 * [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet.
@@ -141,6 +144,19 @@ is of course using a USB Stick :)
 	host$ sha1sum coreboot.rom
 	rpi$ sha1sum coreboot.rom
 
+
+### Example: internal
+NOT YET AVAILABLE HERE
+
+* make sure you have your backups
+* I find this to be a little more dangerous, but in this case you don't need any additional hardware
+* create the following file (named x230-layout.txt):
+
+	0x00000000:0x007fffff ifdmegbe
+	0x00800000:0x00bfffff bios
+
+* Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub) and use
+`flashrom -p internal --layout x230-layout.txt --image bios -w x230_coreboot_seabios_example_full.rom` 
 
 ## How we build
 Everything necessary to build coreboot is included in this project and building
