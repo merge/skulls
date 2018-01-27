@@ -3,7 +3,8 @@ pre-built coreboot images and documentation on how to flash them for the Thinkpa
 
 These images
 * include [SeaBIOS](https://seabios.org/SeaBIOS) as coreboot payload, for maximum compatibility.
-* are meant to be [flashed externally](#how-to-flash)
+* are meant to be [flashed externally](#how-to-flash) (...top.rom release files)
+* ...full.rom release files are not functional entirely. Only the the top 4M are usable.
 * are compatible with Windows and Linux
 
 ## Latest build (config overview and version info)
@@ -38,7 +39,8 @@ Download a released image, connect your hardware SPI flasher to the "upper"
      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w x230_coreboot_seabios_example_top.rom
 
 where `linux_spi:` is the example of using your SPI pins of, for example, a
-Raspberry Pi.
+Raspberry Pi. A [Bus Pirate](http://dangerousprototypes.com/docs/Bus_Pirate) with
+`buspirate_spi` or others connected to the host directly should be fine too.
 
 ## Flashing for the first time
 
@@ -107,8 +109,8 @@ and have the following setup
 * Yes, in this case you need a second PC connected to the RPi over UART
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
-* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet.
-* install `flashrom`
+* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to install `flashrom`
+* only use the ...top.rom release file
 * connect the Clip to the Raspberry Pi 3:
 
 
@@ -151,9 +153,12 @@ NOT YET AVAILABLE HERE
 * make sure you have your backups
 * I find this to be a little more dangerous, but in this case you don't need any additional hardware
 * create the following file (named x230-layout.txt):
+* here you'll use the ...full.rom release file
+
 
 	0x00000000:0x007fffff ifdmegbe
 	0x00800000:0x00bfffff bios
+
 
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub) and use
 `flashrom -p internal --layout x230-layout.txt --image bios -w x230_coreboot_seabios_example_full.rom` 
