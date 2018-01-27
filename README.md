@@ -152,15 +152,16 @@ NOT YET AVAILABLE HERE
 
 * make sure you have your backups
 * I find this to be a little more dangerous, but in this case you don't need any additional hardware
-* create the following file (named x230-layout.txt):
 * here you'll use the ...full.rom release file
+* Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
+* create the following file (named x230-layout.txt):
 
 
 		0x00000000:0x007fffff ifdmegbe
 		0x00800000:0x00bfffff bios
 
 
-* Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub) and use
+
 `flashrom -p internal --layout x230-layout.txt --image bios -w x230_coreboot_seabios_example_full.rom` 
 
 ## How we build
