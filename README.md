@@ -151,7 +151,8 @@ is of course using a USB Stick :)
 NOT YET AVAILABLE HERE
 
 * make sure you have your backups
-* I find this to be a little more dangerous, but in this case you don't need any additional hardware
+* according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
+* very convenient - you don't need any additional hardware
 * here you'll use the ...full.rom release file
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
 * create the following file (named x230-layout.txt):
@@ -163,6 +164,9 @@ NOT YET AVAILABLE HERE
 
 
 `flashrom -p internal --layout x230-layout.txt --image bios -w x230_coreboot_seabios_example_full.rom` 
+
+You may have to set `internal:laptop=force_I_want_a_brick,spispeed=128` or parts
+of it, or other settings...
 
 ## How we build
 Everything necessary to build coreboot is included in this project and building
