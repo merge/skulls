@@ -130,8 +130,10 @@ and have the following setup
 
 Now you should be able to copy the image over to your Rasperry Pi and run the
 mentioned `flashrom` commands. One way to copy, is convertig it to ascii using
-`uuencode` (part of Debian's sharutils package) described below. Another way
-is of course using a USB Stick :)
+`uuencode` (part of Debian's sharutils package) described below. This is a very
+direct, shady and slow way to copy file. Another way is of course using a USB
+Stick or scp :) (but you need even more hardware or a network).
+
 
 		(convert)
 	host$ uuencode coreboot.rom coreboot.rom.ascii > coreboot.rom.ascii
@@ -151,6 +153,7 @@ is of course using a USB Stick :)
 NOT YET AVAILABLE HERE
 
 * make sure you have your backups
+* You have to have your 8MB chip flashed externally after `ifdtool -u ifdmegbe.rom` before this, once
 * according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
 * very convenient - you don't need any additional hardware
 * here you'll use the ...full.rom release file
