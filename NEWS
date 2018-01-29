@@ -1,6 +1,8 @@
 
 coreboot-x230 0.1.0 - tbd
 -----------------------------------------
+This release includes the following changes:
+* include the nvramcui graphical CMOS settings payload
 
 
 coreboot-x230 0.0.2 - released 2018-01-17
