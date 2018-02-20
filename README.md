@@ -17,20 +17,17 @@ See our [releases](https://github.com/merge/coreboot-x230/releases)
 That's the preferred way to use coreboot. The git revision we use is always included in the release.
 
 ### Intel microcode
-* version [20180108](https://downloadcenter.intel.com/download/27431/Linux-Processor-Microcode-Data-File)
-* in 20180108, for the X230's CPU ID (306ax) the latest update is 2015-02-26
-* (not yet in coreboot upstream)
+* revision `1c` from 2015-02-26 (Intel package [20171117](https://downloadcenter.intel.com/download/27337) added by us; not yet in coreboot upstream)
 
 ### SeaBIOS
-* version [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0) from 2017-11-10
-* (in coreboot upstream)
+* version [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0) from 2017-11-10 (part of coreboot upstream)
 
 ## When do we do a release?
 Either when
 * There is a new SeaBIOS release,
 * There is a new Intel microcode release (included in coreboot AND affecting our CPU ID),
-* There is a coreboot issue that affects us (unlikely), or
-* We need to change the config
+* There is a coreboot issue that affects us, or
+* We change the config
 
 ## TL;DR
 Download a released image, connect your hardware SPI flasher to the "upper"
