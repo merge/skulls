@@ -1,5 +1,6 @@
 # coreboot-x230
-pre-built coreboot images and documentation on how to flash them for the Thinkpad X230
+pre-built [coreboot](https://www.coreboot.org/) images and documentation on
+how to flash them for the [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230)
 
 These images
 * include [SeaBIOS](https://seabios.org/SeaBIOS) as coreboot payload, for maximum compatibility.
