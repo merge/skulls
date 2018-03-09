@@ -182,3 +182,7 @@ one holds the actual bios we can generate using coreboot, and the "lower" 8MB
 one holds the rest that you can [modify yourself once](#flashing-for-the-first-time),
 if you like, but strictly speaking, you don't need to touch it at all. What's this "rest"?
 Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
+
+## Alternatives
+* [Heads](https://github.com/osresearch/heads/releases) also releases pre-built
+flash images for the X230 - with __way__ more sophisticated functionality.
