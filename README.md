@@ -18,7 +18,7 @@ See our [releases](https://github.com/merge/coreboot-x230/releases)
 That's the preferred way to use coreboot. The git revision we use is always included in the release.
 
 ### Intel microcode
-* revision `1c` from 2015-02-26 (Intel package [20171117](https://downloadcenter.intel.com/download/27337) added by us; not yet in coreboot upstream)
+* revision `1f` from 2018-03-12 (Intel package [20180312](https://downloadcenter.intel.com/download/27591) added by us; not yet in coreboot upstream)
 
 ### SeaBIOS
 * version [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0) from 2017-11-10 (part of coreboot upstream)
