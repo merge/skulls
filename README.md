@@ -170,11 +170,10 @@ You may have to set `internal:laptop=force_I_want_a_brick,spispeed=128` or parts
 of it, or other settings...
 
 ## How we build
-Everything necessary to build coreboot is included in this project and building
-coreboot is not hard at all. Please refer to [coreboot's own documentation](https://www.coreboot.org/Build_HOWTO).
-
-When building, testing and doing a release here, we always try to upload our
-result to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards).
+* Everything necessary to build coreboot (while only the top 4MB are usable of course) is included here
+* The tast of [building coreboot](https://www.coreboot.org/Build_HOWTO) is not too difficult
+* When doing a release here, we always try to upload to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards)
+* If we add out-of-tree patches, we always [post them for review](http://review.coreboot.org/) upstream
 
 ## Why does this work?
 On the X230, there are 2 physical "BIOS" chips. The "upper" 4MB
