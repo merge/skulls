@@ -146,6 +146,7 @@ Stick or scp :) (but you need even more hardware or a network).
 	host$ sha1sum coreboot.rom
 	rpi$ sha1sum coreboot.rom
 
+![Raspberry Pi at work](rpi_clip.jpg)
 
 ### Example: internal
 NOT YET AVAILABLE HERE
