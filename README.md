@@ -26,7 +26,7 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 ## When do we do a release?
 Either when
 * There is a new SeaBIOS release,
-* There is a new Intel microcode release (included in coreboot AND affecting our CPU ID),
+* There is a new Intel microcode release (for our CPU model),
 * There is a coreboot issue that affects us, or
 * We change the config
 
@@ -34,13 +34,30 @@ Either when
 Download a released image, connect your hardware SPI flasher to the "upper"
 4MB chip in your X230, and do
 
-     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w x230_coreboot_seabios_example_top.rom
+     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -w x230_coreboot_seabios_example_top.rom
 
 where `linux_spi:` is the example of using your SPI pins of, for example, a
 Raspberry Pi. A [Bus Pirate](http://dangerousprototypes.com/docs/Bus_Pirate) with
 `buspirate_spi` or others connected to the host directly should be fine too.
 
 ## Flashing for the first time
+
+### flashrom chip config
+We use [flashrom](https://flashrom.org/) for flashing. Run `flashrom -p <your_hardware>`
+(for [example](#how-to-flash) `flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128` for the
+Raspberry Pi) to let flashrom detect the chip. It will probably list a few you need to choose
+from when flashing (by adding `-c "<chipname>"`). While there might be specific examples
+in the commands below, please review the chip model for your device. In case you are
+unsure what to specify, here's some examples we find out there:
+
+#### 4MB chip
+* `MX25L3206E` seems to mostly be in use
+
+#### 8MB chip
+* `MX25L3206E/MX25L3208E` is seen working with various X230 models.
+* `MX25L6406E/MX25L6408E` is used in [this guide](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#neutering-me)
+* `EN25QH64` is used sometimes
+
 
 ### EC firmware (optional)
 Enter Lenovo's BIOS with __F1__ and check the embedded controller (EC) version to be
@@ -72,9 +89,10 @@ For the first time, we have to save the original image, just like we did with
 the 8MB chip. It's important to keep this image somewhere safe:
 
 
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -r top1.rom
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -r top2.rom
+      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -r top1.rom
+      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -r top2.rom
       diff top1.rom top2.rom
+
 
 ## Flashing the coreboot / SeaBIOS image
 When __upgrading__ to a new version, for example when a new [SeaBIOS](https://seabios.org/Releases)
@@ -83,7 +101,8 @@ version is available, only the "upper" 4MB chip has to be written.
 Download the latest release image we provide here and flash it:
 
 
-     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w x230_coreboot_seabios_example_top.rom
+     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -w x230_coreboot_seabios_example_top.rom
+
 
 ## How to flash
 We flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
@@ -110,6 +129,7 @@ and have the following setup
 * [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to install `flashrom`
 * only use the ...top.rom release file
 * connect the Clip to the Raspberry Pi 3:
+* use `linux_spi` as flashrom programmer name
 
 
 		   Edge of pi (furthest from you)
@@ -157,6 +177,7 @@ NOT YET AVAILABLE HERE
 * very convenient - you don't need any additional hardware
 * here you'll use the ...full.rom release file
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
+* use `internal` as flashrom programmer name
 * create the following file (named x230-layout.txt):
 
 
@@ -165,14 +186,14 @@ NOT YET AVAILABLE HERE
 
 
 
-`flashrom -p internal --layout x230-layout.txt --image bios -w x230_coreboot_seabios_example_full.rom` 
+`flashrom -p internal --layout x230-layout.txt --image bios -c "MX25L3206E" -w x230_coreboot_seabios_example_full.rom`
 
-You may have to set `internal:laptop=force_I_want_a_brick,spispeed=128` or parts
+You may have to set programmer options `internal:laptop=force_I_want_a_brick,spispeed=128` or parts
 of it, or other settings...
 
 ## How we build
 * Everything necessary to build coreboot (while only the top 4MB are usable of course) is included here
-* The tast of [building coreboot](https://www.coreboot.org/Build_HOWTO) is not too difficult
+* The task of [building coreboot](https://www.coreboot.org/Build_HOWTO) is not too difficult
 * When doing a release here, we always try to upload to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards)
 * If we add out-of-tree patches, we always [post them for review](http://review.coreboot.org/) upstream
 
