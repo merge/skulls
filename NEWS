@@ -1,13 +1,30 @@
 
-coreboot-x230 0.1.0 - tbd
+coreboot-x230 0.0.5 - tbd
 -----------------------------------------
 This release includes the following changes:
+
+
+coreboot-x230 0.0.4 - released 2018-03-15
+-----------------------------------------
+This release includes the following changes:
+* based on coreboot commit cb9f55ec38
+* update Intel's microcode revision from 1c to 1f
+  (this includes Spectre/Meltdown mitigations)
+
+
+coreboot-x230 0.0.3 - released 2018-02-20
+-----------------------------------------
+This release includes the following changes:
+* based on coreboot commit 35972def1d
 * include the nvramcui graphical CMOS settings payload
+* include Intel's stable microcode revision 1c
+* support for all X230 models (from now on)
 
 
 coreboot-x230 0.0.2 - released 2018-01-17
 -----------------------------------------
 This release includes the following changes:
+* based on coreboot commit 533ea7adb5
 * Intel microcode 20180108 included (in CBFS)
 * only the i5-3320M CPU model is supported now
 * VGA BIOS rom (proprietary binary) executed in secure mode
@@ -18,3 +35,4 @@ coreboot-x230 0.0.1 - released 2018-01-02
 This release is the initial first working release.
 It includes and runs the proprietary VGA BIOS in
 direct mode and should work on any X230 model.
+Based on coreboot commit 75b154334d
