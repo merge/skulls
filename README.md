@@ -1,12 +1,9 @@
 # coreboot-x230
 pre-built [coreboot](https://www.coreboot.org/) images and documentation on
-how to flash them for the [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230)
-
-These images
-* include [SeaBIOS](https://seabios.org/SeaBIOS) as coreboot payload, for maximum compatibility.
-* are meant to be [flashed externally](#how-to-flash) (...top.rom release files)
-* ...full.rom release files are not functional entirely. Only the the top 4M are usable.
-* are compatible with Windows and Linux
+how to flash them for the
+[Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230).
+SeaBIOS is used as coreboot payload to be compatible with Windows and Linux
+systems.
 
 ## Latest build (config overview and version info)
 See our [releases](https://github.com/merge/coreboot-x230/releases)
@@ -169,27 +166,13 @@ Stick or scp :) (but you need even more hardware or a network).
 ![Raspberry Pi at work](rpi_clip.jpg)
 
 ### Example: internal
-NOT YET AVAILABLE HERE
+CAUTION: THIS IS NOT ENCOURAGED
 
-* make sure you have your backups
 * You have to have your 8MB chip flashed externally after `ifdtool -u ifdmegbe.rom` before this, once
-* according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
-* very convenient - you don't need any additional hardware
-* here you'll use the ...full.rom release file
+* very convenient, but according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
-* use `internal` as flashrom programmer name
-* create the following file (named x230-layout.txt):
-
-
-		0x00000000:0x007fffff ifdmegbe
-		0x00800000:0x00bfffff bios
-
-
-
-`flashrom -p internal --layout x230-layout.txt --image bios -c "MX25L3206E" -w x230_coreboot_seabios_example_full.rom`
-
-You may have to set programmer options `internal:laptop=force_I_want_a_brick,spispeed=128` or parts
-of it, or other settings...
+* download a released 4MB "top" rom image
+* run `prepare_internal_flashing.sh` for generating all necessary files and instructions
 
 ## How we build
 * Everything necessary to build coreboot (while only the top 4MB are usable of course) is included here
