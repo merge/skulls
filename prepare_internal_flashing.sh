@@ -56,6 +56,13 @@ else
 	exit 1
 fi
 
+input_filesize=$(wc -c <"$INPUT_IMAGE")
+reference_filesize=4194304
+if [ ! "$input_filesize" -eq "$reference_filesize" ] ; then
+	echo "Error: input file must be 4MB of size"
+	exit 1
+fi
+
 rm -rf output
 mkdir output && cd output
 dd if=/dev/zero of=${OUTPUT_IMAGE} bs=4M count=2
