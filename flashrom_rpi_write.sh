@@ -70,6 +70,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 fi
 
 INPUT_IMAGE_NAME=$(basename ${INPUT_IMAGE_PATH})
+INPUT_IMAGE_SIZE=$(wc -c <"$INPUT_IMAGE_PATH")
 
 echo "verifying SPI connection by reading"
 TEMP_DIR=`mktemp -d`
@@ -83,6 +84,11 @@ cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
 	mv ${TEMP_DIR}/test1.rom ${BACKUPNAME}
 	echo "current image saved as ${BACKUPIMAGE}"
+fi
+TEMP_SIZE=$(wc -c <"$TEMP_DIR/test1.rom")
+if [ ! "$INPUT_IMAGE_SIZE" -eq "$TEMP_SIZE" ] ; then
+	echo "Error: read image (${TEMP_SIZE}) has different size that new image $INPUT_IMAGE_NAME (${INPUT_IMAGE_SIZE})"
+	exit 1
 fi
 rm -rf ${TEMP_DIR}
 
