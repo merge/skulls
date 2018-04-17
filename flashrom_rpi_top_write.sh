@@ -71,6 +71,11 @@ fi
 
 INPUT_IMAGE_NAME=$(basename ${INPUT_IMAGE_PATH})
 INPUT_IMAGE_SIZE=$(wc -c <"$INPUT_IMAGE_PATH")
+reference_filesize=4194304
+if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
+	echo "Error: input file must be 4MB of size"
+	exit 1
+fi
 
 echo "verifying SPI connection by reading"
 TEMP_DIR=`mktemp -d`
