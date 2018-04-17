@@ -129,8 +129,7 @@ and have the following setup
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
 * [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to install `flashrom`
 * only use the ...top.rom release file
-* connect the Clip to the Raspberry Pi 3:
-* use `linux_spi` as flashrom programmer name
+* connect the Clip to the Raspberry Pi 3 (there are [prettier images](https://github.com/splitbrain/rpibplusleaf) too:
 
 
 		   Edge of pi (furthest from you)
