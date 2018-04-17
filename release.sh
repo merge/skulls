@@ -95,6 +95,7 @@ fi
 tar -cJf coreboot-x230-${version}.tar.xz \
 	README.md \
 	NEWS \
+	util \
 	LICENSE* \
 	prepare_internal_flashing.sh \
 	${RELEASE_IMAGE}
