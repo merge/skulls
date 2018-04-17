@@ -20,12 +20,14 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 ### SeaBIOS
 * version [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0) from 2017-11-10 (part of coreboot upstream)
 
-## When do we do a release?
-Either when
-* There is a new SeaBIOS release,
-* There is a new Intel microcode release (for our CPU model),
-* There is a coreboot issue that affects us, or
-* We change the config
+## table of contents
+* [TL;DR](#tl-dr)
+* [Flashing for the first time](#flashing-for-the-first-time)
+* [How to update](#how-to-update)
+* [When do we do a release?](#when-do-we-do-a-release)
+* [How we build](#how-we-build)
+* [Why does this work](#why-does-this-work)
+* [Alternatives](#alternatives)
 
 ## TL;DR
 Download a released image, connect your hardware SPI flasher to the "upper"
@@ -38,6 +40,8 @@ Raspberry Pi. A [Bus Pirate](http://dangerousprototypes.com/docs/Bus_Pirate) wit
 `buspirate_spi` or others connected to the host directly should be fine too.
 
 ## Flashing for the first time
+Especially for the first time, you must flash externally. See below for the details
+for using a Rapberry Pi, for example.
 
 ### flashrom chip config
 We use [flashrom](https://flashrom.org/) for flashing. Run `flashrom -p <your_hardware>`
@@ -63,7 +67,7 @@ if it isn't. The EC cannot be upgraded when coreboot is installed. (In case a ne
 version should ever be available (I doubt it), you could temporarily flash back your
 original Lenovo BIOS image)
 
-### me_cleaner (optional)
+### ifd unlock (necessary for internal flashing) and me_cleaner (optional)
 The Intel Management Engine resides on the 8MB chip. We don't need to touch it
 for coreboot-upgrades in the future, but while opening up the Thinkpad anyways,
 we can save it and run [ifdtool](https://github.com/coreboot/coreboot/tree/master/util/ifdtool)
@@ -91,18 +95,13 @@ the 8MB chip. It's important to keep this image somewhere safe:
       diff top1.rom top2.rom
 
 
-## Flashing the coreboot / SeaBIOS image
-When __upgrading__ to a new version, for example when a new [SeaBIOS](https://seabios.org/Releases)
-version is available, only the "upper" 4MB chip has to be written.
+## How to update
+When __upgrading__ to a new release, only the "upper" 4MB chip has to be written.
+Download the latest release image we provide and flash it:
 
-Download the latest release image we provide here and flash it:
+### Example: Raspberry Pi 3
 
-
-     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -w x230_coreboot_seabios_example_top.rom
-
-
-## How to flash
-We flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
+Here you'll flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
 one easily. This is how the X230's SPI connection looks on both chips:
 
 
@@ -116,7 +115,12 @@ one easily. This is how the X230's SPI connection looks on both chips:
 		   Edge (closest to you)
 
 
-### Example: Raspberry Pi 3
+and the flashrom command you need, looks like so:
+
+
+     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -w x230_coreboot_seabios_example_top.rom
+
+
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and have the following setup
 * [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" UART Adapter and picocom or minicom
@@ -173,6 +177,13 @@ CAUTION: THIS IS NOT ENCOURAGED
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
 * download a released 4MB "top" rom image
 * run `prepare_internal_flashing.sh` for generating all necessary files and instructions
+
+## When do we do a release?
+Either when
+* There is a new SeaBIOS release,
+* There is a new Intel microcode release (for our CPU model),
+* There is a coreboot issue that affects us, or
+* We change the config
 
 ## How we build
 * Everything necessary to build coreboot (while only the top 4MB are usable of course) is included here
