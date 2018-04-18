@@ -41,19 +41,20 @@ Especially for the first time, you must flash externally. See below for the deta
 for using a Rapberry Pi, for example.
 
 ### flashrom chip config
-We use [flashrom](https://flashrom.org/) for flashing. Run `flashrom -p <your_hardware>`
-(for [example](#how-to-flash) `flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128` for the
-Raspberry Pi) to let flashrom detect the chip. It will probably list a few you need to choose
-from when flashing (by adding `-c "<chipname>"`). While there might be specific examples
-in the commands below, please review the chip model for your device. In case you are
-unsure what to specify, here's some examples we find out there:
+We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Run
+`flashrom -p <your_hardware>` (for [example](#how-to-flash)
+`flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128` for the
+Raspberry Pi) to let flashrom detect the chip.
+It will probably list a few you need to choose from when flashing
+(by adding `-c <chipname>`). Please review the chip model for your device.
+In case you are unsure what to specify, here's some examples we find out there:
 
 #### 4MB chip
 * `MX25L3206E` seems to mostly be in use
 
 #### 8MB chip
-* `MX25L3206E/MX25L3208E` is seen working with various X230 models.
 * `MX25L6406E/MX25L6408E` is used in [this guide](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#neutering-me)
+* `MX25L3206E/MX25L3208E` is seen working with various X230 models.
 * `EN25QH64` is used sometimes
 
 
@@ -61,9 +62,10 @@ unsure what to specify, here's some examples we find out there:
 Enter Lenovo's BIOS with __F1__ and check the embedded controller (EC) version to be
 __1.14__ and upgrade using
 [the latest bootable CD](https://support.lenovo.com/at/en/downloads/ds029188)
-if it isn't. The EC cannot be upgraded when coreboot is installed. (In case a newer
-version should ever be available (I doubt it), you could temporarily flash back your
-original Lenovo BIOS image)
+if it isn't. This updates BIOS and EC. The EC cannot be upgraded when coreboot
+is installed. (In case a newer version should ever be available (I doubt it),
+you could temporarily flash back the original Lenovo BIOS image from your
+backup)
 
 ### ifd unlock and me_cleaner: the 8MB chip
 The Intel Management Engine resides on the 8MB chip (at the bottom, closer to
