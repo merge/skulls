@@ -85,7 +85,7 @@ if [ "$me_clean" -gt 0 ] ; then
 	fi
 fi
 
-echo "start reading ..."
+echo "Start reading 2 times. Please be patient."
 TEMP_DIR=`mktemp -d`
 if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
 	echo -e "${RED}Error:${NC} Could not create temp dir"
@@ -95,8 +95,8 @@ flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -r ${TEMP_D
 flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
-	mv ${TEMP_DIR}/test1.rom ${BACKUPNAME}
-	echo "current image saved as ${BACKUPIMAGE}"
+	cp ${TEMP_DIR}/test1.rom ${BACKUPNAME}
+	echo "current image saved as ${BACKUPNAME}"
 fi
 
 reference_size=8388608
@@ -117,7 +117,7 @@ else
 fi
 
 ${IFDTOOL_PATH} -u ${TEMP_DIR}/work.rom
-if if [ ! -e ${TEMP_DIR}/work.rom.new ] ; then
+if [ ! -e ${TEMP_DIR}/work.rom.new ] ; then
 	echo -e "${RED}Error:${NC} Unlocking failed. ${TEMP_DIR}/work.rom.new not found."
 	rm -rf ${TEMP_DIR}
 	exit 1
