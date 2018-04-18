@@ -64,8 +64,8 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 fi
 
 if [ ! "$have_chipname" -gt 0 ] ; then
-	echo "no chipname provided. to find it out, run flashrom without arguments"
-	usage
+	echo "no chipname provided. to find it out, run:"
+	echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
 	exit 1
 fi
 
@@ -73,7 +73,7 @@ INPUT_IMAGE_NAME=$(basename ${INPUT_IMAGE_PATH})
 INPUT_IMAGE_SIZE=$(wc -c <"$INPUT_IMAGE_PATH")
 reference_filesize=4194304
 if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
-	echo "Error: input file must be 4MB of size"
+	echo -e "${RED}Error:${NC} input file must be 4MB of size"
 	exit 1
 fi
 
@@ -92,10 +92,11 @@ if [ "$have_backupname" -gt 0 ] ; then
 fi
 TEMP_SIZE=$(wc -c <"$TEMP_DIR/test1.rom")
 if [ ! "$INPUT_IMAGE_SIZE" -eq "$TEMP_SIZE" ] ; then
-	echo "Error: read image (${TEMP_SIZE}) has different size that new image $INPUT_IMAGE_NAME (${INPUT_IMAGE_SIZE})"
+	echo -e "${RED}Error:${NC} read image (${TEMP_SIZE}) has different size that new image $INPUT_IMAGE_NAME (${INPUT_IMAGE_SIZE})"
 	exit 1
 fi
 rm -rf ${TEMP_DIR}
 
-echo -e "connection ok. flashing ${GREEN}${INPUT_IMAGE_NAME}${NC}"
+echo "connection ok. flashing ${INPUT_IMAGE_NAME}"
 flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -w ${INPUT_IMAGE_PATH}
+echo -e "${GREEN}DONE${NC}"
