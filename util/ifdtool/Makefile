@@ -31,6 +31,7 @@ $(PROGRAM): $(OBJS)
 clean:
 	rm -f $(PROGRAM) *.o *~
 distclean: clean
+	rm -rf .dependencies
 
 dep:
 	@$(CC) $(CFLAGS) -MM *.c > .dependencies
