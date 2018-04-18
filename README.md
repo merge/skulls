@@ -5,6 +5,8 @@ how to flash them for the
 SeaBIOS is used as coreboot payload to be compatible with Windows and Linux
 systems.
 
+![seabios_bootmenu](front.jpg)
+
 ## Latest release (config overview and version info)
 * coreboot-x230 0.0.5 - see our [release page](https://github.com/merge/coreboot-x230/releases)
 * Lenovo's proprietary VGA BIOS ROM is executed in "secure" mode
