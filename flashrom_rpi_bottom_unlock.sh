@@ -32,7 +32,6 @@ do
 	case "$1" in
 	-m)
 		me_clean=1
-		shift
 		;;
 	-c)
 		CHIPNAME=$2
