@@ -29,14 +29,12 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 * [Alternatives](#alternatives)
 
 ## TL;DR
-Download a released image, connect your hardware SPI flasher to the "upper"
-4MB chip in your X230, and do
+For first-time flashing, remove the keyboard and palmrest, and (using a
+Raspberry Pi), run `flashrom_rpi_bottom_unlock.sh` on the lower chip
+and `flashrom_rpi_top_write.sh` on the top chip of the two.
 
-     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -w x230_coreboot_seabios_example_top.rom
-
-where `linux_spi:` is the example of using your SPI pins of, for example, a
-Raspberry Pi. A [Bus Pirate](http://dangerousprototypes.com/docs/Bus_Pirate) with
-`buspirate_spi` or others connected to the host directly should be fine too.
+For updating after this, run `prepare_internal_flashing.sh` to get
+files and instructions.
 
 ## Flashing for the first time
 Especially for the first time, you must flash externally. See below for the details
