@@ -62,55 +62,44 @@ unsure what to specify, here's some examples we find out there:
 
 ### EC firmware (optional)
 Enter Lenovo's BIOS with __F1__ and check the embedded controller (EC) version to be
-__1.14__ and upgrade using [the latest bootable CD](https://support.lenovo.com/at/en/downloads/ds029188)
+__1.14__ and upgrade using
+[the latest bootable CD](https://support.lenovo.com/at/en/downloads/ds029188)
 if it isn't. The EC cannot be upgraded when coreboot is installed. (In case a newer
 version should ever be available (I doubt it), you could temporarily flash back your
 original Lenovo BIOS image)
 
-### ifd unlock and me_cleaner
-The Intel Management Engine resides on the 8MB chip. We don't need to touch it
+### ifd unlock and me_cleaner: the 8MB chip
+The Intel Management Engine resides on the 8MB chip (at the bottom, closer to
+you). We don't need to touch it
 for coreboot-upgrades in the future, but to enable internal flashing, we need
 to unlock it once.
 We run [ifdtool](https://github.com/coreboot/coreboot/tree/master/util/ifdtool)
 and, while we are at it, [me_cleaner](https://github.com/corna/me_cleaner) on it:
 
-
-We support using a RPi, see below for more details:
-Transfer the release tarball (when don't want to use
-a USB Stick or network):
-
-
-		(convert)
-	host$ uuencode <tarball>.tar.xz <tarball>.tar.xz.ascii > <tarball>.tar.xz.ascii
-		(transfer)
-	rpi$ cat > <tarball>.tar.xz.ascii
-	host$ pv <tarball>.tar.xz.ascii > /dev/ttyUSBX
-		(wait)
-	rpi$ (CTRL-D)
-		(convert back)
-	rpi$ uudecode -o <tarball>.tar.xz <tarball>.tar.xz.ascii
-		(verify)
-	host$ sha1sum <tarball>.tar.xz
-	rpi$ sha1sum <tarball>.tar.xz
+We support using a RPi, see below for the connection details.
+Move the release-tarball to the RPi (USB Stick or however) and unpack it
+(to the current directory and change into it):
 
 
-Unpack it (to the current directory and change into it):
+	mkdir tarball_extracted
+	tar -xf <tarball>.tar.xz -C tarball_extracted
+	cd tarball_extracted
 
 
-	tar -xf <tarball>.tar.xz -C .
-	cd <tarball>.tar.xz
+And finally unlock the 8M chip by using the included script (be patient):
 
 
-And finally unlock the 8M chip (be patient):
+	sudo ./flashrom_rpi_bottom_unlock.sh -m -c <chipname> -k <backup.bin>
 
 
-	flashrom_rpi_bottom_unlock.sh -m -c <chipname> -k <backup.bin>
+That's it. Keep the backup safe.
 
+when updating to a new release, you don't have to disasseble your Thinkpad
+and can flash internally (at your own risk), see below.
 
-`-m` also runs `me_cleaner -S` before flashing back. Keep the backup safe.
+#### background (just so you know)
+The `-m` option above also runs `me_cleaner -S` before flashing back.
 
-
-#### background
 If you don't use a RPi, change the flashrom programmer to your needs:
 
 
@@ -126,13 +115,14 @@ If you don't use a RPi, change the flashrom programmer to your needs:
 ### BIOS: the 4MB chip
 (internally, memory of the two chips is mapped together, the 8MB being the lower
 part, but we can essientially ignore that). Again, using a RPi is supported
-here. We assume you have the unpacked release tarball ready, see above:
+here. We assume you have the unpacked release tarball ready, see above. Use
+the following included script:
 
 
-	flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<release>_top.rom -c <chipname> -k <backup>
+	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom -c <chipname> -k <backup>
 
 
-Keep the backup safe.
+That's it. Keep the backup safe.
 
 ## How to update
 When __upgrading__ to a new release, only the "upper" 4MB chip has to be written.
@@ -210,11 +200,13 @@ Stick or scp :) (but you need even more hardware or a network).
 ### Example: internal
 CAUTION: THIS IS NOT ENCOURAGED
 
-* Only for updating! You have to have your 8MB chip flashed externally after `ifdtool -u ifdmegbe.rom` before this, once
+* Only for updating! You have to have your 8MB chip flashed externally using
+our `flashrom_rpi_bottom_unlock.sh` script (`ifdtool -u`) before this, once
 * very convenient, but according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
-* download a released 4MB "top" rom image
+* download the latest release tarball (4MB "top" BIOS image is included) and extract it
 * run `prepare_internal_flashing.sh` for generating all necessary files and instructions
+
 
 ## When do we do a release?
 Either when
