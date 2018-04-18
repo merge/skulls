@@ -92,19 +92,24 @@ if [ ! $filesize -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
+cp ${RELEASE_IMAGE} .
+RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
+
 tar -cJf coreboot-x230-${version}.tar.xz \
 	README.md \
 	NEWS \
 	util \
 	LICENSE* \
 	prepare_internal_flashing.sh \
-	${RELEASE_IMAGE}
-
-git clean -d -f
+	flashrom_rpi_bottom_unlock.sh \
+	flashrom_rpi_top_write.sh \
+	${RELEASE_IMAGE_FILE}
 
 git commit -a -m "update to ${version}"
 git tag -s ${version} -m "coreboot-x230 ${version}"
 
 sha256sum coreboot-x230-${version}.tar.xz > coreboot-x230-${version}.tar.xz.sha256
-sha1sum coreboot-x230-${version}.tar.xz > coreboot-x230-${version}.tar.xz.sha512
+sha512sum coreboot-x230-${version}.tar.xz > coreboot-x230-${version}.tar.xz.sha512
 gpg -b -a coreboot-x230-${version}.tar.xz
+
+rm ${RELEASE_IMAGE_FILE}
