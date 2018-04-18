@@ -1,7 +1,11 @@
 
-coreboot-x230 0.0.5 - tbd
+coreboot-x230 0.0.5 - released 2018-04-18
 -----------------------------------------
 This release includes the following changes:
+* based on coreboot commit 92263853ad
+* update SeaBIOS to version 1.11.1
+* new release packaging
+* scripts to simplify flashing
 
 
 coreboot-x230 0.0.4 - released 2018-03-15

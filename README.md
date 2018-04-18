@@ -5,9 +5,8 @@ how to flash them for the
 SeaBIOS is used as coreboot payload to be compatible with Windows and Linux
 systems.
 
-## Latest build (config overview and version info)
-See our [releases](https://github.com/merge/coreboot-x230/releases)
-
+## Latest release (config overview and version info)
+* coreboot-x230 0.0.5 - see our [release page](https://github.com/merge/coreboot-x230/releases)
 * Lenovo's proprietary VGA BIOS ROM is executed in "secure" mode
 
 ### coreboot
@@ -18,7 +17,7 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 * revision `1f` from 2018-02-07 (Intel package [20180312](https://downloadcenter.intel.com/download/27591) not yet in coreboot upstream) under [Intel's license](LICENSE.microcode)
 
 ### SeaBIOS
-* version [1.11.0](https://seabios.org/Releases#SeaBIOS_1.11.0) from 2017-11-10 (part of coreboot upstream)
+* version [1.11.1](https://seabios.org/Releases) from 2018-03-19 (part of coreboot upstream)
 
 ## table of contents
 * [TL;DR](#tl-dr)
