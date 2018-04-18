@@ -77,7 +77,7 @@ if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
-echo "verifying SPI connection by reading"
+echo "verifying SPI connection by reading 2 times. please wait."
 TEMP_DIR=`mktemp -d`
 if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
 	echo "Could not create temp dir"
@@ -87,8 +87,8 @@ flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -r ${TEMP_D
 flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
-	mv ${TEMP_DIR}/test1.rom ${BACKUPNAME}
-	echo "current image saved as ${BACKUPIMAGE}"
+	cp ${TEMP_DIR}/test1.rom ${BACKUPNAME}
+	echo "current image saved as ${BACKUPNAME}"
 fi
 TEMP_SIZE=$(wc -c <"$TEMP_DIR/test1.rom")
 if [ ! "$INPUT_IMAGE_SIZE" -eq "$TEMP_SIZE" ] ; then
