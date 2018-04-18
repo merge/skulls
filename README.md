@@ -67,11 +67,51 @@ if it isn't. The EC cannot be upgraded when coreboot is installed. (In case a ne
 version should ever be available (I doubt it), you could temporarily flash back your
 original Lenovo BIOS image)
 
-### ifd unlock (necessary for internal flashing) and me_cleaner (optional)
+### ifd unlock and me_cleaner
 The Intel Management Engine resides on the 8MB chip. We don't need to touch it
-for coreboot-upgrades in the future, but while opening up the Thinkpad anyways,
-we can save it and run [ifdtool](https://github.com/coreboot/coreboot/tree/master/util/ifdtool)
-and [me_cleaner](https://github.com/corna/me_cleaner) on it:
+for coreboot-upgrades in the future, but to enable internal flashing, we need
+to unlock it once.
+We run [ifdtool](https://github.com/coreboot/coreboot/tree/master/util/ifdtool)
+and, while we are at it, [me_cleaner](https://github.com/corna/me_cleaner) on it:
+
+
+We support using a RPi, see below for more details:
+Transfer the release tarball (when don't want to use
+a USB Stick or network):
+
+
+		(convert)
+	host$ uuencode <tarball>.tar.xz <tarball>.tar.xz.ascii > <tarball>.tar.xz.ascii
+		(transfer)
+	rpi$ cat > <tarball>.tar.xz.ascii
+	host$ pv <tarball>.tar.xz.ascii > /dev/ttyUSBX
+		(wait)
+	rpi$ (CTRL-D)
+		(convert back)
+	rpi$ uudecode -o <tarball>.tar.xz <tarball>.tar.xz.ascii
+		(verify)
+	host$ sha1sum <tarball>.tar.xz
+	rpi$ sha1sum <tarball>.tar.xz
+
+
+Unpack it (to the current directory and change into it):
+
+
+	tar -xf <tarball>.tar.xz -C .
+	cd <tarball>.tar.xz
+
+
+And finally unlock the 8M chip (be patient):
+
+
+	flashrom_rpi_bottom_unlock.sh -m -c <chipname> -k <backup.bin>
+
+
+`-m` also runs `me_cleaner -S` before flashing back. Keep the backup safe.
+
+
+#### background
+If you don't use a RPi, change the flashrom programmer to your needs:
 
 
       flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L6406E/MX25L6408E" -r ifdmegbe.rom
@@ -82,18 +122,17 @@ and [me_cleaner](https://github.com/corna/me_cleaner) on it:
       ifdtool -u ifdmegbe_meclean.rom
       flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L6406E/MX25L6408E" -w ifdmegbe_meclean.rom.new
 
-### save the 4MB chip
+
+### BIOS: the 4MB chip
 (internally, memory of the two chips is mapped together, the 8MB being the lower
-part, but we can essientially ignore that)
-
-For the first time, we have to save the original image, just like we did with
-the 8MB chip. It's important to keep this image somewhere safe:
+part, but we can essientially ignore that). Again, using a RPi is supported
+here. We assume you have the unpacked release tarball ready, see above:
 
 
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -r top1.rom
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -r top2.rom
-      diff top1.rom top2.rom
+	flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<release>_top.rom -c <chipname> -k <backup>
 
+
+Keep the backup safe.
 
 ## How to update
 When __upgrading__ to a new release, only the "upper" 4MB chip has to be written.
@@ -115,10 +154,10 @@ one easily. This is how the X230's SPI connection looks on both chips:
 		   Edge (closest to you)
 
 
-and the flashrom command you need, looks like so:
+and with our release tarball unpacked, the command you need looks like so:
 
 
-     flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L3206E" -w x230_coreboot_seabios_example_top.rom
+	flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<release>_top.rom -c <chipname>
 
 
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
@@ -171,7 +210,7 @@ Stick or scp :) (but you need even more hardware or a network).
 ### Example: internal
 CAUTION: THIS IS NOT ENCOURAGED
 
-* You have to have your 8MB chip flashed externally after `ifdtool -u ifdmegbe.rom` before this, once
+* Only for updating! You have to have your 8MB chip flashed externally after `ifdtool -u ifdmegbe.rom` before this, once
 * very convenient, but according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
 * download a released 4MB "top" rom image
