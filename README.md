@@ -132,6 +132,18 @@ That's it. Keep the backup safe.
 When __upgrading__ to a new release, only the "upper" 4MB chip has to be written.
 Download the latest release image we provide and flash it:
 
+### Example: internal
+CAUTION: THIS IS NOT ENCOURAGED
+
+* Only for _updating_! You have to have your 8MB chip flashed externally using
+our `flashrom_rpi_bottom_unlock.sh` script (`ifdtool -u`) before this, once
+* very convenient: just install flashrom, but according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
+* Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
+* download the latest release tarball (4MB "top" BIOS image is included) and extract it
+* run `prepare_internal_flashing.sh` for generating all necessary files and printing all instructions
+* run the flashrom command you got from the script. That's it.
+
+
 ### Example: Raspberry Pi 3
 
 Here you'll flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
@@ -161,7 +173,7 @@ and have the following setup
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
 * [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to install `flashrom`
-* only use the ...top.rom release file
+* only flash the top 4M chip
 * connect the Clip to the Raspberry Pi 3 (there are [prettier images](https://github.com/splitbrain/rpibplusleaf) too:
 
 
@@ -179,38 +191,43 @@ and have the following setup
 		   Body of Pi (closest to you)
 
 
-Now you should be able to copy the image over to your Rasperry Pi and run the
-mentioned `flashrom` commands. One way to copy, is convertig it to ascii using
-`uuencode` (part of Debian's sharutils package) described below. This is a very
-direct, shady and slow way to copy file. Another way is of course using a USB
-Stick or scp :) (but you need even more hardware or a network).
+Now copy our release tarball over to the Rasperry Pi.
+One way to copy, is convertig it to ascii using
+`uuencode` (part of Debian's sharutils package) described below. This is a
+direct, shady and slow way to transfer a file. Use a USB
+Stick or scp instead. :) (but you need even more hardware or a network).
 
 
 		(convert)
-	host$ uuencode coreboot.rom coreboot.rom.ascii > coreboot.rom.ascii
+	host$ uuencode <tarball> <tarball>.ascii > <tarball>.ascii
 		(transfer)
-	rpi$ cat > coreboot.rom.ascii
-	host$ pv coreboot.rom.ascii > /dev/ttyUSBX
+	rpi$ cat > <tarball>.ascii
+	host$ pv <tarball>.ascii > /dev/ttyUSBX
 		(wait)
 	rpi$ (CTRL-D)
 		(convert back)
-	rpi$ uudecode -o coreboot.rom coreboot.rom.ascii
+	rpi$ uudecode -o <tarball> <tarball>.ascii
 		(verify)
-	host$ sha1sum coreboot.rom
-	rpi$ sha1sum coreboot.rom
+	host$ sha1sum <tarball>
+	rpi$ sha1sum <tarball>
 
 ![Raspberry Pi at work](rpi_clip.jpg)
 
-### Example: internal
-CAUTION: THIS IS NOT ENCOURAGED
+Now unpack it:
 
-* Only for updating! You have to have your 8MB chip flashed externally using
-our `flashrom_rpi_bottom_unlock.sh` script (`ifdtool -u`) before this, once
-* very convenient, but according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
-* Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
-* download the latest release tarball (4MB "top" BIOS image is included) and extract it
-* run `prepare_internal_flashing.sh` for generating all necessary files and instructions
 
+	mkdir tarball_extracted
+	tar -xf <tarball> -C tarball_extracted
+	cd tarball_extracted
+
+
+Check the SPI connection to the "top" chip to update, and run:
+
+
+	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom -c <chipname>
+
+
+That's it.
 
 ## When do we do a release?
 Either when
