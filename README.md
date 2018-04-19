@@ -39,7 +39,7 @@ Raspberry Pi), run `flashrom_rpi_bottom_unlock.sh` on the lower chip
 and `flashrom_rpi_top_write.sh` on the top chip of the two.
 
 For updating later, run `prepare_internal_flashing.sh` to get
-files and instructions about updating. No need to disasseble.
+files and instructions about updating. No need to disassemble.
 
 ## Flashing for the first time
 Especially for the first time, you must flash externally. See below for the details
