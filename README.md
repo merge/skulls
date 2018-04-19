@@ -176,12 +176,10 @@ and with our release tarball unpacked, the command you need looks like so:
 
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and have the following setup
-* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" UART Adapter and picocom or minicom
-* Yes, in this case you need a second PC connected to the RPi over UART
+* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" UART Adapter and picocom or minicom (yes, in this case you need a second PC connected to the RPi over UART)
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
-* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to `sudo apt-get flashrom`
-* only flash the top 4M chip
+* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to `sudo apt-get install flashrom`
 * connect the Clip to the Raspberry Pi 3 (there are [prettier images](https://github.com/splitbrain/rpibplusleaf) too:
 
 
@@ -229,7 +227,7 @@ Now unpack it:
 	cd tarball_extracted
 
 
-Check the SPI connection to the "top" chip to update, and run:
+Connect the SPI clip to the "top" chip, and run:
 
 
 	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom -c <chipname>
