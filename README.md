@@ -1,15 +1,18 @@
 # coreboot-x230
-pre-built [coreboot](https://www.coreboot.org/) images and documentation on
+pre-built [coreboot](https://www.coreboot.org/) image and documentation on
 how to flash them for the
 [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230).
-SeaBIOS is used as coreboot payload to be compatible with Windows and Linux
-systems.
+SeaBIOS is used, to be compatible with Windows and Linux, and to be easy to use:
+simply a boot menu and a few options to tick.
 
 ![seabios_bootmenu](front.jpg)
 
+We want to make it easy to "bootstrap" an X230 to a working, unlocked,
+up-to-date coreboot-based BIOS.
+
 ## Latest release (config overview and version info)
 * coreboot-x230 0.0.5 - see our [release page](https://github.com/merge/coreboot-x230/releases)
-* Lenovo's proprietary VGA BIOS ROM is executed in "secure" mode
+* The only proprietary binary, the VGA BIOS is executed in "secure" mode ([PCI_OPTION_ROM_RUN_YABEL](https://www.coreboot.org/Coreboot_Options))
 
 ### coreboot
 * We simply take coreboot's current state in it's master branch at the time we build a release image.
@@ -35,8 +38,8 @@ For first-time flashing, remove the keyboard and palmrest, and (using a
 Raspberry Pi), run `flashrom_rpi_bottom_unlock.sh` on the lower chip
 and `flashrom_rpi_top_write.sh` on the top chip of the two.
 
-For updating after this, run `prepare_internal_flashing.sh` to get
-files and instructions.
+For updating later, run `prepare_internal_flashing.sh` to get
+files and instructions about updating. No need to disasseble.
 
 ## Flashing for the first time
 Especially for the first time, you must flash externally. See below for the details
