@@ -42,6 +42,10 @@ and `flashrom_rpi_top_write.sh` on the top chip of the two.
 For updating later, run `prepare_internal_flashing.sh` to get
 files and instructions about updating. No need to disassemble.
 
+And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
+package. This will be tested. The git master
+branch is _not_ meant to be stable. Use it for testing only.
+
 ## Flashing for the first time
 Especially for the first time, you must flash externally. See below for the details
 for using a Rapberry Pi, for example.
