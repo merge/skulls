@@ -12,15 +12,17 @@ ME_CLEANER_PATH=./util/me_cleaner/me_cleaner.py
 have_chipname=0
 have_backupname=0
 me_clean=0
+lock=0
 
 usage()
 {
-	echo "Usage: $0 -c <chipname> [-m] [-k <backup_filename>]"
+	echo "Usage: $0 -c <chipname> [-m] [-k <backup_filename>] [-l]"
 	echo ""
 	echo "-m              apply me_cleaner -S"
+	echo "-l              lock the flash instead of unlocking it"
 }
 
-args=$(getopt -o mc:k:h -- "$@")
+args=$(getopt -o mlc:k:h -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -32,6 +34,9 @@ do
 	case "$1" in
 	-m)
 		me_clean=1
+		;;
+	-l)
+		lock=1
 		;;
 	-c)
 		CHIPNAME=$2
@@ -78,6 +83,12 @@ else
 	echo "Intel ME will be cleaned."
 fi
 
+if [ ! "$lock" -gt 0 ] ; then
+	echo -e "The flash ROM will be ${GREEN}unlocked${NC}."
+else
+	echo "The flash ROM will be LOCKED!"
+fi
+
 if [ "$me_clean" -gt 0 ] ; then
 	if [ ! -e ${ME_CLEANER_PATH} ] ; then
 		echo "me_cleaner not found at ${ME_CLEANER_PATH}"
@@ -116,16 +127,21 @@ else
 	cp ${TEMP_DIR}/test1.rom ${TEMP_DIR}/work.rom
 fi
 
-${IFDTOOL_PATH} -u ${TEMP_DIR}/work.rom
+if [ ! "$lock" -gt 0 ] ; then
+	${IFDTOOL_PATH} -u ${TEMP_DIR}/work.rom
+else
+	${IFDTOOL_PATH} -l ${TEMP_DIR}/work.rom
+fi
+
 if [ ! -e ${TEMP_DIR}/work.rom.new ] ; then
-	echo -e "${RED}Error:${NC} Unlocking failed. ${TEMP_DIR}/work.rom.new not found."
+	echo -e "${RED}Error:${NC} ifdtool failed. ${TEMP_DIR}/work.rom.new not found."
 	rm -rf ${TEMP_DIR}
 	exit 1
 fi
 if [ "$me_clean" -gt 0 ] ; then
-	echo -e "${GREEN}unlock and me_cleaner ok${NC}"
+	echo -e "${GREEN}ifdtool and me_cleaner ok${NC}"
 else
-	echo -e "${GREEN}unlock ok${NC}"
+	echo -e "${GREEN}ifdtool ok${NC}"
 fi
 make clean -C util/ifdtool
 

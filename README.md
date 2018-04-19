@@ -102,9 +102,11 @@ when updating to a new release, you don't have to disasseble your Thinkpad
 and can flash internally (at your own risk), see below.
 
 #### background (just so you know)
-The `-m` option above also runs `me_cleaner -S` before flashing back.
-
-If you don't use a RPi, change the flashrom programmer to your needs:
+* The `-m` option above also runs `me_cleaner -S` before flashing back.
+* The `-l` option will (re-)lock your flash ROM, in case you want to force
+yourself (and others) to hardware-flashing externally.
+* If you don't use a RPi, change the flashrom programmer to your needs.This
+is roughly what's going on:
 
 
       flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L6406E/MX25L6408E" -r ifdmegbe.rom
