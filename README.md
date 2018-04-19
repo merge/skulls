@@ -258,5 +258,14 @@ What's this "rest"?
 Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
 
 ## Alternatives
-* [Heads](https://github.com/osresearch/heads/releases) also releases pre-built
-flash images for the X230 - with __way__ more sophisticated functionality.
+We aim to be the easiest possible coreboot distribution for the X230 - both
+to install and to use. And since our images are unlocked to enable easy
+software updates, it's easy to try alternative systems too:
+
+* [Heads](https://github.com/osresearch/heads/releases) - coreboot distribution
+with pre-built (or reproducibly buildable) flash images for the X230. Heads
+includes Linux, with tools to create a trusted boot chain using your GPG key
+and the TPM.
+* [libreboot](https://libreboot.org/) - also a coreboot distribution with pre-built
+image releases. But the X230 is currently not supported (the X200 is) - libreboot
+images are built from free software only and include the GRUB bootloader.
