@@ -35,7 +35,8 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 
 ## TL;DR
 For first-time flashing, remove the keyboard and palmrest, and (using a
-Raspberry Pi), run `flashrom_rpi_bottom_unlock.sh` on the lower chip
+Raspberry Pi with a SPI 8-pin chip clip connected), run
+`flashrom_rpi_bottom_unlock.sh` on the lower chip
 and `flashrom_rpi_top_write.sh` on the top chip of the two.
 
 For updating later, run `prepare_internal_flashing.sh` to get
@@ -98,8 +99,6 @@ And finally unlock the 8M chip by using the included script (be patient):
 
 That's it. Keep the backup safe.
 
-when updating to a new release, you don't have to disasseble your Thinkpad
-and can flash internally (at your own risk), see below.
 
 #### background (just so you know)
 * The `-m` option above also runs `me_cleaner -S` before flashing back.
@@ -139,7 +138,10 @@ CAUTION: THIS IS NOT ENCOURAGED
 
 * Only for _updating_! You have to have your 8MB chip flashed externally using
 our `flashrom_rpi_bottom_unlock.sh` script (`ifdtool -u`) before this, once
-* very convenient: just install flashrom, but according to the [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html) this is very dangerous!
+* very convenient: just install flashrom on the X230 and software-update,
+but according to the
+[flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
+this is very dangerous!
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
 * download the latest release tarball (4MB "top" BIOS image is included) and extract it
 * run `prepare_internal_flashing.sh` for generating all necessary files and printing all instructions
