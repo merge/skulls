@@ -172,7 +172,7 @@ and have the following setup
 * Yes, in this case you need a second PC connected to the RPi over UART
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
-* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to install `flashrom`
+* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to `sudo apt-get flashrom`
 * only flash the top 4M chip
 * connect the Clip to the Raspberry Pi 3 (there are [prettier images](https://github.com/splitbrain/rpibplusleaf) too:
 
@@ -228,6 +228,12 @@ Check the SPI connection to the "top" chip to update, and run:
 
 
 That's it.
+
+#### background (just so you know)
+* Connecting an ethernet cable as a power-source for SPI (instead of the VCC pin)
+  is not necessary (some other flashing how-to guides mention this).
+  Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
+  Our scripts do this for you.
 
 ## When do we do a release?
 Either when
