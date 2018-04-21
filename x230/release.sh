@@ -92,8 +92,12 @@ if [ ! $filesize -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
+# copy-in the ROM
 cp ${RELEASE_IMAGE} .
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
+
+# copy-in device independent stuff
+cp ../SOURCE.md sources/
 
 tar -cJf coreboot-x230-${version}.tar.xz \
 	README.md \
@@ -103,7 +107,11 @@ tar -cJf coreboot-x230-${version}.tar.xz \
 	prepare_internal_flashing.sh \
 	flashrom_rpi_bottom_unlock.sh \
 	flashrom_rpi_top_write.sh \
+	sources \
 	${RELEASE_IMAGE_FILE}
+
+rm ${RELEASE_IMAGE_FILE}
+rm sources/SOURCE.md
 
 git commit -a -m "update to ${version}"
 git tag -s ${version} -m "coreboot-x230 ${version}"

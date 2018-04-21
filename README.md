@@ -20,9 +20,8 @@ Either when
 * We change the config
 
 ## How we build
-* Everything necessary to build coreboot (while only the top 4MB are usable of course) is included here
-* The task of [building coreboot](https://www.coreboot.org/Build_HOWTO) is not too difficult
-* When doing a release here, we always try to upload to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards)
+* Everything necessary to [build coreboot](https://www.coreboot.org/Build_HOWTO) is included here
+* When doing a release, we always try to upload to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards)
 * If we add out-of-tree patches, we always [post them for review](http://review.coreboot.org/) upstream
 
 ## Alternatives
