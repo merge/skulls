@@ -165,12 +165,6 @@ one easily. This is how the X230's SPI connection looks on both chips:
 		   Edge (closest to you)
 
 
-and with our release tarball unpacked, the command you need looks like so:
-
-
-	flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<release>_top.rom -c <chipname>
-
-
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and have the following setup
 * [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" UART Adapter and picocom or minicom (yes, in this case you need a second PC connected to the RPi over UART)
