@@ -44,8 +44,10 @@ package. This will be tested. The git master
 branch is _not_ meant to be stable. Use it for testing only.
 
 ## Flashing for the first time
-Especially for the first time, you must flash externally. See below for the details
+* Especially for the first time, you must flash externally. See below for the details
 for using a Rapberry Pi, for example.
+* Make sure you have RAM that uses 1,5V, not 1,35V. Check the specification of
+your RAM module(s).
 
 ### flashrom chip config
 We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Run
