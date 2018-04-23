@@ -92,7 +92,8 @@ Move the release-tarball to the RPi (USB Stick or however) and unpack it
 	cd tarball_extracted
 
 
-And finally unlock the 8M chip by using the included script (be patient):
+And finally unlock the 8M chip by using the included script (be patient). Again,
+this doesn't replace much; it reads the original, unlocks and flashes back:
 
 
 	sudo ./flashrom_rpi_bottom_unlock.sh -m -c <chipname> -k <backup.bin>
