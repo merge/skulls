@@ -1,16 +1,16 @@
 # skulls - coreboot your device the easy way
 pre-built [coreboot](https://www.coreboot.org/) image and documentation on
-how to flash them.
-
-* currently only for the [Thinkpad X230](x230/README.md).
-
-SeaBIOS is used, to be compatible with Windows and Linux, and to be easy to use:
-simply a boot menu and a few options to tick.
+how to flash them; compatible with Windows and Linux, and easy to use.
+There's a boot menu and a few options to tick.
 
 ![seabios_bootmenu](x230/front.jpg)
 
 We want to make it easy to "bootstrap" your laptop to a _working_, _unlocked_,
 _up-to-date_ coreboot-based BIOS.
+
+## Supported Laptops
+
+* [Thinkpad X230](x230/README.md).
 
 ## When do we do a release?
 Either when
