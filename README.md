@@ -1,12 +1,15 @@
-# skulls - coreboot your device the easy way
+# Skulls - not quite Heads
 pre-built [coreboot](https://www.coreboot.org/) image and documentation on
-how to flash them; compatible with Windows and Linux, and easy to use.
-There's a boot menu and a few options to tick.
+how to flash them.
 
 ![seabios_bootmenu](x230/front.jpg)
 
-We want to make it easy to "bootstrap" your laptop to a _working_, _unlocked_,
-_up-to-date_ coreboot-based BIOS.
+Skulls makes it easy to bring an _unlocked_, _up-to-date_ and _easy to use_
+coreboot-based BIOS to your laptop.
+
+* _unlocked_: software update after first-time flashing
+* _easy to use_: SeaBIOS - simply a boot menu, compatible with Windows and Linux
+* _up to date_: Frequently a new image with the latest versions of all components
 
 ## Supported Laptops
 

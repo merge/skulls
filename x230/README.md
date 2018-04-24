@@ -1,14 +1,6 @@
-# coreboot-x230
-pre-built [coreboot](https://www.coreboot.org/) image and documentation on
-how to flash them for the
-[Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230).
-SeaBIOS is used, to be compatible with Windows and Linux, and to be easy to use:
-simply a boot menu and a few options to tick.
+# Skulls - [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230).
 
 ![seabios_bootmenu](front.jpg)
-
-We want to make it easy to "bootstrap" an X230 to a working, unlocked,
-up-to-date coreboot-based BIOS.
 
 ## Latest release (config overview and version info)
 * coreboot-x230 0.0.5 - see our [release page](https://github.com/merge/coreboot-x230/releases)
