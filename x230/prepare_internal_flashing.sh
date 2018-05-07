@@ -81,5 +81,13 @@ echo ""
 echo "prepared files for internal flashing in output directory."
 echo "template flashrom command (please adapt the chip name) :"
 echo ""
-echo "cd output"
+echo -e "${GREEN}cd output${NC}"
 echo -e "${GREEN}flashrom -p internal --layout x230-layout.txt --image bios -w ${OUTPUT_IMAGE_NAME}${NC}"
+while true; do
+	read -p "Do you wish to run this now? y/N: " yn
+	case $yn in
+		[Yy]* ) cd output && flashrom -p internal --layout x230-layout.txt --image bios -w ${OUTPUT_IMAGE_NAME}; break;;
+		[Nn]* ) exit;;
+		* ) exit;;
+	esac
+done
