@@ -68,6 +68,14 @@ is installed. (In case a newer version should ever be available (I doubt it),
 you could temporarily flash back the original Lenovo BIOS image from your
 backup)
 
+#### Disable the battery validation check
+While still having a Lenovo BIOS running, you could use https://github.com/eigenmatt/mec-tools
+to extract and decrypt the EC firmware and apply
+[this patch](https://github.com/hamishcoleman/thinkpad-ec/blob/master/x230.G2HT35WW.img.d/006_battery_validate.patch.OFF)
+and put it all together. This should disable the validity check for the battery
+and allow to run any 3rd party aftermarket battery. This project puts these
+steps together and generates an ISO image with this patch: https://github.com/hamishcoleman/thinkpad-ec
+
 ### ifd unlock and me_cleaner: the 8MB chip
 The Intel Management Engine resides on the 8MB chip (at the bottom, closer to
 you). We don't need to touch it
