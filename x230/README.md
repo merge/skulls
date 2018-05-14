@@ -41,6 +41,39 @@ for using a Rapberry Pi, for example.
 * Make sure you have RAM that uses 1,5V, not 1,35V. Check the specification of
 your RAM module(s).
 
+### original update / EC firmware (optional)
+Before flashing coreboot, consider doing one original Lenovo upgrade process
+in case you're not running the latest version. This is not supported anymore,
+once you're running coreboot (You'd have to manually flash back your backup
+images first, see later chapters).
+
+Also, this updates the BIOS _and_ Embedded Controller (EC) firmware. The EC
+is not updated anymore, when running coreboot. The latest EC version is 1.14
+and that's unlikely to change.
+
+In case you're not running the latest BIOS version, either
+
+* use [the latest original CD](https://support.lenovo.com/at/en/downloads/ds029188) and burn it, or
+* use the same, only with a patched EC firmware that allows using any battery:
+
+#### Disable the battery validation check
+By default, only original Lenovo batteries are allowed.
+Thanks to [this](http://zmatt.net/unlocking-my-lenovo-laptop-part-3/)
+[project](https://github.com/eigenmatt/mec-tools) we can use Lenovo's bootable
+upgrade image, change it and create a bootable _USB_ image, with an EC update
+that allows us to use any 3rd party aftermarket battery:
+
+
+	sudo apt-get install build-essential git mtools libssl-dev
+	git clone https://github.com/hamishcoleman/thinkpad-ec && cd thinkpad-ec
+	make patch_disable_keyboard clean
+	make patch_enable_battery clean
+	make patched.x230.img
+
+
+That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=/dev/sdx`
+and boot from it. Alternatively, burn `patched.x230.iso` to a CD.
+
 ### flashrom chip config
 We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Run
 `flashrom -p <your_hardware>` (for [example](#how-to-flash)
@@ -58,23 +91,6 @@ In case you are unsure what to specify, here's some examples we find out there:
 * `MX25L3206E/MX25L3208E` is seen working with various X230 models.
 * `EN25QH64` is used sometimes
 
-
-### EC firmware (optional)
-Enter Lenovo's BIOS with __F1__ and check the embedded controller (EC) version to be
-__1.14__ and upgrade using
-[the latest bootable CD](https://support.lenovo.com/at/en/downloads/ds029188)
-if it isn't. This updates BIOS and EC. The EC cannot be upgraded when coreboot
-is installed. (In case a newer version should ever be available (I doubt it),
-you could temporarily flash back the original Lenovo BIOS image from your
-backup)
-
-#### Disable the battery validation check
-While still having a Lenovo BIOS running, you could use https://github.com/eigenmatt/mec-tools
-to extract and decrypt the EC firmware and apply
-[this patch](https://github.com/hamishcoleman/thinkpad-ec/blob/master/x230.G2HT35WW.img.d/006_battery_validate.patch.OFF)
-and put it all together. This should disable the validity check for the battery
-and allow to run any 3rd party aftermarket battery. This project puts these
-steps together and generates an ISO image with this patch: https://github.com/hamishcoleman/thinkpad-ec
 
 ### ifd unlock and me_cleaner: the 8MB chip
 The Intel Management Engine resides on the 8MB chip (at the bottom, closer to
