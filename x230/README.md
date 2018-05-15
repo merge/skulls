@@ -28,8 +28,7 @@ Raspberry Pi with a SPI 8-pin chip clip connected), run
 `flashrom_rpi_bottom_unlock.sh` on the lower chip
 and `flashrom_rpi_top_write.sh` on the top chip of the two.
 
-For updating later, run `prepare_internal_flashing.sh` to get
-files and instructions about updating. No need to disassemble.
+For updating later, run `prepare_internal_flashing.sh`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
 package. This will be tested. The git master
@@ -72,7 +71,8 @@ that allows us to use any 3rd party aftermarket battery:
 
 
 That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=/dev/sdx`
-and boot from it. Alternatively, burn `patched.x230.iso` to a CD.
+and boot from it. Alternatively, burn `patched.x230.iso` to a CD. And make sure
+you have "legacy" boot set, not "UEFI" boot.
 
 ### flashrom chip config
 We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Run
@@ -152,7 +152,8 @@ That's it. Keep the backup safe.
 ## How to flash
 When __upgrading__ to a new release, only the "upper" 4MB chip has to be written
 and any of the following examples are possible. Otherwise you cannot use
-"internal" flashing and please read [flashing for the first time](#flashing-for-the-first-time).
+"internal" flashing and please read
+[flashing for the first time](#flashing-for-the-first-time).
 
 ### Example: internal
 * Only for _updating_! You have to have your 8MB chip flashed externally using
@@ -167,7 +168,9 @@ this is very dangerous!
 
 ### Example: Raspberry Pi 3
 Here you'll flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
-one easily. This is how the X230's SPI connection looks on both chips:
+one easily. Remove the 7 screws to remove the keyboard (by pushing it towards the
+screen before lifting) and the palmrest. You'll find the chips using the photo
+below. This is how the SPI connection looks on both chips:
 
 
 		Screen (furthest from you)
@@ -182,11 +185,16 @@ one easily. This is how the X230's SPI connection looks on both chips:
 
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and have the following setup
-* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a "USB to Serial" UART Adapter and picocom or minicom (yes, in this case you need a second PC connected to the RPi over UART)
+* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a
+"USB to Serial" UART Adapter and picocom or minicom (yes, in this case you
+need a second PC connected to the RPi over UART)
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
-* [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835` and `spidev` in /etc/modules
-* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) or to network over ethernet to `sudo apt-get install flashrom`
-* connect the Clip to the Raspberry Pi 3 (there are [prettier images](https://github.com/splitbrain/rpibplusleaf) too:
+* [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835`
+and `spidev` in /etc/modules
+* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
+or ethernet to `sudo apt-get install flashrom`
+* connect the Clip to the Raspberry Pi 3 (there are
+[prettier images](https://github.com/splitbrain/rpibplusleaf) too:
 
 
 		   Edge of pi (furthest from you)
@@ -223,15 +231,15 @@ Stick or scp instead. :) (but you need even more hardware or a network).
 	host$ sha1sum <tarball>
 	rpi$ sha1sum <tarball>
 
-![Raspberry Pi at work](rpi_clip.jpg)
-
-Now unpack it:
+Unpack it:
 
 
 	mkdir tarball_extracted
 	tar -xf <tarball> -C tarball_extracted
 	cd tarball_extracted
 
+
+![Raspberry Pi at work](rpi_clip.jpg)
 
 Connect the SPI clip to the "top" chip, and run:
 
