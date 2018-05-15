@@ -11,10 +11,10 @@
 That's the preferred way to use coreboot. The git revision we use is always included in the release.
 
 ### Intel microcode
-* revision `1f` from 2018-02-07 (Intel package [20180312](https://downloadcenter.intel.com/download/27591) not yet in coreboot upstream) under [Intel's license](LICENSE.microcode)
+* revision `1f` from 2018-02-07 see package [20180312](https://downloadcenter.intel.com/download/27591) under [Intel's license](LICENSE.microcode)
 
 ### SeaBIOS
-* version [1.11.1](https://seabios.org/Releases) from 2018-03-19 (part of coreboot upstream)
+* version [1.11.1](https://seabios.org/Releases) from 2018-03-19
 
 ## table of contents
 * [TL;DR](#tl-dr)
