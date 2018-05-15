@@ -19,7 +19,7 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 ## table of contents
 * [TL;DR](#tl-dr)
 * [Flashing for the first time](#flashing-for-the-first-time)
-* [How to update](#how-to-update)
+* [How to flash](#how-to-flash)
 * [Why does this work](#why-does-this-work)
 
 ## TL;DR
@@ -149,27 +149,23 @@ the following included script:
 
 That's it. Keep the backup safe.
 
-## How to update
-When __upgrading__ to a new release, only the "upper" 4MB chip has to be written.
-Download the latest release image we provide and flash it:
+## How to flash
+When __upgrading__ to a new release, only the "upper" 4MB chip has to be written
+and any of the following examples are possible. Otherwise you cannot use
+"internal" flashing and please read [flashing for the first time](#flashing-for-the-first-time).
 
 ### Example: internal
-CAUTION: THIS IS NOT ENCOURAGED
-
 * Only for _updating_! You have to have your 8MB chip flashed externally using
 our `flashrom_rpi_bottom_unlock.sh` script (`ifdtool -u`) before this, once
-* very convenient: just install flashrom on the X230 and software-update,
-but according to the
+* very convenient: just install flashrom on your X230 but according to the
 [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
 this is very dangerous!
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
 * download the latest release tarball (4MB "top" BIOS image is included) and extract it
-* run `prepare_internal_flashing.sh` for generating all necessary files and printing all instructions
-* run the flashrom command you got from the script. That's it.
+* run `prepare_internal_flashing.sh` for generating all necessary files and instructions
 
 
 ### Example: Raspberry Pi 3
-
 Here you'll flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
 one easily. This is how the X230's SPI connection looks on both chips:
 
