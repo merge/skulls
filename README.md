@@ -7,7 +7,7 @@ how to flash them.
 Skulls makes it easy to bring an _unlocked_, _up-to-date_ and _easy to use_
 coreboot-based BIOS to your laptop.
 
-* _unlocked_: software update after first-time flashing / no restrictions on conncected hardware
+* _unlocked_: software update after first-time flashing / no restrictions on connected hardware
 * _easy to use_: SeaBIOS - simply a boot menu, compatible with Windows and Linux
 * _up to date_: Frequently a new image with the latest versions of all components
 
