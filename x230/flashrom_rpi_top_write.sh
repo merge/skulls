@@ -97,6 +97,6 @@ if [ ! "$INPUT_IMAGE_SIZE" -eq "$TEMP_SIZE" ] ; then
 fi
 rm -rf ${TEMP_DIR}
 
-echo "connection ok. flashing ${INPUT_IMAGE_NAME}"
+echo -e "${GREEN}connection ok${NC}. flashing ${INPUT_IMAGE_NAME}"
 flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -w ${INPUT_IMAGE_PATH}
 echo -e "${GREEN}DONE${NC}"
