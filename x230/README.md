@@ -74,6 +74,18 @@ That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=
 and boot from it. Alternatively, burn `patched.x230.iso` to a CD. And make sure
 you have "legacy" boot set, not "UEFI" boot.
 
+### required hardware
+* An 8 Pin SOIC Clip, for example from
+[Pomona electronics](https://www.pomonaelectronics.com/products/test-clips/soic-clip-8-pin)
+or alternatively hooks, for example from
+[E-Z-Hook](http://catalog.e-z-hook.com/viewitems/test-hooks/e-z-micro-hooks-single-hook-style)
+* 6 [female](https://electronics.stackexchange.com/questions/37783/how-can-i-create-a-female-jumper-wire-connector)
+[jumper wires](https://en.wikipedia.org/wiki/Jump_wire) to connect the clip to
+a hardware flasher
+* a hardware flasher
+[supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices)
+but we currently only support using a Raspberry Pi
+
 ### flashrom chip config
 We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Run
 `flashrom -p <your_hardware>` (for [example](#how-to-flash)
