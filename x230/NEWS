@@ -1,4 +1,12 @@
 
+coreboot-x230 0.0.6 - released 2018-05-16
+-----------------------------------------
+This release includes the following changes:
+* based on coreboot commit d8ec973fd2
+* faster booting (unneeded driver init removed)
+* documentation improvements
+
+
 coreboot-x230 0.0.5 - released 2018-04-18
 -----------------------------------------
 This release includes the following changes:

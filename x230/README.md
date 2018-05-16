@@ -3,7 +3,7 @@
 ![seabios_bootmenu](front.jpg)
 
 ## Latest release (config overview and version info)
-* coreboot-x230 0.0.5 - see our [release page](https://github.com/merge/coreboot-x230/releases)
+* Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * The only proprietary binary, the VGA BIOS is executed in "secure" mode ([PCI_OPTION_ROM_RUN_YABEL](https://www.coreboot.org/Coreboot_Options))
 
 ### coreboot
