@@ -119,5 +119,3 @@ git tag -s ${version} -m "skulls-x230 ${version}"
 sha256sum skulls-x230-${version}.tar.xz > skulls-x230-${version}.tar.xz.sha256
 sha512sum skulls-x230-${version}.tar.xz > skulls-x230-${version}.tar.xz.sha512
 gpg -b -a skulls-x230-${version}.tar.xz
-
-rm ${RELEASE_IMAGE_FILE}
