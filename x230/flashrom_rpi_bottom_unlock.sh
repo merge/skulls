@@ -80,7 +80,7 @@ fi
 if [ ! "$me_clean" -gt 0 ] ; then
 	echo "Intel ME will NOT be cleaned. Use -m if it should be."
 else
-	echo "Intel ME will be cleaned."
+	echo -e "Intel ME will be ${GREEN}cleaned${NC}."
 fi
 
 if [ ! "$lock" -gt 0 ] ; then
