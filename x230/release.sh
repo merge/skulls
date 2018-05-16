@@ -99,7 +99,7 @@ RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
 # copy-in device independent stuff
 cp ../SOURCE.md sources/
 
-tar -cJf coreboot-x230-${version}.tar.xz \
+tar -cJf skulls-x230-${version}.tar.xz \
 	README.md \
 	NEWS \
 	util \
@@ -114,10 +114,10 @@ rm ${RELEASE_IMAGE_FILE}
 rm sources/SOURCE.md
 
 git commit -a -m "update to ${version}"
-git tag -s ${version} -m "coreboot-x230 ${version}"
+git tag -s ${version} -m "skulls-x230 ${version}"
 
-sha256sum coreboot-x230-${version}.tar.xz > coreboot-x230-${version}.tar.xz.sha256
-sha512sum coreboot-x230-${version}.tar.xz > coreboot-x230-${version}.tar.xz.sha512
-gpg -b -a coreboot-x230-${version}.tar.xz
+sha256sum skulls-x230-${version}.tar.xz > skulls-x230-${version}.tar.xz.sha256
+sha512sum skulls-x230-${version}.tar.xz > skulls-x230-${version}.tar.xz.sha512
+gpg -b -a skulls-x230-${version}.tar.xz
 
 rm ${RELEASE_IMAGE_FILE}
