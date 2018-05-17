@@ -65,8 +65,9 @@ do
 done
 
 if [ ! "$have_chipname" -gt 0 ] ; then
-	echo "no chipname provided. to find it out, run:"
+	echo "no chipname provided. To get it, we run::"
 	echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
+	flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
 	usage
 	exit 1
 fi

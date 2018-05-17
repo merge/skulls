@@ -64,8 +64,10 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 fi
 
 if [ ! "$have_chipname" -gt 0 ] ; then
-	echo "no chipname provided. to find it out, run:"
+	echo "no chipname provided. To get it out, we run:"
 	echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
+	flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
+	usage
 	exit 1
 fi
 
