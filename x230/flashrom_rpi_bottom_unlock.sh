@@ -13,16 +13,20 @@ have_chipname=0
 have_backupname=0
 me_clean=0
 lock=0
+autodetect_chip=0
 
 usage()
 {
-	echo "Usage: $0 -c <chipname> [-m] [-k <backup_filename>] [-l]"
+	echo "Usage: $0 [-c <chipname>] [-a] [-m] [-k <backup_filename>] [-l]"
 	echo ""
+	echo "-c <chipname>   flashrom chip description to use"
+	echo "-a              try to autodetect the chipname"
 	echo "-m              apply me_cleaner -S"
 	echo "-l              lock the flash instead of unlocking it"
+	echo "-k <file>       save the read image as <file>"
 }
 
-args=$(getopt -o mlc:k:h -- "$@")
+args=$(getopt -o mlc:ak:h -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -37,6 +41,9 @@ do
 		;;
 	-l)
 		lock=1
+		;;
+	-a)
+		autodetect_chip=1
 		;;
 	-c)
 		CHIPNAME=$2
@@ -64,12 +71,45 @@ do
 	shift
 done
 
+TEMP_DIR=`mktemp -d`
 if [ ! "$have_chipname" -gt 0 ] ; then
-	echo "no chipname provided. To get it, we run::"
-	echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
-	flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
-	usage
-	exit 1
+	if [ ! "$autodetect_chip" -gt 0 ] ; then
+		echo -e "${RED}no chipname provided${NC}. To get it, we run:"
+		echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
+		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
+		usage
+		rm -rf ${TEMP_DIR}
+		exit 1
+	else
+		echo "trying to detect the chip..."
+		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 &> ${TEMP_DIR}/chips || true
+		flashrom_error=""
+		flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error)
+		if [ ! -z "${flashrom_error}" ] ; then
+			cat ${TEMP_DIR}/chips
+			rm -rf ${TEMP_DIR}
+			exit 1
+		fi
+
+		CHIPNAME=""
+		chip_found=0
+		CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L6406E/MX25L6408E" | grep -o '".*"')
+		if [ ! -z "${CHIPNAME}" ] ; then
+			chip_found=1
+		fi
+		CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "EN25QH64" | grep -o '".*"')
+		if [ ! -z "${CHIPNAME}" ] ; then
+			chip_found=1
+		fi
+		if [ ! "$chip_found" -gt 0 ] ; then
+			echo -e "${RED}Error:${NC} chip not detected. Please find it manually:"
+			flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
+			rm -rf ${TEMP_DIR}
+			exit 1
+		else
+			echo -e "Detected ${GREEN}${CHIPNAME}${NC}."
+		fi
+	fi
 fi
 
 make -C util/ifdtool
@@ -93,14 +133,15 @@ fi
 if [ "$me_clean" -gt 0 ] ; then
 	if [ ! -e ${ME_CLEANER_PATH} ] ; then
 		echo "me_cleaner not found at ${ME_CLEANER_PATH}"
+		rm -rf ${TEMP_DIR}
 		exit 1
 	fi
 fi
 
 echo "Start reading 2 times. Please be patient..."
-TEMP_DIR=`mktemp -d`
 if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
 	echo -e "${RED}Error:${NC} Could not create temp dir"
+	rm -rf ${TEMP_DIR}
 	exit 1
 fi
 flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
@@ -148,4 +189,5 @@ make clean -C util/ifdtool
 
 echo "start writing..."
 flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -w ${TEMP_DIR}/work.rom.new
+rm -rf ${TEMP_DIR}
 echo -e "${GREEN}DONE${NC}"

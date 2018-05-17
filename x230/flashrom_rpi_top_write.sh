@@ -10,13 +10,19 @@ set -e
 have_input_image=0
 have_chipname=0
 have_backupname=0
+autodetect_chip=0
 
 usage()
 {
-	echo "Usage: $0 -i <image.rom> -c <chipname> [-k <backup_filename>]"
+	echo "Usage: $0 -i <image.rom> [-c <chipname>] [-a] [-k <backup_filename>]"
+	echo ""
+	echo " -i  <path to image to flash>"
+	echo " -c  <chipname> for flashrom"
+	echo " -a  ... try autodetecting the chipname"
+	echo " -k  <path to backup to save>"
 }
 
-args=$(getopt -o i:c:k:h -- "$@")
+args=$(getopt -o i:c:ak:h -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -35,6 +41,9 @@ do
 		CHIPNAME=$2
 		have_chipname=1
 		shift
+		;;
+	-a)
+		autodetect_chip=1
 		;;
 	-k)
 		BACKUPNAME=$2
@@ -63,12 +72,41 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 	exit 1
 fi
 
+TEMP_DIR=`mktemp -d`
 if [ ! "$have_chipname" -gt 0 ] ; then
-	echo "no chipname provided. To get it out, we run:"
-	echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
-	flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
-	usage
-	exit 1
+	if [ ! "$autodetect_chip" -gt 0 ] ; then
+		echo -e "${RED}no chipname provided${NC}. To get it, we run:"
+		echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
+		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
+		usage
+		rm -rf ${TEMP_DIR}
+		exit 1
+	else
+		echo "trying to detect the chip..."
+		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 &> ${TEMP_DIR}/chips || true
+		flashrom_error=""
+		flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error)
+		if [ ! -z "${flashrom_error}" ] ; then
+			cat ${TEMP_DIR}/chips
+			rm -rf ${TEMP_DIR}
+			exit 1
+		fi
+
+		CHIPNAME=""
+		chip_found=0
+		CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L3206E" | grep -o '".*"')
+		if [ ! -z "${CHIPNAME}" ] ; then
+			chip_found=1
+		fi
+		if [ ! "$chip_found" -gt 0 ] ; then
+			echo -e "${RED}Error:${NC} chip not detected. Please find it manually:"
+			flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
+			rm -rf ${TEMP_DIR}
+			exit 1
+		else
+			echo -e "Detected ${GREEN}${CHIPNAME}${NC}."
+		fi
+	fi
 fi
 
 INPUT_IMAGE_NAME=$(basename ${INPUT_IMAGE_PATH})
@@ -80,7 +118,6 @@ if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
 fi
 
 echo "verifying SPI connection by reading 2 times. please wait."
-TEMP_DIR=`mktemp -d`
 if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
 	echo "Could not create temp dir"
 	exit 1
