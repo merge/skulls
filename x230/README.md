@@ -40,7 +40,7 @@ for using a Rapberry Pi, for example.
 * Make sure you have RAM that uses 1,5V, not 1,35V. Check the specification of
 your RAM module(s).
 
-### original update / EC firmware (optional)
+### before you begin: original update / EC firmware (optional)
 Before flashing coreboot, consider doing one original Lenovo upgrade process
 in case you're not running the latest version. This is not supported anymore,
 once you're running coreboot (You'd have to manually flash back your backup
@@ -74,7 +74,7 @@ That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=
 and boot from it. Alternatively, burn `patched.x230.iso` to a CD. And make sure
 you have "legacy" boot set, not "UEFI" boot.
 
-### required hardware
+### preparation: required hardware
 * An 8 Pin SOIC Clip, for example from
 [Pomona electronics](https://www.pomonaelectronics.com/products/test-clips/soic-clip-8-pin)
 or alternatively hooks, for example from
@@ -86,11 +86,14 @@ a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices)
 but we currently only support using a Raspberry Pi
 
-### flashrom chip config
-We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Run
+### preparation: flashrom chip config
+We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Connect
+the programmer to the chip and run
 `flashrom -p <your_hardware>` (for [example](#how-to-flash)
 `flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128` for the
-Raspberry Pi) to let flashrom detect the chip.
+Raspberry Pi) to let flashrom detect the chip. If `-c` is omitted, the scripts
+will run this for you.
+
 It will probably list a few you need to choose from when flashing
 (by adding `-c <chipname>`). Please review the chip model for your device.
 In case you are unsure what to specify, here's some examples we find out there:
@@ -179,8 +182,8 @@ this is very dangerous!
 
 
 ### Example: Raspberry Pi 3
-Here you'll flash externally, using a "Pomona 5250 8-pin SOIC test clip". You'll find
-one easily. Remove the 7 screws to remove the keyboard (by pushing it towards the
+Here you'll flash externally, using a test clip or hooks, see [required hardware](#preparation:-required-hardware).
+Remove the 7 screws to remove the keyboard (by pushing it towards the
 screen before lifting) and the palmrest. You'll find the chips using the photo
 below. This is how the SPI connection looks on both chips:
 
