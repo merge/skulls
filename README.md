@@ -32,7 +32,7 @@ We aim to be the easiest possible coreboot distribution - both
 to install and to use. And since our image is unlocked to enable easy
 software updates, it's easy to move to alternative systems from it:
 
-* [Heads](https://github.com/osresearch/heads/releases) - coreboot distribution
+* [Heads](http://osresearch.net/) - coreboot distribution
 with pre-built (or reproducibly buildable) flash images (for the X230 and others). Heads
 includes Linux, with tools to create a trusted boot chain using your GPG key
 and the TPM.
