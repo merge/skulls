@@ -85,7 +85,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 		echo "trying to detect the chip..."
 		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 &> ${TEMP_DIR}/chips || true
 		flashrom_error=""
-		flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error)
+		flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error || true)
 		if [ ! -z "${flashrom_error}" ] ; then
 			cat ${TEMP_DIR}/chips
 			rm -rf ${TEMP_DIR}
@@ -94,7 +94,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 
 		CHIPNAME=""
 		chip_found=0
-		CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L3206E" | grep -o '".*"')
+		CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L3206E" | grep -o '".*"' || true)
 		if [ ! -z "${CHIPNAME}" ] ; then
 			chip_found=1
 		fi
