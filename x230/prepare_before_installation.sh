@@ -43,7 +43,7 @@ done
 hash dmidecode
 
 LAPTOP=$(dmidecode | grep -i x230 | sort -u)
-if [ -z $LAPTOP ] ; then
+if [ -z "$LAPTOP" ] ; then
 	echo "This is no Thinkpad X230. This script is useless then."
 	exit 0
 fi
