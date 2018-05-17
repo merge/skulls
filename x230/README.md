@@ -17,7 +17,7 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 * version [1.11.1](https://seabios.org/Releases) from 2018-03-19
 
 ## table of contents
-* [TL;DR](#tl-dr)
+* [TL;DR](#tldr)
 * [Flashing for the first time](#flashing-for-the-first-time)
 * [How to flash](#how-to-flash)
 * [Why does this work](#why-does-this-work)
@@ -182,20 +182,20 @@ this is very dangerous!
 
 
 ### Example: Raspberry Pi 3
-Here you'll flash externally, using a test clip or hooks, see [required hardware](#preparation:-required-hardware).
+Here you'll flash externally, using a test clip or hooks, see [required hardware](#preparation-required-hardware).
 Remove the 7 screws to remove the keyboard (by pushing it towards the
 screen before lifting) and the palmrest. You'll find the chips using the photo
 below. This is how the SPI connection looks on both chips:
 
 
-		Screen (furthest from you)
-			     __
-		  MOSI  5 --|  |-- 4  GND
-		   CLK  6 --|  |-- 3  N/C
-		   N/C  7 --|  |-- 2  MISO
-		   VCC  8 --|__|-- 1  CS
-
-		   Edge (closest to you)
+	Screen (furthest from you)
+		     __
+	  MOSI  5 --|  |-- 4  GND
+	   CLK  6 --|  |-- 3  N/C
+	   N/C  7 --|  |-- 2  MISO
+	   VCC  8 --|__|-- 1  CS
+	
+	   Edge (closest to you)
 
 
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
@@ -209,21 +209,21 @@ and `spidev` in /etc/modules
 * [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
 or ethernet to `sudo apt-get install flashrom`
 * connect the Clip to the Raspberry Pi 3 (there are
-[prettier images](https://github.com/splitbrain/rpibplusleaf) too:
+[prettier images](https://github.com/splitbrain/rpibplusleaf) too):
 
 
-		   Edge of pi (furthest from you)
-		               (UART)
-		 L           GND TX  RX                           CS
-		 E            |   |   |                           |
-		 F +---------------------------------------------------------------------------------+
-		 T |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
-		   |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
-		 E +----------------------------------^---^---^---^-------------------------------^--+
-		 D                                    |   |   |   |                               |
-		 G                                   3.3V MOSIMISO|                              GND
-		 E                                 (VCC)         CLK
-		   Body of Pi (closest to you)
+	   Edge of pi (furthest from you)
+	               (UART)
+	 L           GND TX  RX                           CS
+	 E            |   |   |                           |
+	 F +---------------------------------------------------------------------------------+
+	 T |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
+	   |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
+	 E +----------------------------------^---^---^---^-------------------------------^--+
+	 D                                    |   |   |   |                               |
+	 G                                   3.3V MOSIMISO|                              GND
+	 E                                 (VCC)         CLK
+	   Body of Pi (closest to you)
 
 
 Now copy our release tarball over to the Rasperry Pi.
