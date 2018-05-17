@@ -188,14 +188,14 @@ screen before lifting) and the palmrest. You'll find the chips using the photo
 below. This is how the SPI connection looks on both chips:
 
 
-	Screen (furthest from you)
-		     __
-	  MOSI  5 --|  |-- 4  GND
-	   CLK  6 --|  |-- 3  N/C
-	   N/C  7 --|  |-- 2  MISO
-	   VCC  8 --|__|-- 1  CS
-	
-	   Edge (closest to you)
+		Screen (furthest from you)
+			     __
+		  MOSI  5 --|  |-- 4  GND
+		   CLK  6 --|  |-- 3  N/C
+		   N/C  7 --|  |-- 2  MISO
+		   VCC  8 --|__|-- 1  CS
+
+		   Edge (closest to you)
 
 
 We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
@@ -212,18 +212,18 @@ or ethernet to `sudo apt-get install flashrom`
 [prettier images](https://github.com/splitbrain/rpibplusleaf) too):
 
 
-	   Edge of pi (furthest from you)
-	               (UART)
-	 L           GND TX  RX                           CS
-	 E            |   |   |                           |
-	 F +---------------------------------------------------------------------------------+
-	 T |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
-	   |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
-	 E +----------------------------------^---^---^---^-------------------------------^--+
-	 D                                    |   |   |   |                               |
-	 G                                   3.3V MOSIMISO|                              GND
-	 E                                 (VCC)         CLK
-	   Body of Pi (closest to you)
+		   Edge of pi (furthest from you)
+		               (UART)
+		 L           GND TX  RX                           CS
+		 E            |   |   |                           |
+		 F +---------------------------------------------------------------------------------+
+		 T |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
+		   |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
+		 E +----------------------------------^---^---^---^-------------------------------^--+
+		 D                                    |   |   |   |                               |
+		 G                                   3.3V MOSIMISO|                              GND
+		 E                                 (VCC)         CLK
+		   Body of Pi (closest to you)
 
 
 Now copy our release tarball over to the Rasperry Pi.
