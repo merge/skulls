@@ -13,20 +13,18 @@ have_chipname=0
 have_backupname=0
 me_clean=0
 lock=0
-autodetect_chip=0
 
 usage()
 {
 	echo "Usage: $0 [-c <chipname>] [-a] [-m] [-k <backup_filename>] [-l]"
 	echo ""
 	echo "-c <chipname>   flashrom chip description to use"
-	echo "-a              try to autodetect the chipname"
 	echo "-m              apply me_cleaner -S"
 	echo "-l              lock the flash instead of unlocking it"
 	echo "-k <file>       save the read image as <file>"
 }
 
-args=$(getopt -o mlc:ak:h -- "$@")
+args=$(getopt -o mlc:k:h -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -41,9 +39,6 @@ do
 		;;
 	-l)
 		lock=1
-		;;
-	-a)
-		autodetect_chip=1
 		;;
 	-c)
 		CHIPNAME=$2
@@ -73,42 +68,34 @@ done
 
 TEMP_DIR=`mktemp -d`
 if [ ! "$have_chipname" -gt 0 ] ; then
-	if [ ! "$autodetect_chip" -gt 0 ] ; then
-		echo -e "${RED}no chipname provided${NC}. To get it, we run:"
-		echo "flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128"
-		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
-		usage
+	echo "trying to detect the chip..."
+	flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 &> ${TEMP_DIR}/chips || true
+	flashrom_error=""
+	flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error || true)
+	if [ ! -z "${flashrom_error}" ] ; then
+		cat ${TEMP_DIR}/chips
 		rm -rf ${TEMP_DIR}
 		exit 1
-	else
-		echo "trying to detect the chip..."
-		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 &> ${TEMP_DIR}/chips || true
-		flashrom_error=""
-		flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error || true)
-		if [ ! -z "${flashrom_error}" ] ; then
-			cat ${TEMP_DIR}/chips
-			rm -rf ${TEMP_DIR}
-			exit 1
-		fi
+	fi
 
-		CHIPNAME=""
-		chip_found=0
-		CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L6406E/MX25L6408E" | grep -o '".*"' || true)
-		if [ ! -z "${CHIPNAME}" ] ; then
-			chip_found=1
-		fi
-		CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "EN25QH64" | grep -o '".*"' || true)
-		if [ ! -z "${CHIPNAME}" ] ; then
-			chip_found=1
-		fi
-		if [ ! "$chip_found" -gt 0 ] ; then
-			echo -e "${RED}Error:${NC} chip not detected. Please find it manually:"
-			flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
-			rm -rf ${TEMP_DIR}
-			exit 1
-		else
-			echo -e "Detected ${GREEN}${CHIPNAME}${NC}."
-		fi
+	CHIPNAME=""
+	chip_found=0
+	CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L6406E/MX25L6408E" | grep -o '".*"' || true)
+	if [ ! -z "${CHIPNAME}" ] ; then
+		chip_found=1
+	fi
+	CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "EN25QH64" | grep -o '".*"' || true)
+	if [ ! -z "${CHIPNAME}" ] ; then
+		chip_found=1
+	fi
+	if [ ! "$chip_found" -gt 0 ] ; then
+		echo "chip not detected."
+		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
+		rm -rf ${TEMP_DIR}
+		echo "chip not detected. Please find it manually and rerun with the -c parameter."
+		exit 1
+	else
+		echo -e "Detected ${GREEN}${CHIPNAME}${NC}."
 	fi
 fi
 

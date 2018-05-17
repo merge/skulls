@@ -86,25 +86,6 @@ a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices)
 but we currently only support using a Raspberry Pi
 
-### preparation: flashrom chip config
-We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. Connect
-the programmer to the chip and run
-`flashrom -p <your_hardware>` (for [example](#how-to-flash)
-`flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128` for the
-Raspberry Pi) to let flashrom detect the chip. If `-c` is omitted, the scripts
-will run this for you.
-
-It will probably list a few you need to choose from when flashing
-(by adding `-c <chipname>`). Please review the chip model for your device.
-In case you are unsure what to specify, here's some examples we find out there:
-
-#### 4MB chip
-* `MX25L3206E` seems to mostly be in use
-
-#### 8MB chip
-* `MX25L6406E/MX25L6408E` is used in [this guide](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#neutering-me)
-* `MX25L3206E/MX25L3208E` is seen working with various X230 models.
-* `EN25QH64` is used sometimes
 
 
 ### ifd unlock and me_cleaner: the 8MB chip
@@ -129,7 +110,7 @@ And finally unlock the 8M chip by using the included script (be patient). Again,
 this doesn't replace much; it reads the original, unlocks and flashes back:
 
 
-	sudo ./flashrom_rpi_bottom_unlock.sh -m -c <chipname> -k <backup.bin>
+	sudo ./flashrom_rpi_bottom_unlock.sh -m -k <backup.bin>
 
 
 That's it. Keep the backup safe.
@@ -143,14 +124,31 @@ yourself (and others) to hardware-flashing externally.
 is roughly what's going on:
 
 
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L6406E/MX25L6408E" -r ifdmegbe.rom
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L6406E/MX25L6408E" -r ifdmegbe2.rom
+      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -r ifdmegbe.rom
+      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -r ifdmegbe2.rom
       diff ifdmegbe.rom ifdmegbe2.rom
       git clone https://github.com/corna/me_cleaner.git && cd me_cleaner
       ./me_cleaner.py -S -O ifdmegbe_meclean.rom ifdmegbe.rom
       ifdtool -u ifdmegbe_meclean.rom
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c "MX25L6406E/MX25L6408E" -w ifdmegbe_meclean.rom.new
+      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w ifdmegbe_meclean.rom.new
 
+* We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. If our
+scripts don't detect the chip automatically, connect
+the programmer to the chip and run
+`flashrom -p <your_hardware>` (for [example](#how-to-flash)
+`flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128` for the
+Raspberry Pi) to let flashrom detect the chip. If `-c` is omitted, the scripts
+will run this for you. It will probably list a few you need to choose from when flashing
+(by adding `-c <chipname>`).
+In case you are unsure what to specify, here's some examples we find out there:
+
+  * 4MB chip
+    * `MX25L3206E` seems to mostly be in use
+
+  * 8MB chip
+    * `MX25L6406E/MX25L6408E` is used in [this guide](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#neutering-me)
+    * `MX25L3206E/MX25L3208E` is seen working with various X230 models.
+    * `EN25QH64` is used sometimes
 
 ### BIOS: the 4MB chip
 (internally, memory of the two chips is mapped together, the 8MB being the lower
@@ -159,7 +157,7 @@ here. We assume you have the unpacked release tarball ready, see above. Use
 the following included script:
 
 
-	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom -c <chipname> -k <backup>
+	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom -k <backup>
 
 
 That's it. Keep the backup safe.
@@ -259,7 +257,7 @@ Unpack it:
 Connect the SPI clip to the "top" chip, and run:
 
 
-	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom -c <chipname>
+	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom
 
 
 That's it.
