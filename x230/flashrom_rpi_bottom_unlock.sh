@@ -79,7 +79,7 @@ if [ ! -e ${IFDTOOL_PATH} ] ; then
 fi
 
 if [ ! "$me_clean" -gt 0 ] ; then
-	echo "Intel ME will NOT be cleaned. Use -m if it should be."
+	echo -e "Intel ME will ${RED}not${NC} be cleaned. Use -m if it should be."
 else
 	echo -e "Intel ME will be ${GREEN}cleaned${NC}."
 fi
@@ -87,7 +87,7 @@ fi
 if [ ! "$lock" -gt 0 ] ; then
 	echo -e "The flash ROM will be ${GREEN}unlocked${NC}."
 else
-	echo "The flash ROM will be LOCKED!"
+	echo -e "The flash ROM will be ${RED}locked${NC}."
 fi
 
 if [ "$me_clean" -gt 0 ] ; then
@@ -97,7 +97,7 @@ if [ "$me_clean" -gt 0 ] ; then
 	fi
 fi
 
-echo "Start reading 2 times. Please be patient."
+echo "Start reading 2 times. Please be patient..."
 TEMP_DIR=`mktemp -d`
 if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
 	echo -e "${RED}Error:${NC} Could not create temp dir"
