@@ -37,12 +37,12 @@ package. This will be tested. The git master
 branch is _not_ meant to be stable. Use it for testing only.
 
 ## First-time installation
-### before you begin
+#### before you begin
 Before starting, run Linux on your X230, install `dmidecode` and run
 `sudo ./x230_before_first_install.sh`. It simply prints system information and helps
 you find out your RAM voltage. Make sure you have RAM that uses 1,5V, not 1,35V.
 
-### original BIOS update / EC firmware (optional)
+#### original BIOS update / EC firmware (optional)
 Before flashing coreboot, consider doing one original Lenovo upgrade process
 in case you're not running the latest version. This is not supported anymore,
 once you're running coreboot (You'd have to manually flash back your backup
@@ -55,9 +55,7 @@ and that's unlikely to change.
 In case you're not running the latest BIOS version, either
 
 * use [the latest original CD](https://support.lenovo.com/at/en/downloads/ds029188) and burn it, or
-* use the same, only with a patched EC firmware that allows using any battery:
-
-#### Disable the battery validation check
+* use the same, only with a patched EC firmware that allows using any aftermarket-battery:
 By default, only original Lenovo batteries are allowed.
 Thanks to [this](http://zmatt.net/unlocking-my-lenovo-laptop-part-3/)
 [project](https://github.com/eigenmatt/mec-tools) we can use Lenovo's bootable
@@ -76,7 +74,7 @@ That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=
 and boot from it. Alternatively, burn `patched.x230.iso` to a CD. And make sure
 you have "legacy" boot set, not "UEFI" boot.
 
-### preparation: required hardware
+#### preparation: required hardware
 * An 8 Pin SOIC Clip, for example from
 [Pomona electronics](https://www.pomonaelectronics.com/products/test-clips/soic-clip-8-pin)
 or alternatively hooks, for example from
@@ -88,7 +86,7 @@ a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices)
 but we currently only support using a Raspberry Pi
 
-### open up the X230
+#### open up the X230
 Remove the 7 screws of your X230 to remove the keyboard (by pushing it towards the
 screen before lifting) and the palmrest. You'll find the chips using the photo
 below. This is how the SPI connection looks on both of the X230's chips:
@@ -106,7 +104,7 @@ below. This is how the SPI connection looks on both of the X230's chips:
 
 ... choose one of the following supported flashing hardware examples:
 
-### Hardware Example: Raspberry Pi 3
+#### Hardware Example: Raspberry Pi 3
 A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
 Use a test clip or hooks, see [required hardware](#preparation-required-hardware).
 
@@ -142,12 +140,12 @@ or ethernet to `sudo apt-get install flashrom`
 
 Now copy the Skulls release tarball over to the Rasperry Pi and continue on the Pi.
 
-### Hardware Example: CH341A based
+#### Hardware Example: CH341A based
 CH341A, a USB interface chip, is used by some cheap memory programmers.
 
 TODO
 
-### unpack the Skulls release archive
+#### unpack the Skulls release archive
 
 
 	mkdir skulls
@@ -155,7 +153,7 @@ TODO
 	cd skulls
 
 
-### ifd unlock and me_cleaner: the 8MB chip
+#### ifd unlock and me_cleaner: the 8MB chip
 The [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
 resides on the 8MB chip (at the bottom, closer to you).
 We don't need to touch it for coreboot-upgrades in the future, but to
@@ -169,7 +167,9 @@ Engine for
 
 That's it. Keep the backup safe.
 
-#### background (just so you know)
+
+Background (just so you know):
+
 * The `-m` option above also runs `me_cleaner -S` before flashing back, see [me_cleaner](https://github.com/corna/me_cleaner).
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
 yourself (and others) to hardware-flashing.
@@ -178,13 +178,14 @@ is not necessary (some other flashing how-to guides mention this).
 Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
 Our scripts do this for you.
 
-### BIOS: the 4MB chip
+#### BIOS: the 4MB chip
 
 
 	sudo ./external_install_top.sh -i <release-image-file>.rom -k <backup>
 
 
-That's it. Keep the backup safe.
+That's it. Keep the backup safe, assemble and turn on the X230. coreboot will
+do hardware init and start SeaBIOS.
 
 ## Updating
 Only the "upper" 4MB chip has to be written.
