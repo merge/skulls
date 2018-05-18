@@ -1,5 +1,11 @@
 
-coreboot-x230 0.0.6 - released 2018-05-16
+skulls-x230 0.0.7 - tbd
+-----------------------------------------
+This release includes the following changes:
+* improved installation scripts
+
+
+skulls-x230 0.0.6 - released 2018-05-16
 -----------------------------------------
 This release includes the following changes:
 * based on coreboot commit d8ec973fd2
