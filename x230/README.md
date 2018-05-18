@@ -18,31 +18,31 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 
 ## table of contents
 * [TL;DR](#tldr)
-* [Flashing for the first time](#flashing-for-the-first-time)
-* [How to flash](#how-to-flash)
+* [First-time installation](#firsttime-installation)
+* [Updating](#updating)
+* [Moving to Heads](#moving-to-heads)
 * [Why does this work](#why-does-this-work)
 
 ## TL;DR
-For first-time flashing, remove the keyboard and palmrest, and (using a
-Raspberry Pi with a SPI 8-pin chip clip connected), run
-`external_install_bottom.sh` on the lower chip
-and `external_install_top.sh` on the top chip of the two.
-
-For updating later, run `x230_update.sh`. No need to disassemble.
+1. run `sudo ./x230_before_first_install.sh` on your current X230 Linux system
+2. Power down, remove the battery. Remove the keyboard and palmrest. Connect
+a hardware flasher to an external PC (a Raspberry Pi with a SPI 8-pin chip clip
+can directly be used), and run
+`sudo ./external_install_bottom.sh` on the lower chip
+and `sudo ./external_install_top.sh` on the top chip of the two.
+3. For updating later, run `./x230_update.sh`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
 package. This will be tested. The git master
 branch is _not_ meant to be stable. Use it for testing only.
 
-## Flashing for the first time
-* Before doing anything, run Linux, install `dmidecode` and run `x230_before_first_install.sh`
-It simply prints valuable system information.
-* Make sure you have RAM that uses 1,5V, not 1,35V. Check the specification of
-your RAM module(s).
-* Especially for the first time, you must flash externally. See below for the details
-for using a Rapberry Pi, for example.
+## First-time installation
+### before you begin
+Before starting, run Linux on your X230, install `dmidecode` and run
+`sudo ./x230_before_first_install.sh`. It simply prints system information and helps
+you find out your RAM voltage. Make sure you have RAM that uses 1,5V, not 1,35V.
 
-### before you begin: original update / EC firmware (optional)
+### original BIOS update / EC firmware (optional)
 Before flashing coreboot, consider doing one original Lenovo upgrade process
 in case you're not running the latest version. This is not supported anymore,
 once you're running coreboot (You'd have to manually flash back your backup
@@ -88,104 +88,10 @@ a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices)
 but we currently only support using a Raspberry Pi
 
-
-
-### ifd unlock and me_cleaner: the 8MB chip
-The Intel Management Engine resides on the 8MB chip (at the bottom, closer to
-you). We don't need to touch it
-for coreboot-upgrades in the future, but to enable internal flashing, we need
-to unlock it once.
-We run [ifdtool](https://github.com/coreboot/coreboot/tree/master/util/ifdtool)
-and, while we are at it, [me_cleaner](https://github.com/corna/me_cleaner) on it:
-
-We support using a RPi, see below for the connection details.
-Move the release-tarball to the RPi (USB Stick or however) and unpack it
-(to the current directory and change into it):
-
-
-	mkdir tarball_extracted
-	tar -xf <tarball>.tar.xz -C tarball_extracted
-	cd tarball_extracted
-
-
-And finally unlock the 8M chip by using the included script (be patient). Again,
-this doesn't replace much; it reads the original, unlocks and flashes back:
-
-
-	sudo ./external_install_bottom.sh -m -k <backup.bin>
-
-
-That's it. Keep the backup safe.
-
-
-#### background (just so you know)
-* The `-m` option above also runs `me_cleaner -S` before flashing back.
-* The `-l` option will (re-)lock your flash ROM, in case you want to force
-yourself (and others) to hardware-flashing externally.
-* If you don't use a RPi, change the flashrom programmer to your needs.This
-is roughly what's going on:
-
-
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -r ifdmegbe.rom
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -r ifdmegbe2.rom
-      diff ifdmegbe.rom ifdmegbe2.rom
-      git clone https://github.com/corna/me_cleaner.git && cd me_cleaner
-      ./me_cleaner.py -S -O ifdmegbe_meclean.rom ifdmegbe.rom
-      ifdtool -u ifdmegbe_meclean.rom
-      flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -w ifdmegbe_meclean.rom.new
-
-* We (or our scripts) use [flashrom](https://flashrom.org/) for flashing. If our
-scripts don't detect the chip automatically, connect
-the programmer to the chip and run
-`flashrom -p <your_hardware>` (for [example](#how-to-flash)
-`flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128` for the
-Raspberry Pi) to let flashrom detect the chip. If `-c` is omitted, the scripts
-will run this for you. It will probably list a few you need to choose from when flashing
-(by adding `-c <chipname>`).
-In case you are unsure what to specify, here's some examples we find out there:
-
-  * 4MB chip
-    * `MX25L3206E` seems to mostly be in use
-
-  * 8MB chip
-    * `MX25L6406E/MX25L6408E` is used in [this guide](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#neutering-me)
-    * `MX25L3206E/MX25L3208E` is seen working with various X230 models.
-    * `EN25QH64` is used sometimes
-
-### BIOS: the 4MB chip
-(internally, memory of the two chips is mapped together, the 8MB being the lower
-part, but we can essientially ignore that). Again, using a RPi is supported
-here. We assume you have the unpacked release tarball ready, see above. Use
-the following included script:
-
-
-	sudo ./external_install_top.sh -i x230_coreboot_seabios_<hash>_top.rom -k <backup>
-
-
-That's it. Keep the backup safe.
-
-## How to flash
-When __upgrading__ to a new release, only the "upper" 4MB chip has to be written
-and any of the following examples are possible. Otherwise you cannot use
-"internal" flashing and please read
-[flashing for the first time](#flashing-for-the-first-time).
-
-### Example: internal
-* Only for _updating_! You have to have your 8MB chip flashed externally using
-our `external_install_bottom.sh` script (`ifdtool -u`) before this, once
-* very convenient: just install flashrom on your X230 but according to the
-[flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
-this is very dangerous!
-* Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
-* download the latest release tarball (4MB "top" BIOS image is included) and extract it
-* run `x230_update.sh` for generating all necessary files and instructions
-
-
-### Example: Raspberry Pi 3
-Here you'll flash externally, using a test clip or hooks, see [required hardware](#preparation-required-hardware).
-Remove the 7 screws to remove the keyboard (by pushing it towards the
+### open up the X230
+Remove the 7 screws of your X230 to remove the keyboard (by pushing it towards the
 screen before lifting) and the palmrest. You'll find the chips using the photo
-below. This is how the SPI connection looks on both chips:
+below. This is how the SPI connection looks on both of the X230's chips:
 
 
 		Screen (furthest from you)
@@ -198,8 +104,14 @@ below. This is how the SPI connection looks on both chips:
 		   Edge (closest to you)
 
 
-We run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
-and have the following setup
+... choose one of the following supported flashing hardware examples:
+
+### Hardware Example: Raspberry Pi 3
+A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
+Use a test clip or hooks, see [required hardware](#preparation-required-hardware).
+
+On the RPi we run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
+and have the following setup:
 * [Serial connection](https://elinux.org/RPi_Serial_Connection) using a
 "USB to Serial" UART Adapter and picocom or minicom (yes, in this case you
 need a second PC connected to the RPi over UART)
@@ -226,49 +138,73 @@ or ethernet to `sudo apt-get install flashrom`
 		   Body of Pi (closest to you)
 
 
-Now copy our release tarball over to the Rasperry Pi.
-One way to copy, is convertig it to ascii using
-`uuencode` (part of Debian's sharutils package) described below. This is a
-direct, shady and slow way to transfer a file. Use a USB
-Stick or scp instead. :) (but you need even more hardware or a network).
-
-
-		(convert)
-	host$ uuencode <tarball> <tarball>.ascii > <tarball>.ascii
-		(transfer)
-	rpi$ cat > <tarball>.ascii
-	host$ pv <tarball>.ascii > /dev/ttyUSBX
-		(wait)
-	rpi$ (CTRL-D)
-		(convert back)
-	rpi$ uudecode -o <tarball> <tarball>.ascii
-		(verify)
-	host$ sha1sum <tarball>
-	rpi$ sha1sum <tarball>
-
-Unpack it:
-
-
-	mkdir tarball_extracted
-	tar -xf <tarball> -C tarball_extracted
-	cd tarball_extracted
-
-
 ![Raspberry Pi at work](rpi_clip.jpg)
 
-Connect the SPI clip to the "top" chip, and run:
+Now copy the Skulls release tarball over to the Rasperry Pi and continue on the Pi.
+
+### Hardware Example: CH341A based
+CH341A, a USB interface chip, is used by some cheap memory programmers.
+
+TODO
+
+### unpack the Skulls release archive
 
 
-	sudo ./external_install_top.sh -f rpi -i x230_coreboot_seabios_<hash>_top.rom
+	mkdir skulls
+	tar -xf skulls-x230-<version>.tar.xz -C skulls
+	cd skulls
 
 
-That's it.
+### ifd unlock and me_cleaner: the 8MB chip
+The Intel Management Engine resides on the 8MB chip (at the bottom, closer to
+you). We don't need to touch it for coreboot-upgrades in the future, but to
+enable internal flashing, we need to unlock it once:
+
+
+	sudo ./external_install_bottom.sh -m -k <backup.bin>
+
+
+That's it. Keep the backup safe.
 
 #### background (just so you know)
+* The `-m` option above also runs `me_cleaner -S` before flashing back.
+* The `-l` option will (re-)lock your flash ROM, in case you want to force
+yourself (and others) to hardware-flashing externally.
 * Connecting an ethernet cable as a power-source for SPI (instead of the VCC pin)
-  is not necessary (some other flashing how-to guides mention this).
-  Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
-  Our scripts do this for you.
+is not necessary (some other flashing how-to guides mention this).
+Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
+Our scripts do this for you.
+
+### BIOS: the 4MB chip
+
+
+	sudo ./external_install_top.sh -i <release-image-file>.rom -k <backup>
+
+
+That's it. Keep the backup safe.
+
+## Updating
+Only the "upper" 4MB chip has to be written.
+You can again flash externally, using `external_install_top.sh` just like the
+first time, see above.
+
+Instead you can run the update directly on your X230
+using Linux. That's of course very convenient - just install flashrom from your
+Linux distribution - but according to the
+[flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
+this is very dangerous:
+
+1. Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
+2. download the latest Skulls release tarball (4MB "top" BIOS image is included) and extract it
+3. run `sudo ./x230_update.sh` for generating all necessary files and instructions
+
+## Moving to Heads
+[Heads](http://osresearch.net/) is an alternative BIOS system with advanced
+security features. When having Skulls installed, installing Heads should be
+as easy as updating Skulls.
+
+TODO
+
 
 ## Why does this work?
 On the X230, there are 2 physical "BIOS" chips. The "upper" 4MB
