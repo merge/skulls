@@ -9,9 +9,13 @@ set -e
 
 usage()
 {
-	echo "Usage: $0"
+	echo "Skulls for the X230"
+	echo "  Run this script on the X230 directly."
+	echo "  It checks BIOS and hardware for relevant"
+	echo "  things if you plan to install Skulls"
+	echo "  please make sure dmidecode is installed"
 	echo ""
-	echo "please make sure dmidecode is installed"
+	echo "Usage: $0"
 }
 
 args=$(getopt -o h -- "$@")

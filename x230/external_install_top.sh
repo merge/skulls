@@ -10,17 +10,26 @@ set -e
 have_input_image=0
 have_chipname=0
 have_backupname=0
+have_flasher=0
 
 usage()
 {
+	echo "Skulls for the X230"
+	echo "  Run this script on an external computer with a flasher"
+	echo "  connected to the X230's top chip (closer to the display"
+	echo "  and farther from you)"
+	echo ""
 	echo "Usage: $0 -i <image.rom> [-c <chipname>] [-k <backup_filename>]"
+	echo ""
+	echo " -f <hardware_flasher>"
+	echo "       supported flashers: rpi"
 	echo ""
 	echo " -i  <path to image to flash>"
 	echo " -c  <chipname> to use for flashrom"
 	echo " -k  <path to backup to save>"
 }
 
-args=$(getopt -o i:c:k:h -- "$@")
+args=$(getopt -o f:i:c:k:h -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -30,6 +39,11 @@ eval set -- "$args"
 while [ $# -gt 0 ]
 do
 	case "$1" in
+	-f)
+		FLASHER=$2
+		have_flasher=1
+		shift
+		;;
 	-i)
 		INPUT_IMAGE_PATH=$2
 		have_input_image=1
@@ -62,8 +76,41 @@ do
 done
 
 if [ ! "$have_input_image" -gt 0 ] ; then
-	echo "no input image provided"
+	echo "Image file to flash is needed. Please add -i <file>"
+	echo ""
 	usage
+	exit 1
+fi
+
+if [ ! "$have_flasher" -gt 0 ] ; then
+	echo "Please select the hardware you use:"
+	PS3='Please select the hardware flasher: '
+	options=("Raspberry Pi" "CH341A" "Quit")
+	select opt in "${options[@]}"
+	do
+		case $opt in
+			"Raspberry Pi")
+				FLASHER="rpi"
+				break
+				;;
+			"CH341A")
+				FLASHER="ch341a"
+				break
+				;;
+			"Quit")
+				exit 0
+				;;
+			*) echo invalid option;;
+		esac
+	done
+fi
+
+if [ "${FLASHER}" = "rpi" ] ; then
+	echo "Ok. Run this on a Rasperry Pi."
+elif [ "${FLASHER}" = "ch341a" ] ; then
+	echo "The CH341A is not yet supported"
+	exit 0
+else
 	exit 1
 fi
 

@@ -13,18 +13,27 @@ have_chipname=0
 have_backupname=0
 me_clean=0
 lock=0
+have_flasher=0
 
 usage()
 {
+	echo "Skulls for the X230"
+	echo "  Run this script on an external computer with a flasher"
+	echo "  connected to the X230's bottom chip (farther away from"
+	echo "  the display, closer to you)."
+	echo ""
 	echo "Usage: $0 [-c <chipname>] [-a] [-m] [-k <backup_filename>] [-l]"
 	echo ""
-	echo "-c <chipname>   flashrom chip description to use"
-	echo "-m              apply me_cleaner -S"
-	echo "-l              lock the flash instead of unlocking it"
-	echo "-k <file>       save the read image as <file>"
+	echo " -f <hardware_flasher>"
+	echo "                 supported flashers: rpi"
+	echo ""
+	echo " -c <chipname>   flashrom chip description to use"
+	echo " -m              apply me_cleaner -S"
+	echo " -l              lock the flash instead of unlocking it"
+	echo " -k <file>       save the read image as <file>"
 }
 
-args=$(getopt -o mlc:k:h -- "$@")
+args=$(getopt -o f:mlc:k:h -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -34,6 +43,11 @@ eval set -- "$args"
 while [ $# -gt 0 ]
 do
 	case "$1" in
+	-f)
+		FLASHER=$2
+		have_flasher=1
+		shift
+		;;
 	-m)
 		me_clean=1
 		;;
@@ -60,11 +74,46 @@ do
 		;;
 	*)
 		echo "Invalid option: $1"
+		usage
 		exit 1
 		;;
 	esac
 	shift
 done
+
+if [ ! "$have_flasher" -gt 0 ] ; then
+	echo "Skulls for the X230"
+	echo ""
+	echo "Please select the hardware you use:"
+	PS3='Please select the hardware flasher: '
+	options=("Raspberry Pi" "CH341A" "Exit")
+	select opt in "${options[@]}"
+	do
+		case $opt in
+			"Raspberry Pi")
+				FLASHER="rpi"
+				break
+				;;
+			"CH341A")
+				FLASHER="ch341a"
+				break
+				;;
+			"Exit")
+				exit 0
+				;;
+			*) echo invalid option;;
+		esac
+	done
+fi
+
+if [ "${FLASHER}" = "rpi" ] ; then
+	echo "Ok. Run this on a Rasperry Pi."
+elif [ "${FLASHER}" = "ch341a" ] ; then
+	echo "The CH341A is not yet supported"
+	exit 0
+else
+	exit 1
+fi
 
 TEMP_DIR=`mktemp -d`
 if [ ! "$have_chipname" -gt 0 ] ; then
@@ -73,6 +122,8 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 	flashrom_error=""
 	flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error || true)
 	if [ ! -z "${flashrom_error}" ] ; then
+		usage
+		echo "-------------- flashrom error: ---------------"
 		cat ${TEMP_DIR}/chips
 		rm -rf ${TEMP_DIR}
 		exit 1

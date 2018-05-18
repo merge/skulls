@@ -10,6 +10,11 @@ have_input_image=0
 
 usage()
 {
+	echo "Skulls for the X230"
+	echo "  Run this script on the X230 directly."
+	echo "  It updates Skulls to the image you want."
+	echo "  Make sure you booted Linux with iomem=relaxed"
+	echo ""
 	echo "Usage: $0 -i <4mb_top_image>.rom"
 }
 

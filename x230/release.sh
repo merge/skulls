@@ -104,10 +104,10 @@ tar -cJf skulls-x230-${version}.tar.xz \
 	NEWS \
 	util \
 	LICENSE* \
-	prepare_internal_flashing.sh \
-	prepare_before_intallation.sh \
-	flashrom_rpi_bottom_unlock.sh \
-	flashrom_rpi_top_write.sh \
+	x230_update.sh \
+	x230_before_first_install.sh \
+	external_install_bottom.sh \
+	external_install_top.sh \
 	sources \
 	${RELEASE_IMAGE_FILE}
 

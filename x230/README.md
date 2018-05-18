@@ -25,17 +25,17 @@ That's the preferred way to use coreboot. The git revision we use is always incl
 ## TL;DR
 For first-time flashing, remove the keyboard and palmrest, and (using a
 Raspberry Pi with a SPI 8-pin chip clip connected), run
-`flashrom_rpi_bottom_unlock.sh` on the lower chip
-and `flashrom_rpi_top_write.sh` on the top chip of the two.
+`external_install_bottom.sh` on the lower chip
+and `external_install_top.sh` on the top chip of the two.
 
-For updating later, run `prepare_internal_flashing.sh`. No need to disassemble.
+For updating later, run `x230_update.sh`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
 package. This will be tested. The git master
 branch is _not_ meant to be stable. Use it for testing only.
 
 ## Flashing for the first time
-* Before doing anything, run Linux, install `dmidecode` and run `prepare_before_installation.sh`
+* Before doing anything, run Linux, install `dmidecode` and run `x230_before_first_install.sh`
 It simply prints valuable system information.
 * Make sure you have RAM that uses 1,5V, not 1,35V. Check the specification of
 your RAM module(s).
@@ -112,7 +112,7 @@ And finally unlock the 8M chip by using the included script (be patient). Again,
 this doesn't replace much; it reads the original, unlocks and flashes back:
 
 
-	sudo ./flashrom_rpi_bottom_unlock.sh -m -k <backup.bin>
+	sudo ./external_install_bottom.sh -m -k <backup.bin>
 
 
 That's it. Keep the backup safe.
@@ -159,7 +159,7 @@ here. We assume you have the unpacked release tarball ready, see above. Use
 the following included script:
 
 
-	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom -k <backup>
+	sudo ./external_install_top.sh -i x230_coreboot_seabios_<hash>_top.rom -k <backup>
 
 
 That's it. Keep the backup safe.
@@ -172,13 +172,13 @@ and any of the following examples are possible. Otherwise you cannot use
 
 ### Example: internal
 * Only for _updating_! You have to have your 8MB chip flashed externally using
-our `flashrom_rpi_bottom_unlock.sh` script (`ifdtool -u`) before this, once
+our `external_install_bottom.sh` script (`ifdtool -u`) before this, once
 * very convenient: just install flashrom on your X230 but according to the
 [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
 this is very dangerous!
 * Boot Linux with the `iomem=relaxed` boot parameter (for example set in /etc/default/grub)
 * download the latest release tarball (4MB "top" BIOS image is included) and extract it
-* run `prepare_internal_flashing.sh` for generating all necessary files and instructions
+* run `x230_update.sh` for generating all necessary files and instructions
 
 
 ### Example: Raspberry Pi 3
@@ -259,7 +259,7 @@ Unpack it:
 Connect the SPI clip to the "top" chip, and run:
 
 
-	sudo ./flashrom_rpi_top_write.sh -i x230_coreboot_seabios_<hash>_top.rom
+	sudo ./external_install_top.sh -f rpi -i x230_coreboot_seabios_<hash>_top.rom
 
 
 That's it.
