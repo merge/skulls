@@ -48,18 +48,21 @@ if [ -z "$LAPTOP" ] ; then
 	exit 0
 fi
 
-BIOS_VENDOR=$(dmidecode -t bios | grep Vendor)
-if [[ $BIOS_VENDOR = *"oreboot"* ]] ; then
-	echo "coreboot already intalled. This script is only useful when an original BIOS is installed."
+BIOS_VENDOR=$(dmidecode -t bios | grep Vendor | cut -d':' -f2)
+if [[ $BIOS_VENDOR = *"coreboot"* ]] ; then
+	echo "coreboot already intalled. This script is useless then."
 	exit 0
 fi
 
-dmidecode -s bios-version
-BIOS_VERSION=$(dmidecode -s bios-version | grep -o '[0-9][0-9]')
-if [ "${BIOS_VERSION}" = "72" ] ; then
-	echo "latest original BIOS version installed. Nothing to do."
-elif [ "${BIOS_VERSION}" -gt "60" ] ; then
-	echo "original BIOS is not the latest version, but the EC version is."
+BIOS_VERSION=$(dmidecode -s bios-version | grep -o '[1-2].[0-7][0-9]')
+bios_major=$(echo $BIOS_VERSION | cut -d. -f1)
+bios_minor=$(echo $BIOS_VERSION | cut -d. -f2)
+
+if [ "${bios_minor}" -eq "72" ] ; then
+	echo "latest BIOS version installed. Nothing to do."
+elif [ "${bios_minor}" -ge "60" ] ; then
+	echo "installed BIOS version is ${bios_major}.${bios_minor}."
+	echo "That's not the latest version, but the EC version is."
 	echo "You may upgrade before installing coreboot if you want."
 else
 	echo -e "The installed original BIOS is very old. ${RED}please upgrade${NC} before installing coreboot."
@@ -67,3 +70,14 @@ fi
 
 echo "Please search for your SODIMM RAM and verify that it uses 1,5 Volts (not 1,35V):"
 dmidecode -t memory | grep Part | grep -v "Not Specified" | sort -u | cut -d':' -f2 | sed 's/ //'
+RAM_SPEC=$(dmidecode -t memory | grep Part | grep -v "Not Specified" | sort -u | cut -d':' -f2 | sed 's/ //')
+
+read -r -p "Open a browser and search for it? [y/N] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+		xdg-open "https://duckduckgo.com/?q=${RAM_SPEC}!"
+		;;
+	*)
+		exit 0
+	;;
+esac
