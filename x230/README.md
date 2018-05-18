@@ -156,9 +156,12 @@ TODO
 
 
 ### ifd unlock and me_cleaner: the 8MB chip
-The Intel Management Engine resides on the 8MB chip (at the bottom, closer to
-you). We don't need to touch it for coreboot-upgrades in the future, but to
-enable internal flashing, we need to unlock it once:
+The [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
+resides on the 8MB chip (at the bottom, closer to you).
+We don't need to touch it for coreboot-upgrades in the future, but to
+enable internal flashing, we need to unlock it once, and remove the Management
+Engine for
+[security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities):
 
 
 	sudo ./external_install_bottom.sh -m -k <backup.bin>
@@ -167,9 +170,9 @@ enable internal flashing, we need to unlock it once:
 That's it. Keep the backup safe.
 
 #### background (just so you know)
-* The `-m` option above also runs `me_cleaner -S` before flashing back.
+* The `-m` option above also runs `me_cleaner -S` before flashing back, see [me_cleaner](https://github.com/corna/me_cleaner).
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
-yourself (and others) to hardware-flashing externally.
+yourself (and others) to hardware-flashing.
 * Connecting an ethernet cable as a power-source for SPI (instead of the VCC pin)
 is not necessary (some other flashing how-to guides mention this).
 Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
