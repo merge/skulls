@@ -49,12 +49,33 @@ do
 	shift
 done
 
-
 if [ ! "$have_input_image" -gt 0 ] ; then
-	echo "no input image provided"
-	usage
-	exit 1
+	image_available=$(ls -1 | grep x230_coreboot_seabios | grep rom)
+	if [ -z "${image_available}" ] ; then
+		echo "No image file found. Please add -i <file>"
+		echo ""
+		usage
+		exit 1
+	fi
+
+	prompt="file not specified. Please select a file to flash:"
+	options=( $(find -maxdepth 1 -name x230_coreboot_seabios*rom -print0 | xargs -0) )
+
+	PS3="$prompt "
+	select INPUT_IMAGE_PATH in "${options[@]}" "Quit" ; do
+		if (( REPLY == 1 + ${#options[@]} )) ; then
+			exit
+
+		elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+			echo  "You picked $INPUT_IMAGE_PATH which is file $REPLY"
+			break
+
+		else
+			echo "Invalid option. Try another one."
+		fi
+	done
 fi
+
 
 OUTPUT_PATH=output
 INPUT_IMAGE_NAME=$(basename ${INPUT_IMAGE_PATH})
