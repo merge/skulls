@@ -44,7 +44,7 @@ do
 	shift
 done
 
-hash dmidecode
+hash dmidecode || echo -e "Please install dmidecode and run as root"
 
 LAPTOP=$(dmidecode | grep -i x230 | sort -u)
 if [ -z "$LAPTOP" ] ; then

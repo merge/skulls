@@ -134,6 +134,8 @@ else
 	exit 1
 fi
 
+hash flashrom || echo -e "${RED}Please install flashrom and run as root${NC}"
+
 TEMP_DIR=`mktemp -d`
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
