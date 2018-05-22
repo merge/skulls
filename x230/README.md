@@ -19,7 +19,7 @@
 ## TL;DR
 1. run `sudo ./x230_before_first_install.sh` on your current X230 Linux system
 2. Power down, remove the battery. Remove the keyboard and palmrest. Connect
-a hardware flasher to an external PC (a Raspberry Pi with a SPI 8-pin chip clip
+a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip clip
 can directly be used), and run
 `sudo ./external_install_bottom.sh` on the lower chip
 and `sudo ./external_install_top.sh` on the top chip of the two.
@@ -70,11 +70,15 @@ you have "legacy" boot set, not "UEFI" boot.
 #### preparation: required hardware
 * An 8 Pin SOIC Clip, for example from
 [Pomona electronics](https://www.pomonaelectronics.com/products/test-clips/soic-clip-8-pin)
-or alternatively hooks, for example from
+(for availability, check
+[aliexpress](https://de.aliexpress.com/item/POMONA-SOIC-CLIP-5250-8pin-eeprom-for-tacho-8pin-cable-for-pomana-soic-8pin/32814247676.html) or
+[elsewhere](https://geizhals.eu/?fs=pomona+test+clip+5250))
+or alternatively hooks like
 [E-Z-Hook](http://catalog.e-z-hook.com/viewitems/test-hooks/e-z-micro-hooks-single-hook-style)
 * 6 [female](https://electronics.stackexchange.com/questions/37783/how-can-i-create-a-female-jumper-wire-connector)
-[jumper wires](https://en.wikipedia.org/wiki/Jump_wire) to connect the clip to
-a hardware flasher
+[jumper wires](https://en.wikipedia.org/wiki/Jump_wire) like
+[these](https://geizhals.eu/jumper-cable-female-female-20cm-a1471094.html)
+to connect the clip to a hardware flasher (if not included with the clip)
 * a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices), see below for the examples we support
 
@@ -102,9 +106,13 @@ Use a test clip or hooks, see [required hardware](#preparation-required-hardware
 
 On the RPi we run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 and have the following setup:
-* [Serial connection](https://elinux.org/RPi_Serial_Connection) using a
-"USB to Serial" UART Adapter and picocom or minicom (yes, in this case you
-need a second PC connected to the RPi over UART)
+* Connect to the console: Either
+  * connect a screen and a keyboard, or
+  * Use the [Serial connection](https://elinux.org/RPi_Serial_Connection) using a
+USB-to-serial cable (like [Adafruit 954](http://www.adafruit.com/products/954),
+[FTDI TTL-232R-RPI](http://www.ftdichip.com/Products/Cables/RPi.htm) or
+[others](https://geizhals.eu/usb-to-ttl-serial-adapter-cable-a1461312.html)) and
+picocom (`picocom -b 115200 /dev/ttyUSB0`) or minicom
 * in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
 * [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835`
 and `spidev` in /etc/modules
@@ -136,8 +144,9 @@ Now copy the Skulls release tarball over to the Rasperry Pi and
 #### Hardware Example: CH341A based
 The CH341A from [Winchiphead](http://www.wch.cn/), a USB interface chip,
 is used by some cheap memory programmers.
-The one we describe can be bought
-[here](http://www.aliexpress.com/item/Free-Shipping-CH341A-24-25-Series-EEPROM-Flash-BIOS-DVD-USB-Programmer-DVD-programmer-router-Nine/32583059603.html).
+The one we describe can be bought at
+[aliexpress](http://www.aliexpress.com/item/Free-Shipping-CH341A-24-25-Series-EEPROM-Flash-BIOS-DVD-USB-Programmer-DVD-programmer-router-Nine/32583059603.html),
+but it's available [elsewhere](https://geizhals.eu/?fs=ch341a) too.
 
 * Connect the programmer to your PC's USB port
 * Connect your clip or hooks to the programmer's SPI pins
