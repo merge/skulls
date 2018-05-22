@@ -84,7 +84,7 @@ or alternatively hooks, for example from
 a hardware flasher
 * a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices)
-but we currently only support using a Raspberry Pi
+but we currently only support using a [Raspberry Pi](https://www.raspberrypi.org/products/)
 
 #### open up the X230
 Remove the 7 screws of your X230 to remove the keyboard (by pushing it towards the
