@@ -137,16 +137,19 @@ or ethernet to `sudo apt-get install flashrom`
 
 ![Raspberry Pi at work](rpi_clip.jpg)
 
-Now copy the Skulls release tarball over to the Rasperry Pi and continue on the Pi.
+Now copy the Skulls release tarball over to the Rasperry Pi and
+[continue](#unpack-the-skulls-release-archive) on the Pi.
 
 #### Hardware Example: CH341A based
 The CH341A from [Winchiphead](http://www.wch.cn/), a USB interface chip,
 is used by some cheap memory programmers.
 The one we describe can be bought
-[here](http://www.aliexpress.com/item/Free-Shipping-CH341A-24-25-Series-EEPROM-Flash-BIOS-DVD-USB-Programmer-DVD-programmer-router-Nine/32583059603.html)
+[here](http://www.aliexpress.com/item/Free-Shipping-CH341A-24-25-Series-EEPROM-Flash-BIOS-DVD-USB-Programmer-DVD-programmer-router-Nine/32583059603.html).
 
 * Connect the programmer to your PC's USB port
 * Connect your clip or hooks to the programmer's SPI pins
+
+	TODO description and foto
 
 #### unpack the Skulls release archive
 
