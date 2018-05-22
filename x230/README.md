@@ -2,19 +2,12 @@
 
 ![seabios_bootmenu](front.jpg)
 
-## Latest release (config overview and version info)
+## Latest release
 * Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
+* __coreboot__: We take coreboot's master branch at the time we build a release image.
+* __microcode update__: revision `1f` from 2018-02-07 see package [20180312](https://downloadcenter.intel.com/download/27591) under [Intel's license](LICENSE.microcode)
+* __SeaBIOS__: version [1.11.1](https://seabios.org/Releases) from 2018-03-19
 * The only proprietary binary, the VGA BIOS is executed in "secure" mode ([PCI_OPTION_ROM_RUN_YABEL](https://www.coreboot.org/Coreboot_Options))
-
-### coreboot
-* We simply take coreboot's current state in it's master branch at the time we build a release image.
-That's the preferred way to use coreboot. The git revision we use is always included in the release.
-
-### Intel microcode
-* revision `1f` from 2018-02-07 see package [20180312](https://downloadcenter.intel.com/download/27591) under [Intel's license](LICENSE.microcode)
-
-### SeaBIOS
-* version [1.11.1](https://seabios.org/Releases) from 2018-03-19
 
 ## table of contents
 * [TL;DR](#tldr)
