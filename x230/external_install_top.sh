@@ -75,6 +75,8 @@ do
 	shift
 done
 
+command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flashrom and run as root${NC}."; exit 1; }
+
 if [ ! "$have_input_image" -gt 0 ] ; then
 	image_available=$(ls -1 | grep x230_coreboot_seabios | grep rom)
 	if [ -z "${image_available}" ] ; then
@@ -137,8 +139,6 @@ else
 	usage
 	exit 1
 fi
-
-hash flashrom || echo -e "${RED}Please install flashrom and run as root${NC}"
 
 TEMP_DIR=`mktemp -d`
 if [ ! "$have_chipname" -gt 0 ] ; then
