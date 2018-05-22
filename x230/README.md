@@ -63,11 +63,11 @@ upgrade image, change it and create a bootable _USB_ image, with an EC update
 that allows us to use any 3rd party aftermarket battery:
 
 
-	sudo apt-get install build-essential git mtools libssl-dev
-	git clone https://github.com/hamishcoleman/thinkpad-ec && cd thinkpad-ec
-	make patch_disable_keyboard clean
-	make patch_enable_battery clean
-	make patched.x230.img
+		sudo apt-get install build-essential git mtools libssl-dev
+		git clone https://github.com/hamishcoleman/thinkpad-ec && cd thinkpad-ec
+		make patch_disable_keyboard clean
+		make patch_enable_battery clean
+		make patched.x230.img
 
 
 That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=/dev/sdx`
