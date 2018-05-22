@@ -87,7 +87,7 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 	fi
 
 	prompt="file not specified. Please select a file to flash:"
-	options=( $(find -maxdepth 1 -name x230_coreboot_seabios*rom -print0 | xargs -0) )
+	options=( $(find -maxdepth 1 -name "x230_coreboot_seabios*rom" -print0 | xargs -0) )
 
 	PS3="$prompt "
 	select INPUT_IMAGE_PATH in "${options[@]}" "Quit" ; do
