@@ -22,7 +22,7 @@ usage()
 	echo "Usage: $0 -i <image.rom> [-c <chipname>] [-k <backup_filename>]"
 	echo ""
 	echo " -f <hardware_flasher>"
-	echo "       supported flashers: rpi"
+	echo "       supported flashers: rpi, ch341a"
 	echo ""
 	echo " -i  <path to image to flash>"
 	echo " -c  <chipname> to use for flashrom"
@@ -125,12 +125,16 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 	done
 fi
 
+programmer=""
 if [ "${FLASHER}" = "rpi" ] ; then
 	echo "Ok. Run this on a Rasperry Pi."
+	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=128"
 elif [ "${FLASHER}" = "ch341a" ] ; then
-	echo "The CH341A is not yet supported"
-	exit 0
+	echo "Ok. Connect a CH341A programmer"
+	programmer="ch341a_spi"
 else
+	echo "invalid flashrom programmer"
+	usage
 	exit 1
 fi
 
@@ -139,7 +143,7 @@ hash flashrom || echo -e "${RED}Please install flashrom and run as root${NC}"
 TEMP_DIR=`mktemp -d`
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
-	flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 &> ${TEMP_DIR}/chips || true
+	flashrom -p ${programmer} &> ${TEMP_DIR}/chips || true
 	flashrom_error=""
 	flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error || true)
 	if [ ! -z "${flashrom_error}" ] ; then
@@ -156,7 +160,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 	fi
 	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
-		flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128
+		flashrom -p ${programmer}
 		rm -rf ${TEMP_DIR}
 		echo "Please find it manually in the list above and rerun with the -c parameter."
 		exit 1
@@ -178,8 +182,8 @@ if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
 	echo "Could not create temp dir"
 	exit 1
 fi
-flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
-flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
+flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
+flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
 	cp ${TEMP_DIR}/test1.rom ${BACKUPNAME}
@@ -193,5 +197,5 @@ fi
 rm -rf ${TEMP_DIR}
 
 echo -e "${GREEN}connection ok${NC}. flashing ${INPUT_IMAGE_NAME}"
-flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 -c ${CHIPNAME} -w ${INPUT_IMAGE_PATH}
+flashrom -p ${programmer} -c ${CHIPNAME} -w ${INPUT_IMAGE_PATH}
 echo -e "${GREEN}DONE${NC}"

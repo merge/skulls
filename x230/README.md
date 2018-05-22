@@ -83,8 +83,7 @@ or alternatively hooks, for example from
 [jumper wires](https://en.wikipedia.org/wiki/Jump_wire) to connect the clip to
 a hardware flasher
 * a hardware flasher
-[supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices)
-but we currently only support using a [Raspberry Pi](https://www.raspberrypi.org/products/)
+[supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices), see below for the examples we support
 
 #### open up the X230
 Remove the 7 screws of your X230 to remove the keyboard (by pushing it towards the
@@ -102,7 +101,7 @@ below. This is how the SPI connection looks on both of the X230's chips:
 		   Edge (closest to you)
 
 
-... choose one of the following supported flashing hardware examples:
+... choose __one of the following__ supported flashing hardware examples:
 
 #### Hardware Example: Raspberry Pi 3
 A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
@@ -141,9 +140,13 @@ or ethernet to `sudo apt-get install flashrom`
 Now copy the Skulls release tarball over to the Rasperry Pi and continue on the Pi.
 
 #### Hardware Example: CH341A based
-CH341A, a USB interface chip, is used by some cheap memory programmers.
+The CH341A from [Winchiphead](http://www.wch.cn/), a USB interface chip,
+is used by some cheap memory programmers.
+The one we describe can be bought
+[here](http://www.aliexpress.com/item/Free-Shipping-CH341A-24-25-Series-EEPROM-Flash-BIOS-DVD-USB-Programmer-DVD-programmer-router-Nine/32583059603.html)
 
-TODO
+* Connect the programmer to your PC's USB port
+* Connect your clip or hooks to the programmer's SPI pins
 
 #### unpack the Skulls release archive
 
