@@ -92,14 +92,16 @@ if [ ! "$input_filesize" -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
-rm -rf output
-mkdir output
+rm -rf ${OUTPUT_PATH}
+mkdir ${OUTPUT_PATH}
 
 dd if=/dev/zero of=${OUTPUT_IMAGE_PATH} bs=4M count=2
 dd if=${INPUT_IMAGE_PATH} oflag=append conv=notrunc of=${OUTPUT_IMAGE_PATH} bs=4M
 
-echo "0x00000000:0x007fffff ifdmegbe" > ${OUTPUT_PATH}/x230-layout.txt
-echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/x230-layout.txt
+LAYOUT_FILENAME="x230-layout.txt"
+
+echo "0x00000000:0x007fffff ifdmegbe" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 
 echo "---------------------------------------------------------"
 echo -e "${RED}CAUTION: internal flashing is NOT encouraged${NC}"
@@ -108,11 +110,11 @@ echo "prepared files for internal flashing in output directory."
 echo "template flashrom command (please adapt the chip name) :"
 echo ""
 echo -e "${GREEN}cd output${NC}"
-echo -e "${GREEN}flashrom -p internal --layout x230-layout.txt --image bios -w ${OUTPUT_IMAGE_NAME}${NC}"
+echo -e "${GREEN}flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w ${OUTPUT_IMAGE_NAME}${NC}"
 while true; do
 	read -p "Do you wish to run this now? y/N: " yn
 	case $yn in
-		[Yy]* ) cd output && flashrom -p internal --layout x230-layout.txt --image bios -w ${OUTPUT_IMAGE_NAME}; break;;
+		[Yy]* ) cd output && flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w ${OUTPUT_IMAGE_NAME}; break;;
 		[Nn]* ) exit;;
 		* ) exit;;
 	esac
