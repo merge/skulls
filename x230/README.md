@@ -206,7 +206,7 @@ Linux distribution - but according to the
 [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
 this is very dangerous:
 
-1. Boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
+1. boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
 2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
 3. run `sudo ./x230_skulls.sh` for generating all necessary files and instructions
 
@@ -217,6 +217,7 @@ installed, installing Heads is as easy as updating Skulls. You can directly
 start using it:
 
 * [build Heads](https://github.com/osresearch/heads)
+* boot Linux with the `iomem=relaxed` boot parameter
 * copy Heads' 12M image file `build/x230/coreboot.rom` to Skulls' x230 diretory
 * run `sudo ./x230_heads.sh`
 
