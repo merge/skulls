@@ -106,9 +106,7 @@ echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "---------------------------------------------------------"
 echo -e "${RED}CAUTION: internal flashing is NOT encouraged${NC}"
 echo ""
-echo "prepared files for internal flashing in output directory."
-echo "template flashrom command (please adapt the chip name) :"
-echo ""
+echo "prepared files in output directory. To flash them:"
 echo -e "${GREEN}cd output${NC}"
 echo -e "${GREEN}flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w ${OUTPUT_IMAGE_NAME}${NC}"
 while true; do
