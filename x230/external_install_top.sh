@@ -78,7 +78,7 @@ done
 command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flashrom and run as root${NC}."; exit 1; }
 
 if [ ! "$have_input_image" -gt 0 ] ; then
-	image_available=$(ls -1 | grep x230_coreboot_seabios | grep rom)
+	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
 	if [ -z "${image_available}" ] ; then
 		echo "No image file found. Please add -i <file>"
 		echo ""

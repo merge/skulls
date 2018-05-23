@@ -50,7 +50,7 @@ do
 done
 
 if [ ! "$have_input_image" -gt 0 ] ; then
-	image_available=$(ls -1 | grep x230_coreboot_seabios | grep rom)
+	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
 	if [ -z "${image_available}" ] ; then
 		echo "No image file found. Please add -i <file>"
 		echo ""
