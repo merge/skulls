@@ -104,8 +104,9 @@ tar -cJf skulls-x230-${version}.tar.xz \
 	NEWS \
 	util \
 	LICENSE* \
-	x230_skulls.sh \
 	x230_before_first_install.sh \
+	x230_skulls.sh \
+	x230_heads.sh \
 	external_install_bottom.sh \
 	external_install_top.sh \
 	sources \
