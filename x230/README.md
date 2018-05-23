@@ -23,7 +23,7 @@ a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip cl
 can directly be used), and run
 `sudo ./external_install_bottom.sh` on the lower chip
 and `sudo ./external_install_top.sh` on the top chip of the two.
-3. For updating later, run `./x230_update.sh`. No need to disassemble.
+3. For updating later, run `./x230_skulls.sh`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
 package. This will be tested. The git master
@@ -208,7 +208,7 @@ this is very dangerous:
 
 1. Boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
 2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
-3. run `sudo ./x230_update.sh` for generating all necessary files and instructions
+3. run `sudo ./x230_skulls.sh` for generating all necessary files and instructions
 
 ## Moving to Heads
 [Heads](http://osresearch.net/) is an alternative BIOS system with advanced
