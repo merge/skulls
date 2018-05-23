@@ -12,7 +12,10 @@ usage()
 {
 	echo "Skulls for the X230"
 	echo "  Run this script on the X230 directly."
-	echo "  It installs Heads, see http://osresearch.net"
+	echo ""
+	echo "  This installs Heads, see http://osresearch.net"
+	echo "  Heads is a different project. No image is included."
+	echo "  Read https://github.com/osresearch/heads for how to build it"
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
 	echo "Usage: $0 -i <heads_image>.rom"
