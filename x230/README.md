@@ -212,15 +212,20 @@ this is very dangerous:
 
 ## Moving to Heads
 [Heads](http://osresearch.net/) is an alternative BIOS system with advanced
-security features. When having Skulls installed, installing Heads is
-as easy as updating Skulls:
+security features. It's more complicated to use though. When having Skulls
+installed, installing Heads is as easy as updating Skulls. You can directly
+start using it:
 
-* build Heads or get a trusted image file: the 12M image in `build/x230/coreboot.rom`
-* copy it into the Skulls x230 directory
+* [build Heads](https://github.com/osresearch/heads)
+* copy Heads' 12M image file `build/x230/coreboot.rom` to Skulls' x230 diretory
 * run `sudo ./x230_heads.sh`
 
-That's it. Please read the [Heads documentation](http://osresearch.net/) for
-how to use it.
+That's it. Heads is a completely different project. Please read the
+[documentation](http://osresearch.net/) for how to use it and report bugs
+[over there](https://github.com/osresearch/heads/issues)
+
+Switching back to Skulls is the same as [updating](#updating). Just run
+`./x230_skulls.sh`.
 
 ## Why does this work?
 On the X230, there are 2 physical "BIOS" chips. The "upper" 4MB
