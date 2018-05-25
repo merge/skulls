@@ -83,6 +83,7 @@ done
 
 command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flashrom and run as root${NC}."; exit 1; }
 command -v make >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install make and a C compiler${NC}."; exit 1; }
+command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
 if [ ! "$have_flasher" -gt 0 ] ; then
 	echo "Skulls for the X230"
@@ -123,6 +124,12 @@ else
 fi
 
 TEMP_DIR=`mktemp -d`
+if [ ! -d "$TEMP_DIR" ]; then
+	echo -e "${RED}Error:${NC} Could not create temp dir"
+	rm -rf ${TEMP_DIR}
+	exit 1
+fi
+
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
 	flashrom -p ${programmer} &> ${TEMP_DIR}/chips || true
@@ -184,12 +191,6 @@ if [ "$me_clean" -gt 0 ] ; then
 fi
 
 echo "Start reading 2 times. Please be patient..."
-if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
-	echo -e "${RED}Error:${NC} Could not create temp dir"
-	rm -rf ${TEMP_DIR}
-	exit 1
-fi
-
 flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
 flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom

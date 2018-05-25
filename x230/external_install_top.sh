@@ -76,6 +76,7 @@ do
 done
 
 command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flashrom and run as root${NC}."; exit 1; }
+command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
 if [ ! "$have_input_image" -gt 0 ] ; then
 	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
@@ -141,6 +142,11 @@ else
 fi
 
 TEMP_DIR=`mktemp -d`
+if [ ! -d "$TEMP_DIR" ]; then
+	echo "${RED}Error:${NC} Could not create temp dir"
+	exit 1
+fi
+
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
 	flashrom -p ${programmer} &> ${TEMP_DIR}/chips || true
@@ -178,10 +184,6 @@ if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
 fi
 
 echo "verifying SPI connection by reading 2 times. please wait."
-if [[ ! "$TEMP_DIR" || ! -d "$TEMP_DIR" ]]; then
-	echo "Could not create temp dir"
-	exit 1
-fi
 flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
 flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom
