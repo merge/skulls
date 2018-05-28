@@ -85,15 +85,15 @@ to connect the clip to a hardware flasher (if not included with the clip)
 #### open up the X230
 Remove the 7 screws of your X230 to remove the keyboard (by pushing it towards the
 screen before lifting) and the palmrest. You'll find the chips using the photo
-below. This is how the SPI connection looks on both of the X230's chips:
+below. This is how the SPI connection looks like on both of the X230's chips:
 
 
 		Screen (furthest from you)
-			     __
-		  MOSI  5 --|  |-- 4  GND
-		   CLK  6 --|  |-- 3  N/C
-		   N/C  7 --|  |-- 2  MISO
-		   VCC  8 --|__|-- 1  CS
+			     ______
+		  MOSI  5 --|      |-- 4  GND
+		   CLK  6 --|      |-- 3  N/C
+		   N/C  7 --|      |-- 2  MISO
+		   VCC  8 --|______|-- 1  CS
 
 		   Edge (closest to you)
 
