@@ -59,11 +59,11 @@ if [[ $BIOS_VENDOR = *"coreboot"* ]] ; then
 fi
 
 BIOS_VERSION=$(dmidecode -s bios-version | grep -o '[1-2].[0-7][0-9]')
-bios_major=$(echo $BIOS_VERSION | cut -d. -f1)
-bios_minor=$(echo $BIOS_VERSION | cut -d. -f2)
+bios_major=$(echo "$BIOS_VERSION" | cut -d. -f1)
+bios_minor=$(echo "$BIOS_VERSION" | cut -d. -f2)
 
 if [ "${bios_minor}" -eq "72" ] ; then
-	echo "latest BIOS version installed. Nothing to do."
+	echo -e "${GREEN}latest BIOS version${NC} installed. Nothing to do."
 elif [ "${bios_minor}" -ge "60" ] ; then
 	echo "installed BIOS version is ${bios_major}.${bios_minor}."
 	echo "That's not the latest version, but the EC version is."
