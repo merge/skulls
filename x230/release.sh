@@ -45,6 +45,12 @@ do
         shift
 done
 
+if [ ! "$have_image" -gt 0 ] ; then
+	echo "please provide a release image"
+	usage
+	exit 1
+fi
+
 # Do we have a desired version number?
 if [ "$have_version" -gt 0 ] ; then
        echo "trying to build version $version"
@@ -55,7 +61,7 @@ else
 fi
 
 # Version number sanity check
-if grep ${version} NEWS
+if grep "${version}" NEWS
 then
        echo "configurations seems ok"
 else
@@ -82,24 +88,24 @@ echo "    are you fine with the following version bump?"
 echo "======================================================"
 git diff
 echo "======================================================"
-read -p "           Press enter to continue"
+read -r -p "           Press enter to continue"
 echo "======================================================"
 
 filesize=$(wc -c <"${RELEASE_IMAGE}")
 reference_filesize=4194304
-if [ ! $filesize -eq "$reference_filesize" ] ; then
+if [ ! "$filesize" -eq "$reference_filesize" ] ; then
 	echo "filesize of release image is wrong"
 	exit 1
 fi
 
 # copy-in the ROM
-cp ${RELEASE_IMAGE} .
+cp "${RELEASE_IMAGE}" .
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
 
 # copy-in device independent stuff
 cp ../SOURCE.md sources/
 
-tar -cJf skulls-x230-${version}.tar.xz \
+tar -cJf skulls-x230-"${version}".tar.xz \
 	README.md \
 	NEWS \
 	util \
@@ -110,14 +116,14 @@ tar -cJf skulls-x230-${version}.tar.xz \
 	external_install_bottom.sh \
 	external_install_top.sh \
 	sources \
-	${RELEASE_IMAGE_FILE}
+	"${RELEASE_IMAGE_FILE}"
 
-rm ${RELEASE_IMAGE_FILE}
+rm "${RELEASE_IMAGE_FILE}"
 rm sources/SOURCE.md
 
 git commit -a -m "update to ${version}"
-git tag -s ${version} -m "skulls-x230 ${version}"
+git tag -s "${version}" -m "skulls-x230 ${version}"
 
-sha256sum skulls-x230-${version}.tar.xz > skulls-x230-${version}.tar.xz.sha256
-sha512sum skulls-x230-${version}.tar.xz > skulls-x230-${version}.tar.xz.sha512
-gpg -b -a skulls-x230-${version}.tar.xz
+sha256sum skulls-x230-"${version}".tar.xz > skulls-x230-"${version}".tar.xz.sha256
+sha512sum skulls-x230-"${version}".tar.xz > skulls-x230-"${version}".tar.xz.sha512
+gpg -b -a skulls-x230-"${version}".tar.xz
