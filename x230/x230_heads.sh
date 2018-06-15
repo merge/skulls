@@ -81,7 +81,7 @@ fi
 
 
 OUTPUT_PATH=output
-INPUT_IMAGE_NAME=$(basename ${INPUT_IMAGE_PATH})
+INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
 OUTPUT_IMAGE_NAME=${INPUT_IMAGE_NAME%%.*}_prepared.rom
 OUTPUT_IMAGE_PATH=${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}
 
@@ -98,7 +98,7 @@ fi
 rm -rf ${OUTPUT_PATH}
 mkdir ${OUTPUT_PATH}
 
-cp ${INPUT_IMAGE_PATH} ${OUTPUT_IMAGE_PATH}
+cp "${INPUT_IMAGE_PATH}" "${OUTPUT_IMAGE_PATH}"
 LAYOUT_FILENAME="x230-layout-heads.txt"
 
 echo "0x00000000:0x00000fff ifd" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
@@ -113,9 +113,9 @@ echo "prepared files in output directory. To flash them:"
 echo -e "${GREEN}cd output${NC}"
 echo -e "${GREEN}flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w ${OUTPUT_IMAGE_NAME}${NC}"
 while true; do
-	read -p "Do you wish to run this now? y/N: " yn
+	read -r -p "Do you wish to run this now? y/N: " yn
 	case $yn in
-		[Yy]* ) cd output && flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w ${OUTPUT_IMAGE_NAME}; break;;
+		[Yy]* ) cd output && flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
 		[Nn]* ) exit;;
 		* ) exit;;
 	esac
