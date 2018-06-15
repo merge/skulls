@@ -1,7 +1,6 @@
 # skulls - TODO list
 
 ## the random list
-* make it easy to install HEADS, probably a helper script and documentation
 * add scripts to build a release reproducibly
 * find legal information on Intel's VGA bios binary
 * create a logo for the project
