@@ -123,40 +123,40 @@ else
 	exit 1
 fi
 
-TEMP_DIR=`mktemp -d`
+TEMP_DIR=$(mktemp -d)
 if [ ! -d "$TEMP_DIR" ]; then
 	echo -e "${RED}Error:${NC} Could not create temp dir"
-	rm -rf ${TEMP_DIR}
+	rm -rf "${TEMP_DIR}"
 	exit 1
 fi
 
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
-	flashrom -p ${programmer} &> ${TEMP_DIR}/chips || true
+	flashrom -p ${programmer} &> "${TEMP_DIR}"/chips || true
 	flashrom_error=""
-	flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error || true)
+	flashrom_error=$(cat "${TEMP_DIR}"/chips | grep -i error || true)
 	if [ ! -z "${flashrom_error}" ] ; then
 		usage
 		echo "-------------- flashrom error: ---------------"
-		cat ${TEMP_DIR}/chips
-		rm -rf ${TEMP_DIR}
+		cat "${TEMP_DIR}"/chips
+		rm -rf "${TEMP_DIR}"
 		exit 1
 	fi
 
 	CHIPNAME=""
 	chip_found=0
-	CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L6406E/MX25L6408E" | grep -o '".*"' || true)
+	CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep "MX25L6406E/MX25L6408E" | grep -o '".*"' || true)
 	if [ ! -z "${CHIPNAME}" ] ; then
 		chip_found=1
 	fi
-	CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "EN25QH64" | grep -o '".*"' || true)
+	CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep "EN25QH64" | grep -o '".*"' || true)
 	if [ ! -z "${CHIPNAME}" ] ; then
 		chip_found=1
 	fi
 	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
 		flashrom -p ${programmer}
-		rm -rf ${TEMP_DIR}
+		rm -rf "${TEMP_DIR}"
 		echo "chip not detected. Please find it manually and rerun with the -c parameter."
 		exit 1
 	else
@@ -185,17 +185,17 @@ fi
 if [ "$me_clean" -gt 0 ] ; then
 	if [ ! -e ${ME_CLEANER_PATH} ] ; then
 		echo "me_cleaner not found at ${ME_CLEANER_PATH}"
-		rm -rf ${TEMP_DIR}
+		rm -rf "${TEMP_DIR}"
 		exit 1
 	fi
 fi
 
 echo "Start reading 2 times. Please be patient..."
-flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
-flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
-cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom
+flashrom -p ${programmer} -c "${CHIPNAME}" -r "${TEMP_DIR}"/test1.rom
+flashrom -p ${programmer} -c "${CHIPNAME}" -r "${TEMP_DIR}"/test2.rom
+cmp --silent "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
-	cp ${TEMP_DIR}/test1.rom ${BACKUPNAME}
+	cp "${TEMP_DIR}"/test1.rom "${BACKUPNAME}"
 	echo "current image saved as ${BACKUPNAME}"
 fi
 
@@ -203,7 +203,7 @@ reference_size=8388608
 TEMP_SIZE=$(wc -c <"$TEMP_DIR/test1.rom")
 if [ ! "$reference_size" -eq "$TEMP_SIZE" ] ; then
 	echo -e "${RED}Error:${NC} didn't read 8M. You might be at the wrong chip."
-	rm -rf ${TEMP_DIR}
+	rm -rf "${TEMP_DIR}"
 	exit 1
 fi
 
@@ -211,20 +211,20 @@ echo -e "${GREEN}connection ok${NC}"
 
 echo "start unlocking ..."
 if [ "$me_clean" -gt 0 ] ; then
-	${ME_CLEANER_PATH} -S -O ${TEMP_DIR}/work.rom ${TEMP_DIR}/test1.rom
+	${ME_CLEANER_PATH} -S -O "${TEMP_DIR}"/work.rom "${TEMP_DIR}"/test1.rom
 else
-	cp ${TEMP_DIR}/test1.rom ${TEMP_DIR}/work.rom
+	cp "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/work.rom
 fi
 
 if [ ! "$lock" -gt 0 ] ; then
-	${IFDTOOL_PATH} -u ${TEMP_DIR}/work.rom
+	${IFDTOOL_PATH} -u "${TEMP_DIR}"/work.rom
 else
-	${IFDTOOL_PATH} -l ${TEMP_DIR}/work.rom
+	${IFDTOOL_PATH} -l "${TEMP_DIR}"/work.rom
 fi
 
-if [ ! -e ${TEMP_DIR}/work.rom.new ] ; then
+if [ ! -e "${TEMP_DIR}"/work.rom.new ] ; then
 	echo -e "${RED}Error:${NC} ifdtool failed. ${TEMP_DIR}/work.rom.new not found."
-	rm -rf ${TEMP_DIR}
+	rm -rf "${TEMP_DIR}"
 	exit 1
 fi
 if [ "$me_clean" -gt 0 ] ; then
@@ -236,6 +236,6 @@ make clean -C util/ifdtool
 
 echo "start writing..."
 
-flashrom -p ${programmer} -c ${CHIPNAME} -w ${TEMP_DIR}/work.rom.new
-rm -rf ${TEMP_DIR}
+flashrom -p ${programmer} -c "${CHIPNAME}" -w "${TEMP_DIR}"/work.rom.new
+rm -rf "${TEMP_DIR}"
 echo -e "${GREEN}DONE${NC}"
