@@ -141,7 +141,7 @@ else
 	exit 1
 fi
 
-TEMP_DIR=`mktemp -d`
+TEMP_DIR=$(mktemp -d)
 if [ ! -d "$TEMP_DIR" ]; then
 	echo "${RED}Error:${NC} Could not create temp dir"
 	exit 1
@@ -149,25 +149,25 @@ fi
 
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
-	flashrom -p ${programmer} &> ${TEMP_DIR}/chips || true
+	flashrom -p ${programmer} &> "${TEMP_DIR}"/chips || true
 	flashrom_error=""
-	flashrom_error=$(cat ${TEMP_DIR}/chips | grep -i error || true)
+	flashrom_error=$(cat "${TEMP_DIR}"/chips | grep -i error || true)
 	if [ ! -z "${flashrom_error}" ] ; then
-		cat ${TEMP_DIR}/chips
-		rm -rf ${TEMP_DIR}
+		cat "${TEMP_DIR}"/chips
+		rm -rf "${TEMP_DIR}"
 		exit 1
 	fi
 
 	CHIPNAME=""
 	chip_found=0
-	CHIPNAME=$(cat ${TEMP_DIR}/chips | grep Found | grep "MX25L3206E" | grep -o '".*"' || true)
+	CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep "MX25L3206E" | grep -o '".*"' || true)
 	if [ ! -z "${CHIPNAME}" ] ; then
 		chip_found=1
 	fi
 	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
 		flashrom -p ${programmer}
-		rm -rf ${TEMP_DIR}
+		rm -rf "${TEMP_DIR}"
 		echo "Please find it manually in the list above and rerun with the -c parameter."
 		exit 1
 	else
@@ -175,8 +175,8 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 	fi
 fi
 
-INPUT_IMAGE_NAME=$(basename ${INPUT_IMAGE_PATH})
-INPUT_IMAGE_SIZE=$(wc -c <"$INPUT_IMAGE_PATH")
+INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
+INPUT_IMAGE_SIZE=$(wc -c < "$INPUT_IMAGE_PATH")
 reference_filesize=4194304
 if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
 	echo -e "${RED}Error:${NC} input file must be 4MB of size"
@@ -184,20 +184,20 @@ if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
 fi
 
 echo "verifying SPI connection by reading 2 times. please wait."
-flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
-flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
-cmp --silent ${TEMP_DIR}/test1.rom ${TEMP_DIR}/test2.rom
+flashrom -p ${programmer} -c "${CHIPNAME}" -r "${TEMP_DIR}"/test1.rom
+flashrom -p ${programmer} -c "${CHIPNAME}" -r "${TEMP_DIR}"/test2.rom
+cmp --silent "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
-	cp ${TEMP_DIR}/test1.rom ${BACKUPNAME}
+	cp "${TEMP_DIR}"/test1.rom "${BACKUPNAME}"
 	echo "current image saved as ${BACKUPNAME}"
 fi
-TEMP_SIZE=$(wc -c <"$TEMP_DIR/test1.rom")
+TEMP_SIZE=$(wc -c < "$TEMP_DIR/test1.rom")
 if [ ! "$INPUT_IMAGE_SIZE" -eq "$TEMP_SIZE" ] ; then
 	echo -e "${RED}Error:${NC} read image (${TEMP_SIZE}) has different size that new image $INPUT_IMAGE_NAME (${INPUT_IMAGE_SIZE})"
 	exit 1
 fi
-rm -rf ${TEMP_DIR}
+rm -rf "${TEMP_DIR}"
 
 echo -e "${GREEN}connection ok${NC}. flashing ${INPUT_IMAGE_NAME}"
-flashrom -p ${programmer} -c ${CHIPNAME} -w ${INPUT_IMAGE_PATH}
+flashrom -p ${programmer} -c "${CHIPNAME}" -w "${INPUT_IMAGE_PATH}"
 echo -e "${GREEN}DONE${NC}"
