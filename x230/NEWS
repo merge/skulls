@@ -1,12 +1,15 @@
 
-skulls-x230 0.0.7 - tbd
------------------------------------------
+skulls-x230 0.0.7 - released 2018-06-18
+---------------------------------------
 This release includes the following changes:
+* based on coreboot commit a7835c462e
+* reproducible builds
 * improved installation scripts
+* keep the TPM active
 
 
 skulls-x230 0.0.6 - released 2018-05-16
------------------------------------------
+---------------------------------------
 This release includes the following changes:
 * based on coreboot commit d8ec973fd2
 * faster booting (unneeded driver init removed)
