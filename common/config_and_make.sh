@@ -1,5 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-3.0+
+# Copyright (C) 2018, Tom Hiller <thrilleratplay@gmail.com>
 
 # shellcheck disable=SC1091
 source /home/coreboot/common_scripts/variables.sh

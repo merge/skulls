@@ -1,5 +1,6 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-3.0+
+# Copyright (C) 2018, Tom Hiller <thrilleratplay@gmail.com>
 set -e
 
 ## import variables
