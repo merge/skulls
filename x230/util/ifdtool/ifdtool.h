@@ -22,7 +22,10 @@ enum ifd_version {
 };
 
 enum platform {
-	PLATFORM_APOLLOLAKE
+	PLATFORM_APL,
+	PLATFORM_CNL,
+	PLATFORM_GLK,
+	PLATFORM_SKLKBL,
 };
 
 #define LAYOUT_LINELEN 80
