@@ -3,7 +3,8 @@
 ![seabios_bootmenu](front.jpg)
 
 ## Latest release
-* `./build.sh -c $(ls -1 x230/config-* | cut -c 13-22) x230` should produce the exact release image file. Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
+* `./build.sh` should produce the exact release image file (from skulls a git checkout).
+Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
 * __microcode update__: revision `1f` from 2018-02-07 see package [20180312](https://downloadcenter.intel.com/download/27591) under [Intel's license](LICENSE.microcode)
 * __SeaBIOS__: version [1.11.1](https://seabios.org/Releases) from 2018-03-19
