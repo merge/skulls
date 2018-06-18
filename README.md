@@ -26,6 +26,10 @@ Either when
 * Everything necessary to [build coreboot](https://www.coreboot.org/Build_HOWTO) is included here
 * When doing a release, we always try to upload to coreboot's [board status project](https://www.coreboot.org/Supported_Motherboards)
 * If we add out-of-tree patches, we always [post them for review](http://review.coreboot.org/) upstream
+* The scripts to build reproducibly are based on
+[these](https://github.com/Thrilleratplay/coreboot-builder-scripts)
+scripts that use the
+[coreboot-sdk](https://hub.docker.com/r/coreboot/coreboot-sdk/).
 
 ## Alternatives
 We aim to be the easiest possible coreboot distribution - both
