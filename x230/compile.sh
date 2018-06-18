@@ -38,6 +38,8 @@ else
     RELEASEFILE="coreboot_$MAINBOARD-$MODEL-top.rom"
   fi
   dd if="$DOCKER_COREBOOT_DIR/build/coreboot.rom" of="$DOCKER_COREBOOT_DIR/$RELEASEFILE" bs=1M skip=8
-
   sha256sum "$DOCKER_COREBOOT_DIR/$RELEASEFILE" > "$DOCKER_COREBOOT_DIR/${RELEASEFILE}".sha256
+  echo "==================== result: ======================"
+  echo "$DOCKER_COREBOOT_DIR/$RELEASEFILE"
+  echo "==================================================="
 fi
