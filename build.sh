@@ -22,7 +22,6 @@ usage()
   echo "  --bleeding-edge              Build from the latest commit"
   echo "  --clean-slate                Purge previous build directory and config"
   echo "  -c, --commit <commit>        Git commit hash"
-  echo "  --flash                      Flash BIOS if build is successful"
   echo "  -h, --help                   Show this help"
   echo "  -i, --config                 Execute with interactive make config"
   echo "  -t, --tag <tag>              Git tag/version"
@@ -49,9 +48,6 @@ do
       -c | --commit)
         COREBOOT_COMMIT="$2"
         shift 2;;
-      --flash)
-        FLASH_AFTER_BUILD=true
-        shift 1;;
       -h | --help)
         usage >&2
         exit 0;;
@@ -100,4 +96,4 @@ docker run --rm -it \
     -e COREBOOT_TAG="$COREBOOT_TAG" \
     -e COREBOOT_CONFIG="$COREBOOT_CONFIG" \
     coreboot/coreboot-sdk:"$COREBOOT_SDK_VERSION" \
-    /home/coreboot/scripts/compile.sh && [ -n "$FLASH_AFTER_BUILD" ] && ./flash.sh "$MODEL"
+    /home/coreboot/scripts/compile.sh
