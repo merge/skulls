@@ -101,6 +101,7 @@ fi
 # copy-in the ROM
 cp "${RELEASE_IMAGE}" .
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
+sha256sum ${RELEASE_IMAGE_FILE} > "${RELEASE_IMAGE_FILE}.sha256"
 
 # copy-in device independent stuff
 cp ../SOURCE.md sources/
@@ -116,9 +117,11 @@ tar -cJf skulls-x230-"${version}".tar.xz \
 	external_install_bottom.sh \
 	external_install_top.sh \
 	sources \
-	"${RELEASE_IMAGE_FILE}"
+	"${RELEASE_IMAGE_FILE}" \
+	"${RELEASE_IMAGE_FILE}.sha256"
 
 rm "${RELEASE_IMAGE_FILE}"
+rm "${RELEASE_IMAGE_FILE}.sha256"
 rm sources/SOURCE.md
 
 git commit -a -m "update to ${version}"
