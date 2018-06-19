@@ -149,10 +149,13 @@ The one we describe can be bought at
 [aliexpress](http://www.aliexpress.com/item/Free-Shipping-CH341A-24-25-Series-EEPROM-Flash-BIOS-DVD-USB-Programmer-DVD-programmer-router-Nine/32583059603.html),
 but it's available [elsewhere](https://geizhals.eu/?fs=ch341a) too.
 
+* Leave the P/S Jumper connected (programmer mode, 1a86:5512 USB device)
 * Connect the programmer to your PC's USB port
 * Connect your clip or hooks to the programmer's SPI pins
 
+
 	TODO description and foto
+
 
 #### unpack the Skulls release archive
 
