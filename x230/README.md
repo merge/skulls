@@ -222,7 +222,7 @@ start using it:
 
 * [build Heads](https://github.com/osresearch/heads)
 * boot Linux with the `iomem=relaxed` boot parameter
-* copy Heads' 12M image file `build/x230/coreboot.rom` to Skulls' x230 diretory
+* copy Heads' 12M image file `build/x230/coreboot.rom` to Skulls' x230 directory
 * run `sudo ./x230_heads.sh`
 
 That's it. Heads is a completely different project. Please read the
