@@ -3,6 +3,8 @@ skulls-x230 0.0.8 - tbd
 ---------------------------------------
 This release includes the following changes:
 * update SeaBIOS to version 1.11.2
+* update Intel's microcode revision from 1f to 20
+  (this includes Spectre Variant 3a and 4 mitigations)
 
 
 skulls-x230 0.0.7 - released 2018-06-18
