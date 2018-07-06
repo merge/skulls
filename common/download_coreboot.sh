@@ -36,6 +36,7 @@ function gitUpdate() {
 ##
 ################################################################################
 function checkoutTag() {
+  cd "$DOCKER_COREBOOT_DIR" || exit
   git checkout tags/"$COREBOOT_TAG" || exit
   git submodule update --recursive --remote
 }
@@ -47,8 +48,14 @@ function checkoutTag() {
 ##
 ################################################################################
 function checkoutCommit() {
-#edge should checkout master
+  cd "$DOCKER_COREBOOT_DIR" || exit
+  # bleeding-edge should checkout master
   git checkout "$COREBOOT_COMMIT" || exit
+
+  if  [ "$COREBOOT_COMMIT" == "master"  ]; then
+    git pull --all
+  fi
+
   git submodule update --recursive --remote
 }
 ################################################################################
