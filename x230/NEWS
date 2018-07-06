@@ -1,7 +1,9 @@
 
-skulls-x230 0.0.8 - tbd
+skulls-x230 0.0.8 - released 2018-07-06
 ---------------------------------------
 This release includes the following changes:
+* based on coreboot commit e49ac56808
+  (parent in master branch cf243657e7)
 * update SeaBIOS to version 1.11.2
 * update Intel's microcode revision from 1f to 20
   (this includes Spectre Variant 3a and 4 mitigations)
