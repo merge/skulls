@@ -116,6 +116,7 @@ tar -cJf skulls-x230-"${version}".tar.xz \
 	x230_heads.sh \
 	external_install_bottom.sh \
 	external_install_top.sh \
+	upgrade.sh \
 	SOURCE.md \
 	"${RELEASE_IMAGE_FILE}" \
 	"${RELEASE_IMAGE_FILE}.sha256"
