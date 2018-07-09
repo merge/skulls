@@ -92,7 +92,6 @@ docker run --rm -it \
     -v "$PWD/$MODEL/build:$DOCKER_COREBOOT_DIR" \
     -v "$PWD/$MODEL:$DOCKER_SCRIPT_DIR" \
     -v "$PWD/common:$DOCKER_COMMON_SCRIPT_DIR" \
-    -v "$PWD/$MODEL/stock_bios:$DOCKER_STOCK_BIOS_DIR:ro" \
     -e COREBOOT_COMMIT="$COREBOOT_COMMIT" \
     -e COREBOOT_TAG="$COREBOOT_TAG" \
     -e COREBOOT_CONFIG="$COREBOOT_CONFIG" \
