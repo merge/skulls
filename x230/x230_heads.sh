@@ -117,10 +117,10 @@ while true; do
 	esac
 done
 while true; do
-	read -r -p "Reboot now? (please do!) y/N: " yn
+	read -r -p "Reboot now? (please do!) Y/n: " yn
 	case $yn in
 		[Yy]* ) reboot ;;
 		[Nn]* ) exit;;
-		* ) exit;;
+		* ) reboot;;
 	esac
 done
