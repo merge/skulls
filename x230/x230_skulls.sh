@@ -107,9 +107,17 @@ echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo -e "${YELLOW}WARNING${NC}: Make sure not to power off your computer or interrupt this process in any way!"
 echo -e "         Interrupting this process may result in irreparable damage to your computer!"
 while true; do
-	read -r -p "Do you wish to flash the BIOS now? y/N: " yn
+	read -r -p "Flash the BIOS now? y/N: " yn
 	case $yn in
 		[Yy]* ) cd output && flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
+		[Nn]* ) exit;;
+		* ) exit;;
+	esac
+done
+while true; do
+	read -r -p "Reboot now? (please do!) y/N: " yn
+	case $yn in
+		[Yy]* ) reboot ;;
 		[Nn]* ) exit;;
 		* ) exit;;
 	esac
