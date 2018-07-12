@@ -3,6 +3,7 @@
 # Copyright (C) 2018, Martin Kepplinger <martink@posteo.de>
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 NC='\033[0m'
 
 set -e
@@ -13,7 +14,7 @@ usage()
 	echo "Skulls for the X230"
 	echo "  Run this script on the X230 directly."
 	echo ""
-	echo "  This updates Skulls to the given image."
+	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
 	echo "Usage: $0 -i <4mb_top_image>.rom"
@@ -68,7 +69,6 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 			exit
 
 		elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
-			echo  "You picked $INPUT_IMAGE_PATH which is file $REPLY"
 			break
 
 		else
@@ -83,8 +83,8 @@ INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
 OUTPUT_IMAGE_NAME=${INPUT_IMAGE_NAME%%.*}_prepared_12mb.rom
 OUTPUT_IMAGE_PATH=${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}
 
-echo -e "creating ${GREEN}${OUTPUT_IMAGE_PATH}${NC} from ${INPUT_IMAGE_NAME}"
-
+echo -e "input: ${INPUT_IMAGE_NAME}"
+echo -e "output: ${OUTPUT_IMAGE_PATH}"
 
 input_filesize=$(wc -c <"$INPUT_IMAGE_PATH")
 reference_filesize=4194304
@@ -96,22 +96,18 @@ fi
 rm -rf ${OUTPUT_PATH}
 mkdir ${OUTPUT_PATH}
 
-dd if=/dev/zero of="${OUTPUT_IMAGE_PATH}" bs=4M count=2
-dd if="${INPUT_IMAGE_PATH}" oflag=append conv=notrunc of="${OUTPUT_IMAGE_PATH}" bs=4M
+dd if=/dev/zero of="${OUTPUT_IMAGE_PATH}" bs=4M count=2 status=none
+dd if="${INPUT_IMAGE_PATH}" oflag=append conv=notrunc of="${OUTPUT_IMAGE_PATH}" bs=4M status=none
 
 LAYOUT_FILENAME="x230-layout.txt"
 
 echo "0x00000000:0x007fffff ifdmegbe" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 
-echo "---------------------------------------------------------"
-echo -e "${RED}CAUTION: internal flashing is NOT encouraged${NC}"
-echo ""
-echo "prepared files in output directory. To flash them:"
-echo -e "${GREEN}cd output${NC}"
-echo -e "${GREEN}flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w ${OUTPUT_IMAGE_NAME}${NC}"
+echo -e "${YELLOW}WARNING${NC}: Make sure not to power off your computer or interrupt this process in any way!"
+echo -e "         Interrupting this process may result in irreparable damage to your computer!"
 while true; do
-	read -r -p "Do you wish to run this now? y/N: " yn
+	read -r -p "Do you wish to flash the BIOS now? y/N: " yn
 	case $yn in
 		[Yy]* ) cd output && flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
 		[Nn]* ) exit;;
