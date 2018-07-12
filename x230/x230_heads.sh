@@ -3,6 +3,7 @@
 # Copyright (C) 2018, Martin Kepplinger <martink@posteo.de>
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 NC='\033[0m'
 
 set -e
@@ -13,7 +14,7 @@ usage()
 	echo "Skulls for the X230"
 	echo "  Run this script on the X230 directly."
 	echo ""
-	echo "  This installs Heads, see http://osresearch.net"
+	echo "  This flashes Heads to your BIOS, see http://osresearch.net"
 	echo "  Heads is a different project. No image is included."
 	echo "  Read https://github.com/osresearch/heads for how to build it"
 	echo "  Make sure you booted Linux with iomem=relaxed"
@@ -70,7 +71,6 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 			exit
 
 		elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
-			echo  "You picked $INPUT_IMAGE_PATH which is file $REPLY"
 			break
 
 		else
@@ -85,8 +85,8 @@ INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
 OUTPUT_IMAGE_NAME=${INPUT_IMAGE_NAME%%.*}_prepared.rom
 OUTPUT_IMAGE_PATH=${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}
 
-echo -e "creating ${GREEN}${OUTPUT_IMAGE_PATH}${NC} from ${INPUT_IMAGE_NAME}"
-
+echo -e "input: ${INPUT_IMAGE_NAME}"
+echo -e "output: ${OUTPUT_IMAGE_PATH}"
 
 input_filesize=$(wc -c <"$INPUT_IMAGE_PATH")
 reference_filesize=12582912
@@ -106,16 +106,20 @@ echo "0x00001000:0x00002fff gbe" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00003000:0x004fffff me" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00500000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 
-echo "---------------------------------------------------------"
-echo -e "${RED}CAUTION: internal flashing is NOT encouraged${NC}"
-echo ""
-echo "prepared files in output directory. To flash them:"
-echo -e "${GREEN}cd output${NC}"
-echo -e "${GREEN}flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w ${OUTPUT_IMAGE_NAME}${NC}"
+echo -e "${YELLOW}WARNING${NC}: Make sure not to power off your computer or interrupt this process in any way!"
+echo -e "         Interrupting this process may result in irreparable damage to your computer!"
 while true; do
-	read -r -p "Do you wish to run this now? y/N: " yn
+	read -r -p "Flash the BIOS now? y/N: " yn
 	case $yn in
 		[Yy]* ) cd output && flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
+		[Nn]* ) exit;;
+		* ) exit;;
+	esac
+done
+while true; do
+	read -r -p "Reboot now? (please do!) y/N: " yn
+	case $yn in
+		[Yy]* ) reboot ;;
 		[Nn]* ) exit;;
 		* ) exit;;
 	esac
