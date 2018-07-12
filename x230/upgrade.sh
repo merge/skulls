@@ -7,6 +7,8 @@ NC='\033[0m'
 
 set -e
 
+. skulls_common.sh
+
 usage()
 {
 	echo "Skulls for the X230"
@@ -42,6 +44,8 @@ do
 	esac
 	shift
 done
+
+warn_not_root
 
 command -v curl >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install curl.${NC}"; exit 1; }
 
