@@ -7,6 +7,9 @@ YELLOW='\033[0;33m'
 NC='\033[0m'
 
 set -e
+
+. skulls_common.sh
+
 have_input_image=0
 
 usage()
@@ -18,32 +21,6 @@ usage()
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
 	echo "Usage: $0 -i <4mb_top_image>.rom"
-}
-
-check_battery() {
-	local capacity=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null || echo -ne "0")
-	local online=$(cat /sys/class/power_supply/AC/online 2>/dev/null || cat /sys/class/power_supply/ADP*/online 2>/dev/null || echo -ne "0")
-	local failed=0
-
-	if [ "${online}" == "0" ] ; then
-		failed=1
-	fi
-	if [ "${capacity}" -lt 25 ]; then
-		failed=1
-	fi
-	if [ $failed == "1" ]; then
-		echo -e "${YELLOW}WARNING:${NC} To prevent shutdowns, we recommend to only run this script when"
-		echo "         your laptop is plugged in to the power supply AND"
-		echo "         the battery is present and sufficiently charged (over 25%)."
-		while true; do
-			read -r -p "Continue anyways? (please do NOT!) y/N: " yn
-			case $yn in
-				[Yy]* ) break;;
-				[Nn]* ) exit;;
-				* ) exit;;
-			esac
-		done
-	fi
 }
 
 args=$(getopt -o i:h -- "$@")
@@ -76,6 +53,8 @@ do
 	esac
 	shift
 done
+
+check_x230_root
 
 if [ ! "$have_input_image" -gt 0 ] ; then
 	image_available=$(ls -1 | grep x230_coreboot_seabios || true)

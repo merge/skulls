@@ -111,6 +111,7 @@ tar -cJf skulls-x230-"${version}".tar.xz \
 	NEWS \
 	util \
 	LICENSE* \
+	skulls_common.sh \
 	x230_before_first_install.sh \
 	x230_skulls.sh \
 	x230_heads.sh \

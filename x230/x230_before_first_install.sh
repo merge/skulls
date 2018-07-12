@@ -5,6 +5,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+. skulls_common.sh
 set -e
 
 usage()
@@ -44,13 +45,7 @@ do
 	shift
 done
 
-command -v dmidecode >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install dmidecode and run as root.${NC}"; exit 1; }
-
-LAPTOP=$(dmidecode | grep -i x230 | sort -u)
-if [ -z "$LAPTOP" ] ; then
-	echo "This is no Thinkpad X230. This script is useless then."
-	exit 0
-fi
+check_x230_root
 
 BIOS_VENDOR=$(dmidecode -t bios | grep Vendor | cut -d':' -f2)
 if [[ $BIOS_VENDOR = *"coreboot"* ]] ; then
