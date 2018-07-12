@@ -65,7 +65,7 @@ if [[ "$CURRENT_VERSION" = "$UPSTREAM_VERSION" ]] ; then
 	echo -e "${GREEN}You are using the latest version of Skulls for the X230${NC}"
 	exit 0
 else
-	echo -e "${RED}You have ${CURRENT_VERSION} but there is version ${UPSTREAM_VERSIONJ} available for the X230. Please update.${NC}"
+	echo -e "${RED}You have ${CURRENT_VERSION} but there is version ${UPSTREAM_VERSION} available for the X230. Please update.${NC}"
 	read -r -p "Download it to the parent directory now? [y/N] " response
 	case "$response" in
 		[yY][eE][sS]|[yY])
