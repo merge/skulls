@@ -160,7 +160,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 
 	CHIPNAME=""
 	chip_found=0
-	CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep "MX25L3206E" | grep -o '".*"' || true)
+	CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep MX25L3206E | grep -oP '"\K[^"\047]+(?=["\047])' || true)
 	if [ ! -z "${CHIPNAME}" ] ; then
 		chip_found=1
 	fi
@@ -184,8 +184,8 @@ if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
 fi
 
 echo "verifying SPI connection by reading 2 times. please wait."
-flashrom -p ${programmer} -c "${CHIPNAME}" -r "${TEMP_DIR}"/test1.rom
-flashrom -p ${programmer} -c "${CHIPNAME}" -r "${TEMP_DIR}"/test2.rom
+flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
+flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
 	cp "${TEMP_DIR}"/test1.rom "${BACKUPNAME}"
