@@ -76,7 +76,6 @@ else
 			curl -LO ${UPSTREAM_URL_SHA256}
 			sha256sum -c ${UPSTREAM_FILE}.sha256
 			mkdir skulls-x230-${UPSTREAM_VERSION}
-			cd skulls-x230-${UPSTREAM_VERSION}
 			tar -xf ${UPSTREAM_FILE} -C skulls-x230-${UPSTREAM_VERSION}/
 			echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-x230-${UPSTREAM_VERSION}/"
 			;;
