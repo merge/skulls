@@ -1,7 +1,10 @@
 
-skulls-x230 0.0.9 - tbd
+skulls-x230 0.0.9 - released 2018-08-06
 ---------------------------------------
 This release includes the following changes:
+* based on coreboot commit 4591bb6f7b
+  (parent in master branch 9ea7762e79)
+* brightness level is remembered now
 * added script to check for new releases
 * improved installation scripts
 * update coreboot-sdk to version 1.52
