@@ -151,7 +151,7 @@ The one we describe can be bought at
 [aliexpress](http://www.aliexpress.com/item/Free-Shipping-CH341A-24-25-Series-EEPROM-Flash-BIOS-DVD-USB-Programmer-DVD-programmer-router-Nine/32583059603.html),
 but it's available [elsewhere](https://geizhals.eu/?fs=ch341a) too.
 Also, we don't use the included 3,3V power output (provides too little power),
-but a seperate power supply. If you don't have any, consider getting a AMS1117
+but a separate power supply. If you don't have any, consider getting a AMS1117
 based supply for a second USB port (like [this](https://de.aliexpress.com/item/1PCS-AMS1117-3-3V-Mini-USB-5V-3-3V-DC-Perfect-Power-Supply-Module/32785334595.html) or [this](https://geizhals.eu/1415110251)).
 
 * Leave the P/S Jumper connected (programmer mode, 1a86:5512 USB device)
