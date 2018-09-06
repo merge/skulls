@@ -1,4 +1,12 @@
 
+skulls-x230 0.0.10 - released 2018-09-06
+----------------------------------------
+This release includes the following changes:
+* based on coreboot commit 8823037d50
+  (parent in master branch fb758d420b)
+* updated latest original Lenovo BIOS version
+
+
 skulls-x230 0.0.9 - released 2018-08-06
 ---------------------------------------
 This release includes the following changes:
