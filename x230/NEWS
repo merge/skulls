@@ -1,4 +1,10 @@
 
+skulls-x230 0.0.11 - unreleased
+----------------------------------------
+This release includes the following changes:
+* -b option for external scripts for RPi SPI speed
+
+
 skulls-x230 0.0.10 - released 2018-09-06
 ----------------------------------------
 This release includes the following changes:
