@@ -100,7 +100,6 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 			exit
 
 		elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
-			echo  "You picked $INPUT_IMAGE_PATH which is file $REPLY"
 			break
 
 		else
@@ -140,7 +139,6 @@ programmer=""
 if [ "${FLASHER}" = "rpi" ] ; then
 	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=${rpi_frequency}"
 elif [ "${FLASHER}" = "ch341a" ] ; then
-	echo "Ok. Connect a CH341A programmer"
 	programmer="ch341a_spi"
 else
 	echo "invalid flashrom programmer"
