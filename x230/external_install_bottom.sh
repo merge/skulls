@@ -14,6 +14,7 @@ have_backupname=0
 me_clean=0
 lock=0
 have_flasher=0
+rpi_frequency=0
 
 usage()
 {
@@ -24,16 +25,15 @@ usage()
 	echo ""
 	echo "Usage: $0 [-c <chipname>] [-a] [-m] [-k <backup_filename>] [-l]"
 	echo ""
-	echo " -f <hardware_flasher>"
-	echo "                 supported flashers: rpi, ch341a"
-	echo ""
-	echo " -c <chipname>   flashrom chip description to use"
-	echo " -m              apply me_cleaner -S"
-	echo " -l              lock the flash instead of unlocking it"
-	echo " -k <file>       save the read image as <file>"
+	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a"
+	echo " -c <chipname>           flashrom chip description to use"
+	echo " -m                      apply me_cleaner -S"
+	echo " -l                      lock the flash instead of unlocking it"
+	echo " -k <backup>             save the current image as"
+	echo " -b <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
 }
 
-args=$(getopt -o f:mlc:k:h -- "$@")
+args=$(getopt -o f:mlc:k:hb: -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -62,6 +62,10 @@ do
 	-k)
 		BACKUPNAME=$2
 		have_backupname=1
+		shift
+		;;
+	-b)
+		rpi_frequency=$2
 		shift
 		;;
 	-h)
@@ -110,10 +114,14 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 	done
 fi
 
+if [ ! "${rpi_frequency}" -gt 0 ] ; then
+	rpi_frequency=128
+fi
+
 programmer=""
 if [ "${FLASHER}" = "rpi" ] ; then
 	echo "Ok. Run this on a Rasperry Pi."
-	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=128"
+	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=${rpi_frequency}"
 elif [ "${FLASHER}" = "ch341a" ] ; then
 	echo "Ok. Connect a CH341A programmer"
 	programmer="ch341a_spi"

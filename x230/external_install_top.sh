@@ -11,6 +11,7 @@ have_input_image=0
 have_chipname=0
 have_backupname=0
 have_flasher=0
+rpi_frequency=0
 
 usage()
 {
@@ -21,15 +22,14 @@ usage()
 	echo ""
 	echo "Usage: $0 -i <image.rom> [-c <chipname>] [-k <backup_filename>]"
 	echo ""
-	echo " -f <hardware_flasher>"
-	echo "       supported flashers: rpi, ch341a"
-	echo ""
-	echo " -i  <path to image to flash>"
-	echo " -c  <chipname> to use for flashrom"
-	echo " -k  <path to backup to save>"
+	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a"
+	echo " -i <image>              path to image to flash"
+	echo " -c <chipname>           to use for flashrom"
+	echo " -k <backup>             save the current image as"
+	echo " -b <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
 }
 
-args=$(getopt -o f:i:c:k:h -- "$@")
+args=$(getopt -o f:i:c:k:hb: -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -57,6 +57,10 @@ do
 	-k)
 		BACKUPNAME=$2
 		have_backupname=1
+		shift
+		;;
+	-b)
+		rpi_frequency=$2
 		shift
 		;;
 	-h)
@@ -87,7 +91,7 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 		exit 1
 	fi
 
-	prompt="file not specified. Please select a file to flash:"
+	prompt="Please select a file to flash or start with the -i option to use a different one:"
 	options=( $(find -maxdepth 1 -name "x230_coreboot_seabios*rom" -print0 | xargs -0) )
 
 	PS3="$prompt "
@@ -128,10 +132,13 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 	done
 fi
 
+if [ ! "${rpi_frequency}" -gt 0 ] ; then
+	rpi_frequency=128
+fi
+
 programmer=""
 if [ "${FLASHER}" = "rpi" ] ; then
-	echo "Ok. Run this on a Rasperry Pi."
-	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=128"
+	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=${rpi_frequency}"
 elif [ "${FLASHER}" = "ch341a" ] ; then
 	echo "Ok. Connect a CH341A programmer"
 	programmer="ch341a_spi"
