@@ -152,7 +152,7 @@ The one we describe can be bought at
 but it's available [elsewhere](https://geizhals.eu/?fs=ch341a) too.
 Also, we don't use the included 3,3V power output (provides too little power),
 but a separate power supply. If you don't have any, consider getting a AMS1117
-based supply for a second USB port (like [this](https://de.aliexpress.com/item/1PCS-AMS1117-3-3V-Mini-USB-5V-3-3V-DC-Perfect-Power-Supply-Module/32785334595.html) or [this](https://geizhals.eu/1415110251)).
+based supply for a second USB port (like [this](https://de.aliexpress.com/item/1PCS-AMS1117-3-3V-Mini-USB-5V-3-3V-DC-Perfect-Power-Supply-Module/32785334595.html) or [this](https://www.ebay.com/sch/i.html?_nkw=ams1117+usb)).
 
 * Leave the P/S Jumper connected (programmer mode, 1a86:5512 USB device)
 * Connect 3,3V from your external supply to the Pomona clip's (or hook) VCC
