@@ -2,6 +2,8 @@
 skulls-x230 0.0.11 - unreleased
 ----------------------------------------
 This release includes the following changes:
+* based on coreboot commit 27ffa4c790
+  (parent in master branch 715cb40963)
 * -b option for external scripts for RPi SPI speed
 
 
