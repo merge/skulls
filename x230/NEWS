@@ -1,4 +1,10 @@
 
+skulls-x230 0.0.12 - unreleased
+----------------------------------------
+This release includes the following changes:
+* simplify unpacking the release archive by including a directory
+
+
 skulls-x230 0.0.11 - released 2018-11-05
 ----------------------------------------
 This release includes the following changes:

@@ -98,37 +98,33 @@ if [ ! "$filesize" -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
+RELEASE_DIR="skulls-x230-${version}"
+rm -rf "$RELEASE_DIR"
+mkdir -p "$RELEASE_DIR"
+
 # copy-in the ROM
-cp "${RELEASE_IMAGE}" .
+cp "${RELEASE_IMAGE}" "$RELEASE_DIR"
+
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
-sha256sum ${RELEASE_IMAGE_FILE} > "${RELEASE_IMAGE_FILE}.sha256"
+sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE}.sha256"
 
-# copy-in device independent stuff
-cp ../SOURCE.md .
+# copy in device independent stuff
+cp ../SOURCE.md "$RELEASE_DIR"
 
-tar -cJf skulls-x230-"${version}".tar.xz \
-	README.md \
-	NEWS \
-	util \
-	LICENSE* \
-	skulls_common.sh \
-	x230_before_first_install.sh \
-	x230_skulls.sh \
-	x230_heads.sh \
-	external_install_bottom.sh \
-	external_install_top.sh \
+# copy in x230 stuff
+cp -a README.md NEWS util LICENSE* skulls_common.sh \
+	x230_before_first_install.sh x230_skulls.sh x230_heads.sh \
+	external_install_bottom.sh external_install_top.sh \
 	upgrade.sh \
-	SOURCE.md \
-	"${RELEASE_IMAGE_FILE}" \
-	"${RELEASE_IMAGE_FILE}.sha256"
+	"$RELEASE_DIR"
 
-rm "${RELEASE_IMAGE_FILE}"
-rm "${RELEASE_IMAGE_FILE}.sha256"
-rm SOURCE.md
+tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
+
+rm -rf "$RELEASE_DIR"
 
 git commit -a -m "update to ${version}"
 git tag -s "${version}" -m "skulls-x230 ${version}"
 
-sha256sum skulls-x230-"${version}".tar.xz > skulls-x230-"${version}".tar.xz.sha256
-sha512sum skulls-x230-"${version}".tar.xz > skulls-x230-"${version}".tar.xz.sha512
-gpg -b -a skulls-x230-"${version}".tar.xz
+sha256sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha256
+sha512sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha512
+gpg -b -a "$RELEASE_DIR".tar.xz
