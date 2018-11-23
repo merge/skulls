@@ -32,7 +32,7 @@ function gitUpdate() {
   cd "$DOCKER_COREBOOT_DIR/3rdparty/blobs/" || exit
   git pull https://review.coreboot.org/blobs refs/changes/52/27352/5
   cd "$DOCKER_COREBOOT_DIR" || exit
-  git pull https://review.coreboot.org/coreboot refs/changes/64/27864/3
+  git pull https://review.coreboot.org/coreboot refs/changes/64/27864/5
 }
 ################################################################################
 

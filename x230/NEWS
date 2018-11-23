@@ -2,6 +2,9 @@
 skulls-x230 0.0.12 - unreleased
 ----------------------------------------
 This release includes the following changes:
+* based on coreboot commit 717f4d5e14
+  (parent in master branch 3032d76778)
+* updates SeaBIOS to version 1.12.0
 * simplify unpacking the release archive by including a directory
 
 
