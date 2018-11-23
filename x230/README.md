@@ -7,7 +7,7 @@
 Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
 * __microcode update__: revision `20` from 2018-04-10 (includes mitigations for Spectre Variant 3a and 4)
-* __SeaBIOS__: version [1.11.2](https://seabios.org/Releases) from 2018-06-02
+* __SeaBIOS__: version [1.12.0](https://seabios.org/Releases) from 2018-11-17
 * The only proprietary binary, the VGA BIOS is executed in "secure" mode ([PCI_OPTION_ROM_RUN_YABEL](https://www.coreboot.org/Coreboot_Options))
 
 ## table of contents
