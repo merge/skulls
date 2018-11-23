@@ -178,7 +178,7 @@ Engine for
 [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities):
 
 
-	sudo ./external_install_bottom.sh -m -k <backup.bin>
+	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
 
 
 That's it. Keep the backup safe.
@@ -197,11 +197,11 @@ Our scripts do this for you.
 #### BIOS: the 4MB chip
 
 
-	sudo ./external_install_top.sh -i <release-image-file>.rom -k <backup>
+	sudo ./external_install_top.sh -k <backup-file-to-create>
 
 
-That's it. Keep the backup safe, assemble and turn on the X230. coreboot will
-do hardware init and start SeaBIOS.
+Select the image to flash and that's it. Keep the backup safe, assemble and
+turn on the X230. coreboot will do hardware init and start SeaBIOS.
 
 ## Updating
 Only the "upper" 4MB chip has to be written.
@@ -216,7 +216,7 @@ this is very dangerous:
 
 1. boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
 2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
-3. run `sudo ./x230_skulls.sh` for generating all necessary files and instructions
+3. run `sudo ./x230_skulls.sh` and choose the image to flash.
 
 ## Moving to Heads
 [Heads](http://osresearch.net/) is an alternative BIOS system with advanced
