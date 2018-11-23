@@ -7,13 +7,14 @@
 set -e
 have_version=0
 have_image=0
+have_image_2=0
 
 usage()
 {
-        echo "Usage: $0 -v version -i release_image"
+        echo "Usage: $0 -v version -i release_image -f second_release_image"
 }
 
-args=$(getopt -o v:i: -- "$@")
+args=$(getopt -o v:i:f: -- "$@")
 if [ $? -ne 0 ] ; then
         usage
         exit 1
@@ -25,6 +26,11 @@ do
 	-i)
 		RELEASE_IMAGE=$2
 		have_image=1
+		shift
+		;;
+	-f)
+		RELEASE_IMAGE_2=$2
+		have_image_2=1
 		shift
 		;;
         -v)
@@ -46,7 +52,12 @@ do
 done
 
 if [ ! "$have_image" -gt 0 ] ; then
-	echo "please provide a release image"
+	echo "we currently need 2 release images"
+	usage
+	exit 1
+fi
+if [ ! "$have_image_2" -gt 0 ] ; then
+	echo "we currently need 2 release images"
 	usage
 	exit 1
 fi
@@ -97,16 +108,25 @@ if [ ! "$filesize" -eq "$reference_filesize" ] ; then
 	echo "filesize of release image is wrong"
 	exit 1
 fi
+filesize=$(wc -c <"${RELEASE_IMAGE_2}")
+reference_filesize=4194304
+if [ ! "$filesize" -eq "$reference_filesize" ] ; then
+	echo "filesize of release image is wrong"
+	exit 1
+fi
 
 RELEASE_DIR="skulls-x230-${version}"
 rm -rf "$RELEASE_DIR"
 mkdir -p "$RELEASE_DIR"
 
-# copy-in the ROM
+# copy-in the ROMs
 cp "${RELEASE_IMAGE}" "$RELEASE_DIR"
+cp "${RELEASE_IMAGE_2}" "$RELEASE_DIR"
 
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
 sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE}.sha256"
+RELEASE_IMAGE_FILE_2=$(basename "${RELEASE_IMAGE_2}")
+sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_2} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE_2}.sha256"
 
 # copy in device independent stuff
 cp ../SOURCE.md "$RELEASE_DIR"
