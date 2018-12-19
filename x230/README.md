@@ -3,11 +3,11 @@
 ![seabios_bootmenu](front.jpg)
 
 ## Latest release
-* This directory's `./build.sh` should produce the exact release image file (from a skulls git checkout).
 Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
 * __microcode update__: revision `20` from 2018-04-10 (includes mitigations for Spectre Variant 3a and 4)
 * __SeaBIOS__: version [1.12.0](https://seabios.org/Releases) from 2018-11-17
+
 
 ## table of contents
 * [TL;DR](#tldr)
@@ -15,6 +15,7 @@ Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * [Updating](#updating)
 * [Moving to Heads](#moving-to-heads)
 * [Why does this work](#why-does-this-work)
+* [How to rebuild](#how-to-reproduce-the-release-images)
 
 ## TL;DR
 1. run `sudo ./x230_before_first_install.sh` on your current X230 Linux system
@@ -246,3 +247,8 @@ if you like, but strictly speaking, you
 [don't need to touch it at all](https://www.coreboot.org/Board:lenovo/x230#Building_Firmware).
 What's this "rest"?
 Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
+
+## how to reproduce the release images
+* `git clone https://github.com/merge/skulls`
+* rename one of the included config files to `config-xxxxxxxxxx`.
+* The x230 directory's `./build.sh` should produce the exact corresponding release image file.
