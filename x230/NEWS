@@ -1,8 +1,10 @@
 
-skulls-x230 0.1.0 - unreleased
-----------------------------------------
+skulls-x230 0.1.0 - released 2018-12-19
+---------------------------------------
 This release includes the following changes:
-* add a second more free image with SeaVGABIOS to choose
+* based on coreboot commit 2ca2acc51f
+  (parent in master branch 47d6663bba)
+* add an optional second image that includes SeaVGABIOS
 
 
 skulls-x230 0.0.12 - released 2018-11-23
