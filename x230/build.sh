@@ -1,4 +1,5 @@
 #!/bin/bash
+ls -1 config* || exit 0
 . skulls_common.sh
 
 warn_not_root
