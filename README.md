@@ -13,7 +13,7 @@ coreboot-based BIOS on your laptop.
 
 ## Supported Laptops
 
-* [Lenovo Thinkpad X230](x230/README.md)
+* [Lenovo Thinkpad X230 and X230T](x230/README.md)
 
 ## When do we do a release?
 Either when
