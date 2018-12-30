@@ -11,7 +11,7 @@ Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 
 ## table of contents
 * [TL;DR](#tldr)
-* [First-time installation](#firsttime-installation)
+* [First-time installation](#first-time-installation)
 * [Updating](#updating)
 * [Moving to Heads](#moving-to-heads)
 * [Why does this work](#why-does-this-work)
