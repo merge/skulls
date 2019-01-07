@@ -66,17 +66,3 @@ elif [ "${bios_minor}" -ge "60" ] ; then
 else
 	echo -e "The installed original BIOS is very old. ${RED}please upgrade${NC} before installing coreboot."
 fi
-
-echo "Please search for your SODIMM RAM and verify that it uses 1,5 Volts (not 1,35V):"
-dmidecode -t memory | grep Part | grep -v "Not Specified" | sort -u | cut -d':' -f2 | sed 's/ //'
-RAM_SPEC=$(dmidecode -t memory | grep Part | grep -v "Not Specified" | sort -u | cut -d':' -f2 | sed 's/ //')
-
-read -r -p "Open a browser and search for it? [y/N] " response
-case "$response" in
-	[yY][eE][sS]|[yY])
-		xdg-open "https://duckduckgo.com/?q=${RAM_SPEC}!"
-		;;
-	*)
-		exit 0
-	;;
-esac
