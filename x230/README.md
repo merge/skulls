@@ -33,9 +33,8 @@ branch is _not_ meant to be stable. Use it for testing only.
 ## First-time installation
 #### before you begin
 Before starting, run Linux on your X230, install `dmidecode` and run
-`sudo ./x230_before_first_install.sh`. It simply prints system information and helps
-you find out your RAM voltage. Make sure you have RAM that uses
-[1,5V, not 1,35V](https://www.coreboot.org/Intel_Native_Raminit#Sandybridge.2FIvybridge).
+`sudo ./x230_before_first_install.sh`. It simply prints system information and
+helps you to be up to date.
 Also make sure you have the latest skulls-x230 package release by running `./upgrade.sh`.
 
 #### original BIOS update / EC firmware (optional)
