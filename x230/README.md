@@ -8,7 +8,6 @@ Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __microcode update__: revision `20` from 2018-04-10 (includes mitigations for Spectre Variant 3a and 4)
 * __SeaBIOS__: version [1.12.0](https://seabios.org/Releases) from 2018-11-17
 
-
 ## Table of contents
 * [TL;DR](#tldr)
 * [First-time installation](#first-time-installation)
@@ -66,7 +65,7 @@ That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=
 and boot from it. Alternatively, burn `patched.x230.iso` to a CD. And make sure
 you have "legacy" boot set, not "UEFI" boot.
 
-### Optionally: If your Thinkpad is on Linux already
+### Optionally: If your Thinkpad already is on Linux
 Before starting, run Linux on your X230, install `dmidecode` and run
 `sudo ./x230_before_first_install.sh`. It simply prints system information and
 helps you to be up to date.
@@ -87,13 +86,12 @@ to connect the clip to a hardware flasher (if not included with the clip)
 * a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices), see below for the examples we support
 
-There are plenty of cheap chinese SOIC-clips, their build-quality often is reported to be problematic. Consider getting one of the above mentioned brand clips.
+There are plenty of cheap chinese SOIC-clips, their build-quality is reported to be problematic. Consider getting one of the above mentioned brand clips.
 
 ### Open up the X230
 Remove the 7 screws of your X230 to remove the keyboard (by pushing it towards the
 screen before lifting) and the palmrest. You'll find the chips using the photo
 below. This is how the SPI connection looks like on both of the X230's chips:
-
 
 		Screen (furthest from you)
 			     ______
@@ -103,8 +101,7 @@ below. This is how the SPI connection looks like on both of the X230's chips:
 		   VCC  8 --|______|-- 1  CS
 
 		   Edge (closest to you)
-		   N/C = nothin connected
-
+		   N/C = not connected
 
 ... choose __one of the following__ supported flashing hardware examples:
 
@@ -129,7 +126,6 @@ or ethernet to `sudo apt-get install flashrom`
 * connect the Clip to the Raspberry Pi 3 (there are
 [prettier images](https://github.com/splitbrain/rpibplusleaf) too):
 
-
 		   Edge of pi (furthest from you)
 		               (UART)
 		 L           GND                                  CS
@@ -142,7 +138,6 @@ or ethernet to `sudo apt-get install flashrom`
 		 G                                   3.3V MOSIMISO|                              
 		 E                                 (VCC)         CLK
 		   Body of Pi (closest to you)
-
 
 ![Raspberry Pi at work](rpi_clip.jpg)
 
@@ -173,11 +168,10 @@ is not necessary (some other flashing how-to guides mention this).
 Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
 Our scripts do this for you.
 
-I checked around on excactly when and how one should connect the clip. There has been no clear advice, it seemed to be safest to first connect all cables between the flashing device and the clip, and once correctly configured, connect the clip to the chip.
+We checked around on excactly when and how one should connect the clip. There has been no clear advice, it seems to be safest to first connect all cables between the flashing device and the clip, and once correctly configured, connect the clip to the chip.
 
 ## Get and unpack the Skulls release archive
 After choosing one flasher-option [download](https://github.com/merge/skulls/releases) the latest release and untar it:
-
 
 	tar -xf skulls-x230-<version>.tar.xz
 	cd skulls-x230-<version>
@@ -187,7 +181,9 @@ Make sure to verify the checksum with e.g.:
 	sha256sum skulls-x230-0.1.0.tar.xz anc compare this to the [checksum](https://github.com/merge/skulls/releases/download/0.1.0/skulls-x230-0.1.0.tar.xz.sha256)
 
 ### Side note
-Flashing with these low speeds takes time. Be patient. E.g. unlocking the bottom chip with its two reads, one write and one verify step usually takes one hour in total. Again, be patient!
+Flashing with these low speeds takes time. Be patient. E.g. unlocking the bottom chip with its two reads, one write and one verify step usually takes approximately one hour in total. Again, be patient!
+
+If you need to configure the -c option when flashing top- or bottom-chip it may well be that different chips are used. So, it may be neccessary to e.g. configure _external_install_bottom_ with the _-c EN25QH64_ option, but when flashing the top-chip it only works without _-c_ or with a different chip.
 
 ## First, optional step: Connect to the bottom chip
 There are a few reasons why you may start with connecting your clip to the bottom (at the bottom, closer to you) chip (it has the same pinout than the upper chip):
@@ -196,7 +192,7 @@ There are a few reasons why you may start with connecting your clip to the botto
 [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities)
 - You simply may want to backup the firmware in this chip.
 
-If you don't want to any of this skip to the upper chip. Else choose the correct command line options here
+If you don't want any of this skip to the upper chip. Else choose the correct command line options here
 
 	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
 
@@ -213,9 +209,9 @@ The upper- or top-chip (the one nearer to the display) houses the BIOS to be rep
 Select the image to flash and that's it. The image named "free" includes
 [SeaVGABIOS](https://www.seabios.org/SeaVGABIOS) instead of
 [Intel's VGA Bios](https://www.intel.com/content/www/us/en/intelligent-systems/intel-embedded-graphics-drivers/faq-bios-firmware.html).
-Keep the backup safe, assemble and turn on the X230. coreboot will do hardware init and start SeaBIOS.
 
-You are done, everything below is optional. Enjoy your liberated Thinkpad!
+Keep the backup safe, assemble and turn on the X230. coreboot will do hardware init and start SeaBIOS.
+You are done, everything below is optional. _Enjoy your liberated Thinkpad!_
 
 ## Updating
 Two possibilities:
@@ -263,7 +259,7 @@ if you like, but strictly speaking, you
 What's this "rest"?
 Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
 
-## how to reproduce the release images
+## How to reproduce the release images
 * `git clone https://github.com/merge/skulls`
 * rename one of the included config files to `config-xxxxxxxxxx`.
 * The x230 directory's `./build.sh` should produce the exact corresponding release image file.
