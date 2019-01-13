@@ -2,6 +2,9 @@
 
 ![seabios_bootmenu](front.jpg)
 
+## Warning up-front
+This may brick/destroy/detonate your Thinkpad. Proceed at your own discretion.
+
 ## Latest release
 Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
@@ -216,7 +219,7 @@ You are done, everything below is optional. _Enjoy your liberated Thinkpad!_
 ## Updating
 Two possibilities:
 
-If you unlocked the bottom chip (see above) then you can flash in place:
+_If you unlocked the bottom chip (see above) then you can flash in place:_
 
 That's of course very convenient - just install flashrom from your
 Linux distribution - but according to the
@@ -227,7 +230,7 @@ this is very dangerous:
 2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
 3. run `sudo ./x230_skulls.sh` and choose the image to flash.
 
-If you decided against flashing in place, just repeat the steps for the top-chip:
+_If you decided against flashing in place, just repeat the steps for the top-chip:_
 
 You can again flash externally, using `external_install_top.sh` just like the
 first time, see above.
@@ -263,3 +266,7 @@ Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
 * `git clone https://github.com/merge/skulls`
 * rename one of the included config files to `config-xxxxxxxxxx`.
 * The x230 directory's `./build.sh` should produce the exact corresponding release image file.
+
+## Further reading / more pictures
+* [Flashing the X230 with coreboot while slaying Intel-ME](https://steemit.com/tutorial/@joeyd/run-don-t-walk-from-the-blob)
+* [Step by Step easy guide to flashing Coreboot (X230, but should work for others too)](https://www.reddit.com/r/thinkpad/comments/4zrmf8/step_by_step_easy_guide_to_flashing_coreboot_x230/)
