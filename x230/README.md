@@ -9,7 +9,7 @@ Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __SeaBIOS__: version [1.12.0](https://seabios.org/Releases) from 2018-11-17
 
 
-## table of contents
+## Table of contents
 * [TL;DR](#tldr)
 * [First-time installation](#first-time-installation)
 * [Updating](#updating)
@@ -18,32 +18,29 @@ Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * [How to rebuild](#how-to-reproduce-the-release-images)
 
 ## TL;DR
-1. run `sudo ./x230_before_first_install.sh` on your current X230 Linux system
-2. Power down, remove the battery. Remove the keyboard and palmrest. Connect
-a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip clip
-can directly be used), and run
-`sudo ./external_install_bottom.sh` on the lower chip
-and `sudo ./external_install_top.sh` on the top chip of the two.
-3. For updating later, run `./x230_skulls.sh`. No need to disassemble.
+1. If your Thinkpad is already running linux: run `sudo ./x230_before_first_install.sh` on it
+2. Power down, remove the battery. Remove the keyboard and palmrest.
+3. Connect a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip clip
+can directly be used)
+4. Run `sudo ./external_install_bottom.sh` on the lower chip
+5. Run `sudo ./external_install_top.sh` on the top chip of the two
+6. Optionally: For updating later, run `./x230_skulls.sh`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
-package. This will be tested. The git master
-branch is _not_ meant to be stable. Use it for testing only.
+package. This will be tested. The git master branch is _not_ meant to be stable. Use it for testing only.
 
 ## First-time installation
-#### before you begin
-Before starting, run Linux on your X230, install `dmidecode` and run
-`sudo ./x230_before_first_install.sh`. It simply prints system information and
-helps you to be up to date.
-Also make sure you have the latest skulls-x230 package release by running `./upgrade.sh`.
 
-#### original BIOS update / EC firmware (optional)
+### If you are still on Windows and Lenovo BIOS
+
 Before flashing coreboot, consider doing one original Lenovo upgrade process
 in case you're not running the latest version. This is not supported anymore,
 once you're running coreboot (You'd have to manually flash back your backup
 images first, see later chapters).
 
-Also, this updates the BIOS _and_ Embedded Controller (EC) firmware. The EC
+Check the [Lenovo Support site (which is quite good and actually helpful)](https://pcsupport.lenovo.com/de/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230) and e.g. run the _Lenovo System Update for Windows_ to check for old BIOS, EC- or battery-firmware or other updateable firmwar.
+
+Also, this updates the BIOS (latest 2.74) _and_ Embedded Controller (EC) firmware. The EC
 is not updated anymore, when running coreboot. The latest EC version is 1.14
 and that's unlikely to change.
 
@@ -69,7 +66,13 @@ That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=
 and boot from it. Alternatively, burn `patched.x230.iso` to a CD. And make sure
 you have "legacy" boot set, not "UEFI" boot.
 
-#### preparation: required hardware
+### Optionally: If your Thinkpad is on Linux already
+Before starting, run Linux on your X230, install `dmidecode` and run
+`sudo ./x230_before_first_install.sh`. It simply prints system information and
+helps you to be up to date.
+Also make sure you have the latest skulls-x230 package release by running `./upgrade.sh`.
+
+### Preparation: required hardware
 * An 8 Pin SOIC Clip, for example from
 [Pomona electronics](https://www.pomonaelectronics.com/products/test-clips/soic-clip-8-pin)
 (for availability, check
@@ -84,7 +87,9 @@ to connect the clip to a hardware flasher (if not included with the clip)
 * a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices), see below for the examples we support
 
-#### open up the X230
+There are plenty of cheap chinese SOIC-clips, their build-quality often is reported to be problematic. Consider getting one of the above mentioned brand clips.
+
+### Open up the X230
 Remove the 7 screws of your X230 to remove the keyboard (by pushing it towards the
 screen before lifting) and the palmrest. You'll find the chips using the photo
 below. This is how the SPI connection looks like on both of the X230's chips:
@@ -98,11 +103,12 @@ below. This is how the SPI connection looks like on both of the X230's chips:
 		   VCC  8 --|______|-- 1  CS
 
 		   Edge (closest to you)
+		   N/C = nothin connected
 
 
 ... choose __one of the following__ supported flashing hardware examples:
 
-#### Hardware Example: Raspberry Pi 3
+### Option 1: Raspberry Pi 3
 A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
 Use a test clip or hooks, see [required hardware](#preparation-required-hardware).
 
@@ -126,14 +132,14 @@ or ethernet to `sudo apt-get install flashrom`
 
 		   Edge of pi (furthest from you)
 		               (UART)
-		 L           GND TX  RX                           CS
-		 E            |   |   |                           |
+		 L           GND                                  CS
+		 E            |                                   |
 		 F +---------------------------------------------------------------------------------+
 		 T |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
 		   |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
 		 E +----------------------------------^---^---^---^-------------------------------^--+
-		 D                                    |   |   |   |                               |
-		 G                                   3.3V MOSIMISO|                              GND
+		 D                                    |   |   |   |                              
+		 G                                   3.3V MOSIMISO|                              
 		 E                                 (VCC)         CLK
 		   Body of Pi (closest to you)
 
@@ -143,7 +149,7 @@ or ethernet to `sudo apt-get install flashrom`
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
 
-#### Hardware Example: CH341A based
+### Option 2: CH341A based
 The CH341A from [Winchiphead](http://www.wch.cn/), a USB interface chip,
 is used by some cheap memory programmers.
 The one we describe can be bought at
@@ -161,57 +167,62 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 ![ch341a programmer with extra USB power supply](ch341a.jpg)
 
-#### unpack the Skulls release archive
+### Side note
+Connecting an ethernet cable as a power-source for SPI (instead of the VCC pin)
+is not necessary (some other flashing how-to guides mention this).
+Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
+Our scripts do this for you.
+
+I checked around on excactly when and how one should connect the clip. There has been no clear advice, it seemed to be safest to first connect all cables between the flashing device and the clip, and once correctly configured, connect the clip to the chip.
+
+## Get and unpack the Skulls release archive
+After choosing one flasher-option [download](https://github.com/merge/skulls/releases) the latest release and untar it:
 
 
 	tar -xf skulls-x230-<version>.tar.xz
 	cd skulls-x230-<version>
 
+Make sure to verify the checksum with e.g.:
 
-#### ifd unlock and me_cleaner: the 8MB chip
-The [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
-resides on the 8MB chip (at the bottom, closer to you).
-We don't need to touch it for coreboot-upgrades in the future, but to
-enable internal flashing, we need to unlock it once, and remove the Management
-Engine for
-[security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities):
+	sha256sum skulls-x230-0.1.0.tar.xz anc compare this to the [checksum](https://github.com/merge/skulls/releases/download/0.1.0/skulls-x230-0.1.0.tar.xz.sha256)
 
+### Side note
+Flashing with these low speeds takes time. Be patient. E.g. unlocking the bottom chip with its two reads, one write and one verify step usually takes one hour in total. Again, be patient!
+
+## First, optional step: Connect to the bottom chip
+There are a few reasons why you may start with connecting your clip to the bottom (at the bottom, closer to you) chip (it has the same pinout than the upper chip):
+- You may want to enable in system updates in the future. The advantage is that you can update and change whatever you decide to flash in the upper chip. The disadvantage is that any software can flash you BIOS with this setting. Choose wisely (Heads - see below - may be of use here).
+- You may want to neuter the [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine) for
+[security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities)
+- You simply may want to backup the firmware in this chip.
+
+If you don't want to any of this skip to the upper chip. Else choose the correct command line options here
 
 	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
 
-
-That's it. Keep the backup safe.
-
-
-Background (just so you know):
-
 * The `-m` option above also runs `me_cleaner -S` before flashing back, see [me_cleaner](https://github.com/corna/me_cleaner).
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
-yourself (and others) to hardware-flashing.
-* Connecting an ethernet cable as a power-source for SPI (instead of the VCC pin)
-is not necessary (some other flashing how-to guides mention this).
-Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
-Our scripts do this for you.
+yourself (and others) to hardware-flashing. Unlocking is standard if you don't specify this.
+* The `-k` creates a backup-file if two reads succeeded and produced the same checksum.
 
-#### BIOS: the 4MB chip
-
+#### Second, the main step: "Butter bei die Fische"
+The upper- or top-chip (the one nearer to the display) houses the BIOS to be replaced. If you are finished with the bottom-chip (or you decided no to touch it) connect the clip in the same configuration to the top-chip. Then run:
 
 	sudo ./external_install_top.sh -k <backup-file-to-create>
-
 
 Select the image to flash and that's it. The image named "free" includes
 [SeaVGABIOS](https://www.seabios.org/SeaVGABIOS) instead of
 [Intel's VGA Bios](https://www.intel.com/content/www/us/en/intelligent-systems/intel-embedded-graphics-drivers/faq-bios-firmware.html).
-Keep the backup safe, assemble and
-turn on the X230. coreboot will do hardware init and start SeaBIOS.
+Keep the backup safe, assemble and turn on the X230. coreboot will do hardware init and start SeaBIOS.
+
+You are done, everything below is optional. Enjoy your liberated Thinkpad!
 
 ## Updating
-Only the "upper" 4MB chip has to be written.
-You can again flash externally, using `external_install_top.sh` just like the
-first time, see above.
+Two possibilities:
 
-Instead you can run the update directly on your X230
-using Linux. That's of course very convenient - just install flashrom from your
+If you unlocked the bottom chip (see above) then you can flash in place:
+
+That's of course very convenient - just install flashrom from your
 Linux distribution - but according to the
 [flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
 this is very dangerous:
@@ -219,6 +230,11 @@ this is very dangerous:
 1. boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
 2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
 3. run `sudo ./x230_skulls.sh` and choose the image to flash.
+
+If you decided against flashing in place, just repeat the steps for the top-chip:
+
+You can again flash externally, using `external_install_top.sh` just like the
+first time, see above.
 
 ## Moving to Heads
 [Heads](http://osresearch.net/) is an alternative BIOS system with advanced
