@@ -163,7 +163,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 	fi
 	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
-		flashrom -p ${programmer}
+		flashrom -p ${programmer} || true
 		rm -rf "${TEMP_DIR}"
 		echo "chip not detected. Please find it manually and rerun with the -c parameter."
 		exit 1
