@@ -34,6 +34,13 @@ function configAndMake() {
     cp "$DOCKER_SCRIPT_DIR/pci8086,0166.rom" "$DOCKER_COREBOOT_DIR/pci8086,0166.rom"
   fi
 
+  ###############################
+  ##  Copy in bootsplash image ##
+  ###############################
+  if [ -f "$DOCKER_SCRIPT_DIR/bootsplash.jpg" ]; then
+    cp "$DOCKER_SCRIPT_DIR/bootsplash.jpg" "$DOCKER_COREBOOT_DIR/bootsplash.jpg"
+  fi
+
   ##############
   ##   make   ##
   ##############

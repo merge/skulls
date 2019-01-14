@@ -27,11 +27,6 @@ function gitUpdate() {
     cd "$DOCKER_COREBOOT_DIR/3rdparty/blobs/" || exit
     git fetch --all --tags --prune
   fi
-
-  # update the blobs repo to include the microcode update we need
-  # cd "$DOCKER_COREBOOT_DIR/3rdparty/blobs/" || exit
-  cd "$DOCKER_COREBOOT_DIR" || exit
-  git pull https://review.coreboot.org/coreboot refs/changes/08/30308/1
 }
 ################################################################################
 
