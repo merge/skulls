@@ -65,7 +65,7 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 		exit 1
 	fi
 
-	prompt="file not specified. Please select a file to flash:"
+	prompt="file not specified. Please select a file to flash. Please read the README for details about the differences:"
 	options=( $(find -maxdepth 1 -name "x230_coreboot_seabios*rom" -print0 | xargs -0) )
 
 	PS3="$prompt "
