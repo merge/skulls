@@ -8,6 +8,21 @@ Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __microcode update__: revision `20` from 2018-04-10 (includes mitigations for Spectre Variant 3a and 4)
 * __SeaBIOS__: version [1.12.0](https://seabios.org/Releases) from 2018-11-17
 
+### release images to choose from
+We release multiple different, but _very similar_ images you can choose from.
+They all should work on all versions of the X230/X230T. These are the
+differences; (xxxxxxxxxx stands for random characters in the filename):
+* `x230_coreboot_seabios_xxxxxxxxxx_top.rom` includes the _proprietary_
+[VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS) from [Intel](https://www.intel.com/content/www/us/en/intelligent-systems/intel-embedded-graphics-drivers/faq-bios-firmware.html)
+which is non-free software. It is executed in "secure" mode.
+* `x230_coreboot_seabios_free_xxxxxxxxxx_top.rom` includes the
+[VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS)
+[SeaVGABIOS](https://www.seabios.org/SeaVGABIOS) which is free software.
+While technically more interesting, visually this is currently not as
+beautiful:
+  * The [bootspash image is not shown](https://github.com/merge/skulls/issues/59).
+  * Early boot console messages (after your HDD's bootloader has started a kernel) might be [missing](https://github.com/merge/skulls/issues/46).
+
 
 ## table of contents
 * [TL;DR](#tldr)
@@ -199,9 +214,7 @@ Our scripts do this for you.
 	sudo ./external_install_top.sh -k <backup-file-to-create>
 
 
-Select the image to flash and that's it. The image named "free" includes
-[SeaVGABIOS](https://www.seabios.org/SeaVGABIOS) instead of
-[Intel's VGA Bios](https://www.intel.com/content/www/us/en/intelligent-systems/intel-embedded-graphics-drivers/faq-bios-firmware.html).
+Select the image to flash and that's it.
 Keep the backup safe, assemble and
 turn on the X230. coreboot will do hardware init and start SeaBIOS.
 
