@@ -1,3 +1,4 @@
 output
 x230_coreboot_seabios_*rom*
 build
+/config-*
