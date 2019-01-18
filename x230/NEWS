@@ -1,7 +1,8 @@
 
-skulls-x230 0.1.1 - unreleased
+skulls-x230 0.1.1 - released 2019-01-18
 ---------------------------------------
 This release includes the following changes:
+* based on coreboot commit cd97982e2e
 * updates and bugfixes in the scripts
 * bootsplash logo added to the nonfree image
 
