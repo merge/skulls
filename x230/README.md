@@ -262,5 +262,5 @@ Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
 
 ## how to reproduce the release images
 * `git clone https://github.com/merge/skulls`
-* rename one of the included config files to `config-xxxxxxxxxx`.
-* The x230 directory's `./build.sh` should produce the exact corresponding release image file.
+* `cd skulls/x230`
+* `./build.sh` and choose the configuration you want to build
