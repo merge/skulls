@@ -259,6 +259,8 @@ if you like, but strictly speaking, you
 [don't need to touch it at all](https://www.coreboot.org/Board:lenovo/x230#Building_Firmware).
 What's this "rest"?
 Mainly a tiny binary used by the Ethernet card and the Intel Management Engine.
+Read the [coreboot documentation](https://doc.coreboot.org/mainboard/lenovo/xx30_series.html)
+for more details.
 
 ## how to reproduce the release images
 * `git clone https://github.com/merge/skulls`
