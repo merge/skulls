@@ -254,7 +254,7 @@ Switching back to Skulls is the same as [updating](#updating). Just run
 ## Why does this work?
 On the X230, there are 2 physical "BIOS" chips. The "upper" 4MB
 one holds the actual bios we can generate using coreboot, and the "lower" 8MB
-one holds the rest that you can [modify yourself once](#flashing-for-the-first-time),
+one holds the rest that you can [modify yourself once](#first-time-installation),
 if you like, but strictly speaking, you
 [don't need to touch it at all](https://www.coreboot.org/Board:lenovo/x230#Building_Firmware).
 What's this "rest"?
