@@ -264,5 +264,6 @@ for more details.
 
 ## how to reproduce the release images
 * `git clone https://github.com/merge/skulls`
+* `git checkout <VERSION>` for the release you want to build
 * `cd skulls/x230`
 * `./build.sh` and choose the configuration you want to build
