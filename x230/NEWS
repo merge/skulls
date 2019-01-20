@@ -1,4 +1,10 @@
 
+skulls-x230 0.1.2 - unreleased
+---------------------------------------
+This release includes the following changes:
+* update coreboot-sdk to version 1.53
+
+
 skulls-x230 0.1.1 - released 2019-01-18
 ---------------------------------------
 This release includes the following changes:
