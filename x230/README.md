@@ -186,12 +186,19 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 
 #### ifd unlock and me_cleaner: the 8MB chip
-The [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
-resides on the 8MB chip (at the bottom, closer to you).
-We don't need to touch it for coreboot-upgrades in the future, but to
-enable internal flashing, we need to unlock it once, and remove the Management
-Engine for
-[security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities):
+
+Flashing the bottom chip (closer to you) is optional. It has the same pinout than
+the upper chip.
+This allows you to enable in-system flashing (flashing without opening the Thinkpad)
+and/or to neuter the the 
+[Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
+for [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities).
+
+Choose wisely, by unlocking any software can re-flash the BIOS. By neutering the
+Intel ME you can not have a e.g.
+[measured boot with Qubes](https://github.com/QubesOS/qubes-antievilmaid/tree/master/anti-evil-maid).
+
+The following command defaults to unlocking the BIOS and cleaning the IME.
 
 
 	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
@@ -210,11 +217,7 @@ is not necessary (some other flashing how-to guides mention this).
 Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
 Our scripts do this for you.
 
-#### First, optional step: Flash the bottom chip
-
-It may make sense to start with connecting your clip to the bottom (at the bottom, closer to you) chip (it has the same pinout than the upper chip). You may want to enable in system updates in the future. The advantage is that you can update and change whatever you decide to flash in the upper chip. The disadvantage is that any software can flash you BIOS with this setting. Choose wisely (Heads - see below - may be of use here).
-
-#### Second, required step: Flash the upper chip
+#### BIOS: the 4MB chip
 
 
 	sudo ./external_install_top.sh -k <backup-file-to-create>
