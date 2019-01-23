@@ -183,6 +183,9 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 	cd skulls-x230-<version>
 
 
+#### side note
+Flashing and reading with low speeds takes time. Be patient. E.g. unlocking the bottom chip with its two reads, one write and one verify step usually takes approximately one hour in total.
+
 #### ifd unlock and me_cleaner: the 8MB chip
 The [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
 resides on the 8MB chip (at the bottom, closer to you).
