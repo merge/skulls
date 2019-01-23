@@ -185,6 +185,7 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 #### side note
 Flashing and reading with low speeds takes time. Be patient. E.g. unlocking the bottom chip with its two reads, one write and one verify step usually takes approximately one hour in total.
+If you need to configure the -c option when flashing top- or bottom-chip it may well be that different chips are used. So, it may be neccessary to e.g. configure _external_install_bottom_ with the _-c EN25QH64_ option, but when flashing the top-chip it only works without _-c_ or with a different chip.
 
 #### ifd unlock and me_cleaner: the 8MB chip
 The [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
