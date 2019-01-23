@@ -212,7 +212,11 @@ is not necessary (some other flashing how-to guides mention this).
 Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
 Our scripts do this for you.
 
-#### BIOS: the 4MB chip
+#### First, optional step: Flash the bottom chip
+
+It may make sense to start with connecting your clip to the bottom (at the bottom, closer to you) chip (it has the same pinout than the upper chip). You may want to enable in system updates in the future. The advantage is that you can update and change whatever you decide to flash in the upper chip. The disadvantage is that any software can flash you BIOS with this setting. Choose wisely (Heads - see below - may be of use here).
+
+#### Second, required step: Flash the upper chip
 
 
 	sudo ./external_install_top.sh -k <backup-file-to-create>
