@@ -132,7 +132,7 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 fi
 
 if [ ! "${rpi_frequency}" -gt 0 ] ; then
-	rpi_frequency=128
+	rpi_frequency=512
 fi
 
 programmer=""
