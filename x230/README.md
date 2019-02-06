@@ -242,6 +242,10 @@ this is very dangerous:
 2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
 3. run `sudo ./x230_skulls.sh` and choose the image to flash.
 
+Hint: In case your Linux distribution's GRUB bootloader doesn't use the full
+screen, put the line `GRUB_GFXMODE=1366x768x32` in your `/etc/default/grub` file
+(and run `update_grub`).
+
 ## Moving to Heads
 [Heads](http://osresearch.net/) is an alternative BIOS system with advanced
 security features. It's more complicated to use though. When having Skulls
