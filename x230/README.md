@@ -211,11 +211,7 @@ Background (just so you know):
 
 * The `-m` option above also runs `me_cleaner -S` before flashing back, see [me_cleaner](https://github.com/corna/me_cleaner).
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
-yourself (and others) to hardware-flashing.
-* Connecting an ethernet cable as a power-source for SPI (instead of the VCC pin)
-is not necessary (some other flashing how-to guides mention this).
-Setting a fixed (and low) SPI speed for flashrom offeres the same stability.
-Our scripts do this for you.
+yourself (and others) to hardware-flashing, see [updating](#updating).
 
 #### BIOS: the 4MB chip
 
@@ -228,15 +224,13 @@ Keep the backup safe, assemble and
 turn on the X230. coreboot will do hardware init and start SeaBIOS.
 
 ## Updating
-Only the "upper" 4MB chip has to be written.
-You can again flash externally, using `external_install_top.sh` just like the
-first time, see above.
+If you have locked your flash (i.e. `./external_install_bottom -l`) you can
+flash externally using `external_install_top.sh` just like the
+first time, see above. Only the "upper" 4MB chip has to be written.
 
-Instead you can run the update directly on your X230
-using Linux. That's of course very convenient - just install flashrom from your
-Linux distribution - but according to the
-[flashrom manpage](https://manpages.debian.org/stretch/flashrom/flashrom.8.en.html)
-this is very dangerous:
+It is recommended to do the the update directly on your X230 using Linux
+though. This is considered more safe for your hardware and is very convenient -
+just install the "flashrom" program and run  `./x230_skulls.sh`, see below.
 
 1. boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
 2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
