@@ -187,29 +187,20 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 #### ifd unlock and me_cleaner: the 8MB chip
 
-Flashing the bottom chip (closer to you) is optional. It has the same pinout than
-the upper chip.
-This allows you to enable in-system flashing (flashing without opening the Thinkpad)
-and/or to neuter the the 
+Flashing the bottom chip (closer to you) is optional. It has the same pinout
+than the upper chip. This allows you to enable/disable in-system flashing
+(without disassembling the Thinkpad) and/or to neuter the the
 [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
 for [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities).
-
-Choose wisely, by unlocking any software can re-flash the BIOS. By neutering the
-Intel ME you can not have a e.g.
-[measured boot with Qubes](https://github.com/QubesOS/qubes-antievilmaid/tree/master/anti-evil-maid).
-
-The following command defaults to unlocking the BIOS and cleaning the IME.
 
 
 	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
 
 
-That's it. Keep the backup safe.
+That's it. Keep the backup safe. Here are the options (just so you know):
 
-
-Background (just so you know):
-
-* The `-m` option above also runs `me_cleaner -S` before flashing back, see [me_cleaner](https://github.com/corna/me_cleaner).
+* The `-m` option applies `me_cleaner -S` before flashing back, see
+[me_cleaner](https://github.com/corna/me_cleaner).
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
 yourself (and others) to hardware-flashing, see [updating](#updating).
 
