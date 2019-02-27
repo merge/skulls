@@ -69,20 +69,9 @@ In case you're not running the latest BIOS version, either
 By default, only original Lenovo batteries are allowed.
 Thanks to [this](http://zmatt.net/unlocking-my-lenovo-laptop-part-3/)
 [project](https://github.com/eigenmatt/mec-tools) we can use Lenovo's bootable
-upgrade image, change it and create a bootable _USB_ image, with an EC update
-that allows us to use any 3rd party aftermarket battery:
-
-
-		sudo apt-get install build-essential git mtools libssl-dev
-		git clone https://github.com/hamishcoleman/thinkpad-ec && cd thinkpad-ec
-		make patch_disable_keyboard clean
-		make patch_enable_battery clean
-		make patched.x230.img
-
-
-That's it. You can create a bootable USB stick: `sudo dd if=patched.x230.img of=/dev/sdx`
-and boot from it. Alternatively, burn `patched.x230.iso` to a CD. And make sure
-you have "legacy" boot set, not "UEFI" boot.
+upgrade image, change it and create a bootable _USB_ image (even with EC updates
+that allows to use 3rd party aftermarket batteries). For this, follow instructions
+at [github.com/hamishcoleman/thinkpad-ec](https://github.com/hamishcoleman/thinkpad-ec).
 
 #### preparation: required hardware
 * An 8 Pin SOIC Clip, for example from
