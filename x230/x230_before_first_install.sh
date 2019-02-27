@@ -57,12 +57,9 @@ BIOS_VERSION=$(dmidecode -s bios-version | grep -o '[1-2].[0-7][0-9]')
 bios_major=$(echo "$BIOS_VERSION" | cut -d. -f1)
 bios_minor=$(echo "$BIOS_VERSION" | cut -d. -f2)
 
-if [ "${bios_minor}" -eq "74" ] ; then
-	echo -e "${GREEN}latest BIOS version${NC} installed. Nothing to do."
-elif [ "${bios_minor}" -ge "60" ] ; then
+if [ "${bios_minor}" -ge "60" ] ; then
 	echo "installed BIOS version is ${bios_major}.${bios_minor}."
-	echo "That's not the latest version, but the EC version is."
-	echo "You may upgrade before installing coreboot if you want."
 else
-	echo -e "The installed original BIOS is very old. ${RED}please upgrade${NC} before installing coreboot."
+	echo -e "The installed original BIOS is very old and doesn't include the latest Embedded Controller Firmware."
+	echo -e "${RED}Please upgrade${NC} before installing coreboot."
 fi
