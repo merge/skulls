@@ -27,7 +27,7 @@ usage()
 	echo ""
 	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a"
 	echo " -c <chipname>           flashrom chip description to use"
-	echo " -m                      apply me_cleaner -S"
+	echo " -m                      apply me_cleaner -S -d"
 	echo " -l                      lock the flash instead of unlocking it"
 	echo " -k <backup>             save the current image as"
 	echo " -b <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
@@ -225,7 +225,7 @@ echo -e "${GREEN}connection ok${NC}"
 
 echo "start unlocking ..."
 if [ "$me_clean" -gt 0 ] ; then
-	${ME_CLEANER_PATH} -S -O "${TEMP_DIR}"/work.rom "${TEMP_DIR}"/test1.rom
+	${ME_CLEANER_PATH} -d -S -O "${TEMP_DIR}"/work.rom "${TEMP_DIR}"/test1.rom
 else
 	cp "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/work.rom
 fi
