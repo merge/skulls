@@ -1,9 +1,11 @@
 
-skulls-x230 0.1.2 - unreleased
+skulls-x230 0.1.2 - released 2019-03-08
 ---------------------------------------
 This release includes the following changes:
+* based on coreboot commit 9276fe4089
 * update coreboot-sdk to version 1.53
 * increase RPi spi speed for flashing
+* add -d option to me_cleaner
 
 
 skulls-x230 0.1.1 - released 2019-01-18
