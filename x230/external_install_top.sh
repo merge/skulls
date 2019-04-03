@@ -165,10 +165,20 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 
 	CHIPNAME=""
 	chip_found=0
-	CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep MX25L3206E | grep -oP '"\K[^"\047]+(?=["\047])' || true)
-	if [ ! -z "${CHIPNAME}" ] ; then
-		chip_found=1
+	if [ ! "$chip_found" -gt 0 ] ; then
+		CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep MX25L3206E | grep -oP '"\K[^"\047]+(?=["\047])' || true)
+		if [ ! -z "${CHIPNAME}" ] ; then
+			chip_found=1
+		fi
 	fi
+
+	if [ ! "$chip_found" -gt 0 ] ; then
+		CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep EN25QH32 | grep -oP '"\K[^"\047]+(?=["\047])' || true)
+		if [ ! -z "${CHIPNAME}" ] ; then
+			chip_found=1
+		fi
+	fi
+
 	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
 		flashrom -p ${programmer} || true
