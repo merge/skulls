@@ -161,7 +161,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 	fi
 
 	if [ ! "$chip_found" -gt 0 ] ; then
-		CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep "EN25QH64" | grep -o '".*"' || true)
+		CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep "EN25QH64" | grep -o '".*"' | grep -oP '"\K[^"\047]+(?=["\047])' || true)
 		if [ ! -z "${CHIPNAME}" ] ; then
 			chip_found=1
 		fi
