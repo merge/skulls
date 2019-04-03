@@ -72,6 +72,7 @@ if [ ! "$have_config" -gt 0 ] ; then
 	done
 fi
 
+rm -f defconfig-*
 CONFIGFILE_READY=$(echo $CONFIGFILE | cut -d'-' -f2-)
 cp $CONFIGFILE $CONFIGFILE_READY
 
