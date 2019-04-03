@@ -5,7 +5,7 @@
 ## Latest release
 Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
-* __microcode update__: revision `20` from 2018-04-10 (includes mitigations for Spectre Variant 3a and 4)
+* __microcode update__: revision `21` from 2019-02-13
 * __SeaBIOS__: version [1.12.0](https://seabios.org/Releases) from 2018-11-17
 
 ### release images to choose from
