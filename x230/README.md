@@ -254,3 +254,9 @@ for more details.
 * `git checkout <VERSION>` for the release you want to build
 * `cd skulls/x230`
 * `./build.sh` and choose the configuration you want to build
+
+### replace the splashscreen image
+In order to create your own splashscreen image, before building,
+overwrite the `splashscreen.jpg` with your own JPEG, using
+* "Progressive" turned off, and
+* "4:2:0 (chroma quartered)" Subsampling
