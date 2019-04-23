@@ -64,7 +64,7 @@ and that's unlikely to change.
 
 In case you're not running the latest BIOS version, either
 
-* use [the latest original CD](https://support.lenovo.com/at/en/downloads/ds029188) and burn it, or
+* use [the latest original CD](https://pcsupport.lenovo.com/us/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230/downloads/ds029187) and burn it, or
 * use the same, only with a patched EC firmware that allows using any aftermarket-battery:
 By default, only original Lenovo batteries are allowed.
 Thanks to [this](http://zmatt.net/unlocking-my-lenovo-laptop-part-3/)
