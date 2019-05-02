@@ -1,10 +1,14 @@
-skulls-x230 0.1.4 - released 2019-05-02
+skulls-x230 0.1.5 - released 2019-05-02
 ---------------------------------------
 This release includes the following changes:
 * based on coreboot commit 139b3cef03
   (parent in master branch d32a493091)
-* Fixed chip detection for "external" scripts
 * update SeaBIOS to version 1.12.1
+
+skulls-x230 0.1.4 - released 2019-05-02
+---------------------------------------
+This release includes the following changes:
+* Fixed chip detection for "external" scripts
 
 skulls-x230 0.1.3 - released 2019-04-03
 ---------------------------------------
