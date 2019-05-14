@@ -16,7 +16,10 @@ usage()
 	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
-	echo "Usage: $0 -i <4mb_top_image>.rom"
+	echo "Usage: $0 [-i <4mb_top_image>.rom] [-h]"
+	echo "Options:"
+	echo "  -i	path to the image to flash"
+	echo "  -h	print this help text"
 }
 
 args=$(getopt -o i:h -- "$@")
