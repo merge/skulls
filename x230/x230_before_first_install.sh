@@ -46,7 +46,7 @@ force_x230_and_root
 
 BIOS_VENDOR=$(dmidecode -t bios | grep Vendor | cut -d':' -f2)
 if [[ $BIOS_VENDOR = *"coreboot"* ]] ; then
-	echo "coreboot already intalled. This script is useless then."
+	echo "coreboot already installed. Ready to use x230_skulls.sh"
 	exit 0
 fi
 
@@ -55,7 +55,7 @@ bios_major=$(echo "$BIOS_VERSION" | cut -d. -f1)
 bios_minor=$(echo "$BIOS_VERSION" | cut -d. -f2)
 
 if [ "${bios_minor}" -ge "60" ] ; then
-	echo "installed BIOS version is ${bios_major}.${bios_minor}."
+	echo "Ready to use external_install_bottom.sh and external_install_top.sh"
 else
 	echo -e "The installed original BIOS is very old and doesn't include the latest Embedded Controller Firmware."
 	echo -e "${RED}Please upgrade${NC} before installing coreboot."
