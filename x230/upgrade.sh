@@ -13,19 +13,24 @@ usage()
 	echo "  This script checks if there's a newer"
 	echo "  release of the X230 Skulls package available."
 	echo ""
-	echo "Usage: $0"
+	echo "Usage: $0 [-v]"
 }
 
-args=$(getopt -o h -- "$@")
+args=$(getopt -o hv -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
 fi
 
+verbose=0
+
 eval set -- "$args"
 while [ $# -gt 0 ]
 do
 	case "$1" in
+	-v)
+		verbose=1
+		;;
 	-h)
 		usage
 		exit 1
@@ -56,6 +61,10 @@ UPSTREAM_X230=$(echo ${UPSTREAM_FILE} | grep x230)
 if [[ -z "$UPSTREAM_X230" ]] ; then
 	echo "The latest release didn't include the X230"
 	exit 0
+fi
+
+if [[ $verbose -gt 0 ]] ; then
+	echo "This is v$CURRENT_VERSION and latest is v$UPSTREAM_VERSION"
 fi
 
 if [[ "$CURRENT_VERSION" = "$UPSTREAM_VERSION" ]] ; then
