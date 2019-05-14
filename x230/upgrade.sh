@@ -7,7 +7,7 @@ NC='\033[0m'
 
 set -e
 
-. skulls_common.sh
+source functions.sh
 
 usage()
 {

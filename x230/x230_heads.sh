@@ -8,7 +8,7 @@ NC='\033[0m'
 
 set -e
 
-. skulls_common.sh
+source functions.sh
 
 have_input_image=0
 

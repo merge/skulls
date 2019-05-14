@@ -1,5 +1,5 @@
 #!/bin/bash
-. skulls_common.sh
+source functions.sh
 
 warn_not_root
 
