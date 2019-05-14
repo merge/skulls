@@ -6,7 +6,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-check_x230_root()
+force_x230_and_root()
 {
 	command -v dmidecode >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install dmidecode and run as root.${NC}"; exit 1; }
 

@@ -45,7 +45,7 @@ do
 	shift
 done
 
-check_x230_root
+force_x230_and_root
 
 BIOS_VENDOR=$(dmidecode -t bios | grep Vendor | cut -d':' -f2)
 if [[ $BIOS_VENDOR = *"coreboot"* ]] ; then

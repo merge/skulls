@@ -54,7 +54,7 @@ do
 	shift
 done
 
-check_x230_root
+force_x230_and_root
 
 if [ ! "$have_input_image" -gt 0 ] ; then
 	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
