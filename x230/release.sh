@@ -135,7 +135,6 @@ cp ../SOURCE.md "$RELEASE_DIR"
 cp -a README.md NEWS util LICENSE* functions.sh \
 	x230_skulls.sh x230_heads.sh \
 	external_install_bottom.sh external_install_top.sh \
-	upgrade.sh \
 	"$RELEASE_DIR"
 
 tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
