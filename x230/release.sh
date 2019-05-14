@@ -133,7 +133,7 @@ cp ../SOURCE.md "$RELEASE_DIR"
 
 # copy in x230 stuff
 cp -a README.md NEWS util LICENSE* functions.sh \
-	x230_before_first_install.sh x230_skulls.sh x230_heads.sh \
+	x230_skulls.sh x230_heads.sh \
 	external_install_bottom.sh external_install_top.sh \
 	upgrade.sh \
 	"$RELEASE_DIR"

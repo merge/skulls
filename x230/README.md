@@ -33,7 +33,7 @@ beautiful:
 * [How to rebuild](#how-to-reproduce-the-release-images)
 
 ## TL;DR
-1. run `sudo ./x230_before_first_install.sh` on your current X230 Linux system
+1. run `sudo ./x230_skulls.sh` on your current X230 Linux system
 2. Power down, remove the battery. Remove the keyboard and palmrest. Connect
 a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip clip
 can directly be used), and run
@@ -48,7 +48,7 @@ branch is _not_ meant to be stable. Use it for testing only.
 ## First-time installation
 #### before you begin
 Before starting, run Linux on your X230, install `dmidecode` and run
-`sudo ./x230_before_first_install.sh`. It simply prints system information and
+`sudo ./x230_skulls.sh`. It simply prints system information and
 helps you to be up to date.
 Also make sure you have the latest skulls-x230 package release by running `./upgrade.sh`.
 
