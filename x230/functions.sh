@@ -45,6 +45,6 @@ check_battery() {
 
 warn_not_root() {
 	if [[ $EUID -eq 0 ]]; then
-		echo -e "${RED}This script should not be run as root!${NC}"
+		echo -e "${YELLOW}WARNING:${NC} This should not be executed as root!"
 	fi
 }

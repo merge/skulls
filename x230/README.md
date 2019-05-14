@@ -50,7 +50,7 @@ branch is _not_ meant to be stable. Use it for testing only.
 Before starting, run Linux on your X230, install `dmidecode` and run
 `sudo ./x230_skulls.sh`. It simply prints system information and
 helps you to be up to date.
-Also make sure you have the latest skulls-x230 package release by running `./upgrade.sh`.
+Also make sure you have the latest skulls-x230 package release by running `./x230_skulls.sh -U`.
 
 #### original BIOS update / EC firmware (optional)
 Before flashing coreboot, consider doing one original Lenovo upgrade process
