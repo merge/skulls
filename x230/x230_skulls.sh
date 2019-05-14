@@ -1,10 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-3.0+
 # Copyright (C) 2018, Martin Kepplinger <martink@posteo.de>
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m'
 
 set -e
 
