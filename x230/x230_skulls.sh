@@ -133,6 +133,15 @@ if [[ $BIOS_VENDOR != *"coreboot"* ]] ; then
 	exit 0
 fi
 
+if [[ "$verbose" -gt 0 ]] ; then
+	if [ -d "/sys/class/power_supply/BAT0" ] ; then
+		bat_last_full=$(cat /sys/class/power_supply/BAT0/charge_full)
+		bat_design_cap=$(cat /sys/class/power_supply/BAT0/charge_full_design)
+		bat_health=$(echo "scale=2 ; $bat_last_full/$bat_design_cap" | bc | sed 's/^\./0./')
+		echo "INFO: Battery hardware health is $bat_health%"
+	fi
+fi
+
 if [ ! "$have_input_image" -gt 0 ] ; then
 	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
 	if [ -z "${image_available}" ] ; then
