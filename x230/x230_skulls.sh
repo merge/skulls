@@ -8,6 +8,7 @@ source functions.sh
 
 have_input_image=0
 request_update=0
+verbose=0
 
 usage()
 {
@@ -21,10 +22,11 @@ usage()
 	echo "Options:"
 	echo "  -i	path to the image to flash"
 	echo "  -U	update: check for a new Skulls package online"
+	echo "  -v	verbose output. prints more information"
 	echo "  -h	print this help text"
 }
 
-args=$(getopt -o i:hU -- "$@")
+args=$(getopt -o i:hUv -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -45,6 +47,9 @@ do
 		;;
 	-U)
 		request_update=1
+		;;
+	-v)
+		verbose=1
 		;;
 	--)
 		shift
