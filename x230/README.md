@@ -249,8 +249,8 @@ for more details.
 
 ## how to reproduce the release images
 * `git clone https://github.com/merge/skulls`
-* `git checkout <VERSION>` for the release you want to build
 * `cd skulls/x230`
+* `git checkout 0.1.5` for the release you want to build. In this example 0.1.5.
 * `./build.sh` and choose the configuration you want to build
 
 ### replace the splashscreen image
