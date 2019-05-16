@@ -211,7 +211,7 @@ though. This is considered more safe for your hardware and is very convenient -
 just install the "flashrom" program and run  `./x230_skulls.sh`, see below.
 
 1. boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
-2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it
+2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it or check for updates by running `./x230_skulls.sh -U`.
 3. run `sudo ./x230_skulls.sh` and choose the image to flash.
 
 Hint: In case your Linux distribution's GRUB bootloader doesn't use the full
