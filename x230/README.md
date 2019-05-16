@@ -186,7 +186,7 @@ for [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Sec
 
 That's it. Keep the backup safe. Here are the options (just so you know):
 
-* The `-m` option applies `me_cleaner -S` before flashing back, see
+* The `-m` option applies `me_cleaner -S -d` before flashing back, see
 [me_cleaner](https://github.com/corna/me_cleaner).
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
 yourself (and others) to hardware-flashing, see [updating](#updating).
