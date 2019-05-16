@@ -118,6 +118,9 @@ while true; do
 		* ) exit;;
 	esac
 done
+
+rm -rf ${OUTPUT_PATH}
+
 while true; do
 	read -r -p "Reboot now? (please do!) Y/n: " yn
 	case $yn in
