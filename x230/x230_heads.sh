@@ -4,7 +4,7 @@
 
 set -e
 
-source functions.sh
+source "util/functions.sh"
 
 have_input_image=0
 

@@ -132,7 +132,7 @@ sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_2} > "${RELEASE_DIR}/${RELEASE_IMA
 cp ../SOURCE.md "$RELEASE_DIR"
 
 # copy in x230 stuff
-cp -a README.md NEWS util LICENSE* functions.sh \
+cp -a README.md NEWS util LICENSE* \
 	x230_skulls.sh x230_heads.sh \
 	external_install_bottom.sh external_install_top.sh \
 	"$RELEASE_DIR"

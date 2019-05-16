@@ -1,5 +1,5 @@
 #!/bin/bash
-source functions.sh
+source "util/functions.sh"
 
 warn_not_root
 
