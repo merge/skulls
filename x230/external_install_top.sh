@@ -20,7 +20,7 @@ usage()
 	echo "  connected to the X230's top chip (closer to the display"
 	echo "  and farther from you)"
 	echo ""
-	echo "Usage: $0 -i <image.rom> [-c <chipname>] [-k <backup_filename>]"
+	echo "Usage: $0 [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-b <spispeed>]"
 	echo ""
 	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a"
 	echo " -i <image>              path to image to flash"
