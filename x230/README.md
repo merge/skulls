@@ -147,8 +147,6 @@ or ethernet to `sudo apt-get install flashrom`
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
 
-We flash at low speeds. Unlocking the bottom chip with its two reads, one write and one verify step usually takes approximately one hour in total.
-
 #### Hardware Example: CH341A based
 The CH341A from [Winchiphead](http://www.wch.cn/), a USB interface chip,
 is used by some cheap memory programmers.
