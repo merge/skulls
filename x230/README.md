@@ -70,7 +70,7 @@ By default, only original Lenovo batteries are allowed.
 Thanks to [this](http://zmatt.net/unlocking-my-lenovo-laptop-part-3/)
 [project](https://github.com/eigenmatt/mec-tools) we can use Lenovo's bootable
 upgrade image, change it and create a bootable _USB_ image (even with EC updates
-that allows to use 3rd party aftermarket batteries). For this, follow instructions
+that allows one to use 3rd party aftermarket batteries). For this, follow instructions
 at [github.com/hamishcoleman/thinkpad-ec](https://github.com/hamishcoleman/thinkpad-ec).
 
 #### preparation: required hardware
@@ -176,7 +176,7 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 Flashing the bottom chip (closer to you) is optional. It has the same pinout
 than the upper chip. This allows you to enable/disable in-system flashing
-(without disassembling the Thinkpad) and/or to neuter the the
+(without disassembling the Thinkpad) and/or to neuter the
 [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
 for [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities).
 
