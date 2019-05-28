@@ -192,13 +192,15 @@ That's it. Keep the backup safe. Here are the options (just so you know):
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
 yourself (and others) to hardware-flashing, see [updating](#updating).
 
-#### BIOS: the 4MB chip
+#### Your BIOS choice: the 4MB chip
+Now it's time to make your choice! Choose one of the images included in our
+release and select it during running:
 
 
 	sudo ./external_install_top.sh -k <backup-file-to-create>
 
 
-Select the image to flash and that's it.
+This selects and flashes it and that's it.
 Keep the backup safe, assemble and
 turn on the X230. coreboot will do hardware init and start SeaBIOS.
 
