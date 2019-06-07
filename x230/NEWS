@@ -1,6 +1,8 @@
 skulls-x230 0.1.6 - unreleased
 ---------------------------------------
 This release includes the following changes:
+* based on coreboot commit 555419f356
+  (parent in master branch 55c5777170)
 * simplified and improved scripts:
   * before_first_install.sh is included in x230_skulls.sh
   * upgrade.sh is now x230_skulls.sh -U
