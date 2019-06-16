@@ -4,6 +4,8 @@
 
 set -e
 
+cd "$(dirname "$0")"
+
 source "util/functions.sh"
 
 have_input_image=0

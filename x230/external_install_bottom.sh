@@ -7,6 +7,8 @@ NC='\033[0m'
 
 set -e
 
+cd "$(dirname "$0")"
+
 IFDTOOL_PATH=./util/ifdtool/ifdtool
 ME_CLEANER_PATH=./util/me_cleaner/me_cleaner.py
 have_chipname=0
