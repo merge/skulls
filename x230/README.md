@@ -47,22 +47,27 @@ branch is _not_ meant to be stable. Use it for testing only.
 
 ## First-time installation
 #### before you begin
-Before starting, run Linux on your X230, install `dmidecode` and run
+Run Linux on your X230, install `dmidecode` and run
 `sudo ./x230_skulls.sh`. It simply prints system information and
 helps you to be up to date.
-Also make sure you have the latest skulls-x230 package release by running `./x230_skulls.sh -U`.
+
+Make sure you have the latest skulls-x230 package release by running
+`./x230_skulls.sh -U`.
 
 #### original BIOS update / EC firmware (optional)
-Before flashing coreboot, consider doing one original Lenovo upgrade process
-in case you're not running the latest version. This is not supported anymore,
-once you're running coreboot (You'd have to manually flash back your backup
-images first, see later chapters).
+If the script, `sudo ./x230_skulls.sh` says "The installed original BIOS is very
+old.", it means that you have a BIOS version that may include an EC version
+older than 1.14.
 
-Also, this updates the BIOS _and_ Embedded Controller (EC) firmware. The EC
+If that's the case, consider doing one original Lenovo upgrade process. This is not
+supported anymore, once you're running coreboot (You'd have to manually
+flash back your backup images first, see later chapters).
+
+This updates the BIOS _and_ Embedded Controller (EC) firmware. The EC
 is not updated anymore, when running coreboot. The latest EC version is 1.14
 and that's unlikely to change.
 
-In case you're not running the latest BIOS version, either
+You have 2 options:
 
 * use [the latest original CD](https://pcsupport.lenovo.com/us/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230/downloads/ds029187) and burn it, or
 * use the same, only with a patched EC firmware that allows using any aftermarket-battery:

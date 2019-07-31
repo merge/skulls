@@ -124,7 +124,7 @@ if [[ $BIOS_VENDOR != *"coreboot"* ]] ; then
 	bios_major=$(echo "$BIOS_VERSION" | cut -d. -f1)
 	bios_minor=$(echo "$BIOS_VERSION" | cut -d. -f2)
 
-	if [ "${bios_minor}" -ge "60" ] ; then
+	if [ "${bios_minor}" -ge "61" ] ; then
 		echo "Ready to use external_install_bottom.sh and external_install_top.sh"
 		echo "Please run both scripts from a different computer with a"
 		echo "hardware SPI flasher."
