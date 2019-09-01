@@ -1,0 +1,1 @@
+ifdtool.o: ifdtool.c ../commonlib/include/commonlib/helpers.h ifdtool.h
