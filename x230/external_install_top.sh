@@ -204,6 +204,7 @@ flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
 	cp "${TEMP_DIR}"/test1.rom "${BACKUPNAME}"
+	sha256sum "${TEMP_DIR}"/test1.rom > "${BACKUPNAME}".sha256
 	echo "current image saved as ${BACKUPNAME}"
 fi
 TEMP_SIZE=$(wc -c < "$TEMP_DIR/test1.rom")
