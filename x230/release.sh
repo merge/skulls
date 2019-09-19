@@ -130,9 +130,10 @@ sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_2} > "${RELEASE_DIR}/${RELEASE_IMA
 
 # copy in device independent stuff
 cp ../SOURCE.md "$RELEASE_DIR"
+cp -a ../util "$RELEASE_DIR"
 
 # copy in x230 stuff
-cp -a README.md NEWS util LICENSE* \
+cp -a README.md NEWS LICENSE* \
 	x230_skulls.sh x230_heads.sh \
 	external_install_bottom.sh external_install_top.sh \
 	"$RELEASE_DIR"
