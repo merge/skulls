@@ -1,9 +1,6 @@
 /*
  * This file is part of the coreboot project.
  *
- * Copyright (C) 2009 coresystems GmbH
- * Copyright (C) 2013 Google, Inc.
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 2 of the License.
@@ -19,7 +16,7 @@
 
 #define CBMEM_ID_ACPI		0x41435049
 #define CBMEM_ID_ACPI_GNVS	0x474e5653
-#define CBMEM_ID_ACPI_GNVS_PTR	0x474e5650
+#define CBMEM_ID_ACPI_UCSI	0x55435349
 #define CBMEM_ID_AFTER_CAR	0xc4787a93
 #define CBMEM_ID_AGESA_RUNTIME	0x41474553
 #define CBMEM_ID_AMDMCT_MEMINFO 0x494D454E
@@ -40,6 +37,7 @@
 #define CBMEM_ID_IMD_SMALL	0x53a11439
 #define CBMEM_ID_MEMINFO	0x494D454D
 #define CBMEM_ID_MMA_DATA	0x4D4D4144
+#define CBMEM_ID_MMC_STATUS	0x4d4d4353
 #define CBMEM_ID_MPTABLE	0x534d5054
 #define CBMEM_ID_MRCDATA	0x4d524344
 #define CBMEM_ID_VAR_MRCDATA	0x4d524345
@@ -64,9 +62,11 @@
 #define CBMEM_ID_STAGEx_RAW	0x57a9e200
 #define CBMEM_ID_STORAGE_DATA	0x53746f72
 #define CBMEM_ID_TCPA_LOG	0x54435041
+#define CBMEM_ID_TCPA_TCG_LOG	0x54445041
 #define CBMEM_ID_TIMESTAMP	0x54494d45
-#define CBMEM_ID_VBOOT_HANDOFF	0x780074f0
-#define CBMEM_ID_VBOOT_SEL_REG	0x780074f1
+#define CBMEM_ID_TPM2_TCG_LOG	0x54504d32
+#define CBMEM_ID_VBOOT_HANDOFF	0x780074f0  /* deprecated */
+#define CBMEM_ID_VBOOT_SEL_REG	0x780074f1  /* deprecated */
 #define CBMEM_ID_VBOOT_WORKBUF	0x78007343
 #define CBMEM_ID_VPD		0x56504420
 #define CBMEM_ID_WIFI_CALIBRATION 0x57494649
@@ -80,7 +80,7 @@
 #define CBMEM_ID_TO_NAME_TABLE				 \
 	{ CBMEM_ID_ACPI,		"ACPI       " }, \
 	{ CBMEM_ID_ACPI_GNVS,		"ACPI GNVS  " }, \
-	{ CBMEM_ID_ACPI_GNVS_PTR,	"GNVS PTR   " }, \
+	{ CBMEM_ID_ACPI_UCSI,		"ACPI UCSI  " }, \
 	{ CBMEM_ID_AGESA_RUNTIME,	"AGESA RSVD " }, \
 	{ CBMEM_ID_AFTER_CAR,		"AFTER CAR  " }, \
 	{ CBMEM_ID_AMDMCT_MEMINFO,	"AMDMEM INFO" }, \
@@ -100,6 +100,7 @@
 	{ CBMEM_ID_IMD_SMALL,		"IMD SMALL  " }, \
 	{ CBMEM_ID_MEMINFO,		"MEM INFO   " }, \
 	{ CBMEM_ID_MMA_DATA,		"MMA DATA   " }, \
+	{ CBMEM_ID_MMC_STATUS,		"MMC STATUS " }, \
 	{ CBMEM_ID_MPTABLE,		"SMP TABLE  " }, \
 	{ CBMEM_ID_MRCDATA,		"MRC DATA   " }, \
 	{ CBMEM_ID_VAR_MRCDATA,		"VARMRC DATA" }, \
@@ -120,7 +121,9 @@
 	{ CBMEM_ID_SMM_SAVE_SPACE,	"SMM BACKUP " }, \
 	{ CBMEM_ID_STORAGE_DATA,	"SD/MMC/eMMC" }, \
 	{ CBMEM_ID_TCPA_LOG,		"TCPA LOG   " }, \
+	{ CBMEM_ID_TCPA_TCG_LOG,	"TCPA TCGLOG" }, \
 	{ CBMEM_ID_TIMESTAMP,		"TIME STAMP " }, \
+	{ CBMEM_ID_TPM2_TCG_LOG,	"TPM2 TCGLOG" }, \
 	{ CBMEM_ID_VBOOT_HANDOFF,	"VBOOT      " }, \
 	{ CBMEM_ID_VBOOT_SEL_REG,	"VBOOT SEL  " }, \
 	{ CBMEM_ID_VBOOT_WORKBUF,	"VBOOT WORK " }, \

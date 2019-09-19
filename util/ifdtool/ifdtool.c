@@ -40,6 +40,7 @@
 	 (const char *)&(ptr)[1] <= (base) + (limit))
 
 static int ifd_version;
+static int chipset;
 static unsigned int max_regions = 0;
 static int selected_chip = 0;
 static int platform = -1;
@@ -54,6 +55,33 @@ static const struct region_name region_names[MAX_REGIONS] = {
 	{ "Reserved", "res2", "flashregion_6_reserved.bin" },
 	{ "Reserved", "res3", "flashregion_7_reserved.bin" },
 	{ "EC", "ec", "flashregion_8_ec.bin" },
+};
+
+/* port from flashrom */
+static const char *const ich_chipset_names[] = {
+	"Unknown ICH",
+	"ICH",
+	"ICH2345",
+	"ICH6",
+	"SCH U",
+	"Atom E6xx",
+	"Atom S1220 S1240 S1260",
+	"ICH7",
+	"ICH8",
+	"ICH9",
+	"ICH10",
+	"5 series Ibex Peak",
+	"6 series Cougar Point",
+	"7 series Panther Point",
+	"8 series Lynx Point",
+	"Baytrail",
+	"8 series Lynx Point LP",
+	"8 series Wellsburg",
+	"9 series Wildcat Point",
+	"9 series Wildcat Point LP",
+	"100 series Sunrise Point",
+	"C620 series Lewisburg",
+	NULL
 };
 
 static fdbar_t *find_fd(char *image, int size)
@@ -75,6 +103,21 @@ static fdbar_t *find_fd(char *image, int size)
 
 	fdbar_t *fdb = (fdbar_t *) (image + i);
 	return PTR_IN_RANGE(fdb, image, size) ? fdb : NULL;
+}
+
+static char *find_flumap(char *image, int size)
+{
+	/* The upper map is located in the word before the 256B-long OEM section
+	 * at the end of the 4kB-long flash descriptor. In the official
+	 * documentation this is defined as FDBAR + 0xEFC. However, starting
+	 * with B-Step of Ibex Peak (5 series) the signature (and thus FDBAR)
+	 * has moved 16 bytes back to offset 0x10 of the image. Although
+	 * official documentation still maintains the offset relative to FDBAR
+	 * this is wrong and a simple fixed offset from the start of the image
+	 * works.
+	*/
+	char *flumap = image + 4096 - 256 - 4;
+	return PTR_IN_RANGE(flumap, image, size) ? flumap : NULL;
 }
 
 static fcba_t *find_fcba(char *image, int size)
@@ -125,6 +168,41 @@ static fmsba_t *find_fmsba(char *image, int size)
 	return PTR_IN_RANGE(fmsba, image, size) ? fmsba : NULL;
 }
 
+/* port from flashrom */
+static enum ich_chipset guess_ich_chipset(const fdbar_t *fdb)
+{
+	uint32_t iccriba = (fdb->flmap2 >> 16) & 0xff;
+	uint32_t msl = (fdb->flmap2 >> 8) & 0xff;
+	uint32_t isl = (fdb->flmap1 >> 24);
+	uint32_t nm = (fdb->flmap1 >> 8) & 0x7;
+
+	if (iccriba == 0x00) {
+		if (msl == 0 && isl <= 2)
+			return CHIPSET_ICH8;
+		else if (isl <= 2)
+			return CHIPSET_ICH9;
+		else if (isl <= 10)
+			return CHIPSET_ICH10;
+		else if (isl <= 16)
+			return CHIPSET_5_SERIES_IBEX_PEAK;
+		printf("Peculiar firmware descriptor, assuming Ibex Peak compatibility.\n");
+		return CHIPSET_5_SERIES_IBEX_PEAK;
+	} else if (iccriba < 0x31 && (fdb->flmap2 & 0xff) < 0x30) {
+		if (msl == 0 && isl <= 17)
+			return CHIPSET_BAYTRAIL;
+		else if (msl <= 1 && isl <= 18)
+			return CHIPSET_6_SERIES_COUGAR_POINT;
+		else if (msl <= 1 && isl <= 21)
+			return CHIPSET_8_SERIES_LYNX_POINT;
+		printf("Peculiar firmware descriptor, assuming Wildcat Point compatibility.\n");
+		return CHIPSET_9_SERIES_WILDCAT_POINT;
+	} else if (nm == 6) {
+		return CHIPSET_C620_SERIES_LEWISBURG;
+	} else {
+		return CHIPSET_100_SERIES_SUNRISE_POINT;
+	}
+}
+
 /*
  * Some newer platforms have re-defined the FCBA field that was used to
  * distinguish IFD v1 v/s v2. Define a list of platforms that we know do not
@@ -136,6 +214,7 @@ static int is_platform_ifd_2(void)
 	static const int ifd_2_platforms[] = {
 		PLATFORM_GLK,
 		PLATFORM_CNL,
+		PLATFORM_ICL,
 	};
 	unsigned int i;
 
@@ -156,9 +235,14 @@ static int get_ifd_version_from_fcba(char *image, int size)
 {
 	int read_freq;
 	const fcba_t *fcba = find_fcba(image, size);
-	if (!fcba)
+	const fdbar_t *fdb = find_fd(image, size);
+	if (!fcba || !fdb)
 		exit(EXIT_FAILURE);
 
+	chipset = guess_ich_chipset(fdb);
+	/* TODO: port ifd_version and max_regions
+	 * against guess_ich_chipset()
+	 */
 	read_freq = (fcba->flcomp >> 17) & 7;
 
 	switch (read_freq) {
@@ -448,6 +532,19 @@ static void dump_fpsba(const fpsba_t *fpsba)
 	for (i = 0; i < ARRAY_SIZE(fpsba->pchstrp); i++)
 		printf("PCHSTRP%u:%s 0x%08x\n", i,
 		       i < 10 ? " " : "", fpsba->pchstrp[i]);
+
+	if (ifd_version >= IFD_VERSION_2) {
+		printf("HAP bit is %sset\n",
+		       fpsba->pchstrp[0] & (1 << 16) ? "" : "not ");
+	} else if (chipset >= CHIPSET_ICH8
+		   && chipset <= CHIPSET_ICH10) {
+		printf("ICH_MeDisable bit is %sset\n",
+		       fpsba->pchstrp[0] & 1 ? "" : "not ");
+	} else {
+		printf("AltMeDisable bit is %sset\n",
+		       fpsba->pchstrp[10] & (1 << 7) ? "" : "not ");
+	}
+
 	printf("\n");
 }
 
@@ -520,16 +617,23 @@ static void dump_fmsba(const fmsba_t *fmsba)
 	printf("Found Processor Strap Section\n");
 	for (i = 0; i < ARRAY_SIZE(fmsba->data); i++)
 		printf("????:      0x%08x\n", fmsba->data[i]);
+
+	if (chipset >= CHIPSET_ICH8 && chipset <= CHIPSET_ICH10) {
+		printf("MCH_MeDisable bit is %sset\n",
+		       fmsba->data[0] & 1 ? "" : "not ");
+		printf("MCH_AltMeDisable bit is %sset\n",
+		       fmsba->data[0] & (1 << 7) ? "" : "not ");
+	}
 }
 
 static void dump_jid(uint32_t jid)
 {
-	printf("    SPI Componend Device ID 1:          0x%02x\n",
-		(jid >> 16) & 0xff);
-	printf("    SPI Componend Device ID 0:          0x%02x\n",
-		(jid >> 8) & 0xff);
 	printf("    SPI Componend Vendor ID:            0x%02x\n",
 		jid & 0xff);
+	printf("    SPI Componend Device ID 0:          0x%02x\n",
+		(jid >> 8) & 0xff);
+	printf("    SPI Componend Device ID 1:          0x%02x\n",
+		(jid >> 16) & 0xff);
 }
 
 static void dump_vscc(uint32_t vscc)
@@ -586,7 +690,8 @@ static void dump_vscc(uint32_t vscc)
 static void dump_vtba(const vtba_t *vtba, int vtl)
 {
 	int i;
-	int num = (vtl >> 1) < 8 ? (vtl >> 1) : 8;
+	int max_len = sizeof(vtba_t)/sizeof(vscc_t);
+	int num = (vtl >> 1) < max_len ? (vtl >> 1) : max_len;
 
 	printf("ME VSCC table:\n");
 	for (i = 0; i < num; i++) {
@@ -617,6 +722,7 @@ static void dump_fd(char *image, int size)
 	if (!fdb)
 		exit(EXIT_FAILURE);
 
+	printf("ICH Revision: %s\n", ich_chipset_names[chipset]);
 	printf("FLMAP0:    0x%08x\n", fdb->flmap0);
 	printf("  NR:      %d\n", (fdb->flmap0 >> 24) & 7);
 	printf("  FRBA:    0x%x\n", ((fdb->flmap0 >> 16) & 0xff) << 4);
@@ -633,14 +739,16 @@ static void dump_fd(char *image, int size)
 	printf("  PSL:     0x%04x\n", (fdb->flmap2 >> 8) & 0xffff);
 	printf("  FMSBA:   0x%x\n", ((fdb->flmap2) & 0xff) << 4);
 
-	printf("FLUMAP1:   0x%08x\n", fdb->flumap1);
+	char *flumap = find_flumap(image, size);
+	uint32_t flumap1 = *(uint32_t *)flumap;
+	printf("FLUMAP1:   0x%08x\n", flumap1);
 	printf("  Intel ME VSCC Table Length (VTL):        %d\n",
-		(fdb->flumap1 >> 8) & 0xff);
+		(flumap1 >> 8) & 0xff);
 	printf("  Intel ME VSCC Table Base Address (VTBA): 0x%06x\n\n",
-		(fdb->flumap1 & 0xff) << 4);
+		(flumap1 & 0xff) << 4);
 	dump_vtba((vtba_t *)
-			(image + ((fdb->flumap1 & 0xff) << 4)),
-			(fdb->flumap1 >> 8) & 0xff);
+			(image + ((flumap1 & 0xff) << 4)),
+			(flumap1 >> 8) & 0xff);
 	dump_oem((const uint8_t *)image + 0xf00);
 
 	const frba_t *frba = find_frba(image, size);
@@ -817,15 +925,24 @@ static void set_chipdensity(const char *filename, char *image, int size,
 	write_image(filename, image, size);
 }
 
+static int check_region(const frba_t *frba, unsigned int region_type)
+{
+	region_t region;
+
+	if (!frba)
+		return 0;
+
+	region = get_region(frba, region_type);
+	return !!((region.base < region.limit) && (region.size > 0));
+}
+
 static void lock_descriptor(const char *filename, char *image, int size)
 {
 	int wr_shift, rd_shift;
 	fmba_t *fmba = find_fmba(image, size);
+	const frba_t *frba = find_frba(image, size);
 	if (!fmba)
 		exit(EXIT_FAILURE);
-	/* TODO: Dynamically take Platform Data Region and GbE Region
-	 * into regard.
-	 */
 
 	if (ifd_version >= IFD_VERSION_2) {
 		wr_shift = FLMSTR_WR_SHIFT_V2;
@@ -835,6 +952,7 @@ static void lock_descriptor(const char *filename, char *image, int size)
 		fmba->flmstr1 &= 0xff;
 		fmba->flmstr2 &= 0xff;
 		fmba->flmstr3 &= 0xff;
+		fmba->flmstr5 &= 0xff;
 	} else {
 		wr_shift = FLMSTR_WR_SHIFT_V1;
 		rd_shift = FLMSTR_RD_SHIFT_V1;
@@ -857,37 +975,69 @@ static void lock_descriptor(const char *filename, char *image, int size)
 		/* TXE can only write Device Expansion */
 		fmba->flmstr2 |= 0x20 << wr_shift;
 		break;
+	case PLATFORM_CNL:
+	case PLATFORM_ICL:
 	case PLATFORM_SKLKBL:
-		/* CPU/BIOS can read descriptor, BIOS and GbE. */
-		fmba->flmstr1 |= 0xb << rd_shift;
-		/* CPU/BIOS can write BIOS and Gbe. */
-		fmba->flmstr1 |= 0xa << wr_shift;
-		/* ME can read descriptor, ME and GbE. */
-		fmba->flmstr2 |= 0xd << rd_shift;
+		/* CPU/BIOS can read descriptor and BIOS. */
+		fmba->flmstr1 |= (1 << REGION_DESC) << rd_shift;
+		fmba->flmstr1 |= (1 << REGION_BIOS) << rd_shift;
+		/* CPU/BIOS can write BIOS. */
+		fmba->flmstr1 |= (1 << REGION_BIOS) << wr_shift;
+		/* ME can read descriptor and ME. */
+		fmba->flmstr2 |= (1 << REGION_DESC) << rd_shift;
+		fmba->flmstr2 |= (1 << REGION_ME) << rd_shift;
 		/* ME can write ME. */
-		fmba->flmstr2 |= 0x4 << wr_shift;
-		/* GbE can read GbE and descriptor. */
-		fmba->flmstr3 |= 0x9 << rd_shift;
-		/* GbE can write GbE. */
-		fmba->flmstr3 |= 0x8 << wr_shift;
-		/* EC can read EC and descriptor. */
-		fmba->flmstr5 |= 0x101 << rd_shift;
-		/* EC can write EC region. */
-		fmba->flmstr5 |= 0x100 << wr_shift;
+		fmba->flmstr2 |= (1 << REGION_ME) << wr_shift;
+		if (check_region(frba, REGION_GBE)) {
+			/* BIOS can read/write GbE. */
+			fmba->flmstr1 |= (1 << REGION_GBE) << rd_shift;
+			fmba->flmstr1 |= (1 << REGION_GBE) << wr_shift;
+			/* ME can read GbE. */
+			fmba->flmstr2 |= (1 << REGION_GBE) << rd_shift;
+			/* GbE can read descriptor and read/write GbE.. */
+			fmba->flmstr3 |= (1 << REGION_DESC) << rd_shift;
+			fmba->flmstr3 |= (1 << REGION_GBE) << rd_shift;
+			fmba->flmstr3 |= (1 << REGION_GBE) << wr_shift;
+		}
+		if (check_region(frba, REGION_PDR)) {
+			/* BIOS can read/write PDR. */
+			fmba->flmstr1 |= (1 << REGION_PDR) << rd_shift;
+			fmba->flmstr1 |= (1 << REGION_PDR) << wr_shift;
+		}
+		if (check_region(frba, REGION_EC)) {
+			/* BIOS can read EC. */
+			fmba->flmstr1 |= (1 << REGION_EC) << rd_shift;
+			/* EC can read descriptor and read/write EC. */
+			fmba->flmstr5 |= (1 << REGION_DESC) << rd_shift;
+			fmba->flmstr5 |= (1 << REGION_EC) << rd_shift;
+			fmba->flmstr5 |= (1 << REGION_EC) << wr_shift;
+		}
 		break;
 	default:
-		/* CPU/BIOS can read descriptor, BIOS, and GbE. */
-		fmba->flmstr1 |= 0xb << rd_shift;
-		/* CPU/BIOS can write BIOS and GbE. */
-		fmba->flmstr1 |= 0xa << wr_shift;
-		/* ME can read descriptor, ME, and GbE. */
-		fmba->flmstr2 |= 0xd << rd_shift;
-		/* ME can write ME and GbE. */
-		fmba->flmstr2 |= 0xc << wr_shift;
-		/* GbE can write only GbE. */
-		fmba->flmstr3 |= 0x8 << rd_shift;
-		/* GbE can read only GbE. */
-		fmba->flmstr3 |= 0x8 << wr_shift;
+		/* CPU/BIOS can read descriptor and BIOS. */
+		fmba->flmstr1 |= (1 << REGION_DESC) << rd_shift;
+		fmba->flmstr1 |= (1 << REGION_BIOS) << rd_shift;
+		/* CPU/BIOS can write BIOS. */
+		fmba->flmstr1 |= (1 << REGION_BIOS) << wr_shift;
+		/* ME can read descriptor and ME. */
+		fmba->flmstr2 |= (1 << REGION_DESC) << rd_shift;
+		fmba->flmstr2 |= (1 << REGION_ME) << rd_shift;
+		/* ME can write ME. */
+		fmba->flmstr2 |= (1 << REGION_ME) << wr_shift;
+		if (check_region(frba, REGION_GBE)) {
+			/* BIOS can read GbE. */
+			fmba->flmstr1 |= (1 << REGION_GBE) << rd_shift;
+			/* BIOS can write GbE. */
+			fmba->flmstr1 |= (1 << REGION_GBE) << wr_shift;
+			/* ME can read GbE. */
+			fmba->flmstr2 |= (1 << REGION_GBE) << rd_shift;
+			/* ME can write GbE. */
+			fmba->flmstr2 |= (1 << REGION_GBE) << wr_shift;
+			/* GbE can write GbE. */
+			fmba->flmstr3 |= (1 << REGION_GBE) << rd_shift;
+			/* GbE can read GbE. */
+			fmba->flmstr3 |= (1 << REGION_GBE) << wr_shift;
+		}
 		break;
 	}
 
@@ -905,6 +1055,7 @@ static void unlock_descriptor(const char *filename, char *image, int size)
 		fmba->flmstr1 = 0xffffff00 | (fmba->flmstr1 & 0xff);
 		fmba->flmstr2 = 0xffffff00 | (fmba->flmstr2 & 0xff);
 		fmba->flmstr3 = 0xffffff00 | (fmba->flmstr3 & 0xff);
+		fmba->flmstr5 = 0xffffff00 | (fmba->flmstr5 & 0xff);
 	} else {
 		fmba->flmstr1 = 0xffff0000;
 		fmba->flmstr2 = 0xffff0000;
@@ -915,7 +1066,48 @@ static void unlock_descriptor(const char *filename, char *image, int size)
 	write_image(filename, image, size);
 }
 
-void inject_region(const char *filename, char *image, int size,
+/* Set the AltMeDisable (or HAP for >= IFD_VERSION_2) */
+static void fpsba_set_altmedisable(fpsba_t *fpsba, fmsba_t *fmsba, bool altmedisable)
+{
+	if (ifd_version >= IFD_VERSION_2) {
+		printf("%sting the HAP bit to %s Intel ME...\n",
+		      altmedisable?"Set":"Unset",
+		      altmedisable?"disable":"enable");
+		if (altmedisable)
+			fpsba->pchstrp[0] |= (1 << 16);
+		else
+			fpsba->pchstrp[0] &= ~(1 << 16);
+	} else {
+		if (chipset >= CHIPSET_ICH8 && chipset <= CHIPSET_ICH10) {
+			printf("%sting the ICH_MeDisable, MCH_MeDisable, "
+			       "and MCH_AltMeDisable to %s Intel ME...\n",
+			       altmedisable?"Set":"Unset",
+			       altmedisable?"disable":"enable");
+			if (altmedisable) {
+				/* MCH_MeDisable */
+				fmsba->data[0] |= 1;
+				/* MCH_AltMeDisable */
+				fmsba->data[0] |= (1 << 7);
+				/* ICH_MeDisable */
+				fpsba->pchstrp[0] |= 1;
+			} else {
+				fmsba->data[0] &= ~1;
+				fmsba->data[0] &= ~(1 << 7);
+				fpsba->pchstrp[0] &= ~1;
+			}
+		} else {
+			printf("%sting the AltMeDisable to %s Intel ME...\n",
+			       altmedisable?"Set":"Unset",
+			       altmedisable?"disable":"enable");
+			if (altmedisable)
+				fpsba->pchstrp[10] |= (1 << 7);
+			else
+				fpsba->pchstrp[10] &= ~(1 << 7);
+		}
+	}
+}
+
+static void inject_region(const char *filename, char *image, int size,
 		   unsigned int region_type, const char *region_fname)
 {
 	frba_t *frba = find_frba(image, size);
@@ -981,7 +1173,7 @@ void inject_region(const char *filename, char *image, int size,
 	write_image(filename, image, size);
 }
 
-unsigned int next_pow2(unsigned int x)
+static unsigned int next_pow2(unsigned int x)
 {
 	unsigned int y = 1;
 	if (x == 0)
@@ -996,7 +1188,7 @@ unsigned int next_pow2(unsigned int x)
  * Determine if two memory regions overlap.
  *
  * @param r1, r2 Memory regions to compare.
- * @return 0 if the two regions are seperate
+ * @return 0 if the two regions are separate
  * @return 1 if the two regions overlap
  */
 static int regions_collide(const region_t *r1, const region_t *r2)
@@ -1004,14 +1196,11 @@ static int regions_collide(const region_t *r1, const region_t *r2)
 	if ((r1->size == 0) || (r2->size == 0))
 		return 0;
 
-	if ( ((r1->base >= r2->base) && (r1->base <= r2->limit)) ||
-	     ((r1->limit >= r2->base) && (r1->limit <= r2->limit)) )
-		return 1;
-
-	return 0;
+	/* r1 should be either completely below or completely above r2 */
+	return !(r1->limit < r2->base || r1->base > r2->limit);
 }
 
-void new_layout(const char *filename, char *image, int size,
+static void new_layout(const char *filename, char *image, int size,
 		const char *layout_fname)
 {
 	FILE *romlayout;
@@ -1182,6 +1371,8 @@ static void print_usage(const char *name)
 	       "                                      Dual Output Fast Read Support\n"
 	       "   -l | --lock                        Lock firmware descriptor and ME region\n"
 	       "   -u | --unlock                      Unlock firmware descriptor and ME region\n"
+	       "   -M | --altmedisable <0|1>          Set the AltMeDisable (or HAP for skylake or newer platform)\n"
+	       "                                      bit to disable ME\n"
 	       "   -p | --platform                    Add platform-specific quirks\n"
 	       "                                      aplk - Apollo Lake\n"
 	       "                                      cnl - Cannon Lake\n"
@@ -1199,6 +1390,7 @@ int main(int argc, char *argv[])
 	int mode_dump = 0, mode_extract = 0, mode_inject = 0, mode_spifreq = 0;
 	int mode_em100 = 0, mode_locked = 0, mode_unlocked = 0;
 	int mode_layout = 0, mode_newlayout = 0, mode_density = 0;
+	int mode_altmedisable = 0, altmedisable = 0;
 	char *region_type_string = NULL, *region_fname = NULL;
 	const char *layout_fname = NULL;
 	int region_type = -1, inputfreq = 0;
@@ -1214,6 +1406,7 @@ int main(int argc, char *argv[])
 		{"spifreq", 1, NULL, 's'},
 		{"density", 1, NULL, 'D'},
 		{"chip", 1, NULL, 'C'},
+		{"altmedisable", 1, NULL, 'M'},
 		{"em100", 0, NULL, 'e'},
 		{"lock", 0, NULL, 'l'},
 		{"unlock", 0, NULL, 'u'},
@@ -1223,7 +1416,7 @@ int main(int argc, char *argv[])
 		{0, 0, 0, 0}
 	};
 
-	while ((opt = getopt_long(argc, argv, "df:D:C:xi:n:s:p:eluvh?",
+	while ((opt = getopt_long(argc, argv, "df:D:C:M:xi:n:s:p:eluvh?",
 				  long_options, &option_index)) != EOF) {
 		switch (opt) {
 		case 'd':
@@ -1327,6 +1520,15 @@ int main(int argc, char *argv[])
 				exit(EXIT_FAILURE);
 			}
 			break;
+		case 'M':
+			mode_altmedisable = 1;
+			altmedisable = strtol(optarg, NULL, 0);
+			if (altmedisable > 1) {
+				fprintf(stderr, "error: Illegal value\n");
+				print_usage(argv[0]);
+				exit(EXIT_FAILURE);
+			}
+			break;
 		case 's':
 			// Parse the requested SPI frequency
 			inputfreq = strtol(optarg, NULL, 0);
@@ -1381,6 +1583,8 @@ int main(int argc, char *argv[])
 				platform = PLATFORM_CNL;
 			} else if (!strcmp(optarg, "glk")) {
 				platform = PLATFORM_GLK;
+			} else if (!strcmp(optarg, "icl")) {
+				platform = PLATFORM_ICL;
 			} else if (!strcmp(optarg, "sklkbl")) {
 				platform = PLATFORM_SKLKBL;
 			} else {
@@ -1404,7 +1608,7 @@ int main(int argc, char *argv[])
 
 	if ((mode_dump + mode_layout + mode_extract + mode_inject +
 		mode_newlayout + (mode_spifreq | mode_em100 | mode_unlocked |
-		 mode_locked)) > 1) {
+		 mode_locked) + mode_altmedisable) > 1) {
 		fprintf(stderr, "You may not specify more than one mode.\n\n");
 		print_usage(argv[0]);
 		exit(EXIT_FAILURE);
@@ -1412,7 +1616,7 @@ int main(int argc, char *argv[])
 
 	if ((mode_dump + mode_layout + mode_extract + mode_inject +
 	     mode_newlayout + mode_spifreq + mode_em100 + mode_locked +
-	     mode_unlocked + mode_density) == 0) {
+	     mode_unlocked + mode_density + mode_altmedisable) == 0) {
 		fprintf(stderr, "You need to specify a mode.\n\n");
 		print_usage(argv[0]);
 		exit(EXIT_FAILURE);
@@ -1484,6 +1688,13 @@ int main(int argc, char *argv[])
 
 	if (mode_unlocked)
 		unlock_descriptor(filename, image, size);
+
+	if (mode_altmedisable) {
+		fpsba_t *fpsba = find_fpsba(image, size);
+		fmsba_t *fmsba = find_fmsba(image, size);
+		fpsba_set_altmedisable(fpsba, fmsba, altmedisable);
+		write_image(filename, image, size);
+	}
 
 	free(image);
 

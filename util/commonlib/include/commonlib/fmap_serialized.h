@@ -37,7 +37,6 @@
 #define FLASHMAP_SERIALIZED_H__
 
 #include <stdint.h>
-#include <compiler.h>
 
 #define FMAP_SIGNATURE		"__FMAP__"
 #define FMAP_VER_MAJOR		1	/* this header's FMAP minor version */
@@ -49,6 +48,7 @@ enum fmap_flags {
 	FMAP_AREA_STATIC	= 1 << 0,
 	FMAP_AREA_COMPRESSED	= 1 << 1,
 	FMAP_AREA_RO		= 1 << 2,
+	FMAP_AREA_PRESERVE	= 1 << 3,
 };
 
 /* Mapping of volatile and static regions in firmware binary */

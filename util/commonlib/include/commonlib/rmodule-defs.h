@@ -1,8 +1,6 @@
 /*
  * This file is part of the coreboot project.
  *
- * Copyright (C) 2014 Google Inc
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 2 of the License.
@@ -17,7 +15,6 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <compiler.h>
 
 #define RMODULE_MAGIC 0xf8fe
 #define RMODULE_VERSION_1 1

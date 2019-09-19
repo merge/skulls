@@ -10,21 +10,16 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-
-#ifndef _COMMONLIB_FSP_H_
-#define _COMMONLIB_FSP_H_
+#ifndef _COMMONLIB_SORT_H_
+#define _COMMONLIB_SORT_H_
 
 #include <stddef.h>
-#include <stdint.h>
-#include <sys/types.h>
 
-/*
- * Relocate FSP held within buffer defined by size to new_addr. Returns < 0
- * on error, offset to FSP_INFO_HEADER on success.
- */
-ssize_t fsp_component_relocate(uintptr_t new_addr, void *fsp, size_t size);
+typedef enum {
+	NUM_ASCENDING,
+	NUM_DESCENDING
+} sort_order_t;
 
-/* API to relocate fsp 1.1 component. */
-ssize_t fsp1_1_relocate(uintptr_t new_addr, void *fsp, size_t size);
+void bubblesort(int *v, size_t num_entries, sort_order_t order);
 
-#endif
+#endif /* _COMMONLIB_SORT_H_ */
