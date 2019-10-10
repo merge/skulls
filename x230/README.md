@@ -100,11 +100,11 @@ below. This is how the SPI connection looks like on both of the X230's chips:
 
 
 		Screen (furthest from you)
-			     ______
-		  MOSI  5 --|      |-- 4  GND
-		   CLK  6 --|      |-- 3  N/C
-		   N/C  7 --|      |-- 2  MISO
-		   VCC  8 --|______|-- 1  CS
+![			     ______
+      MOSI  5 --|      |-- 4  GND
+       CLK  6 --|      |-- 3  N/C
+       N/C  7 --|      |-- 2  MISO
+       VCC  8 --|______|-- 1  CS](soic8.png)
 
 		   Edge (closest to you)
 
@@ -266,3 +266,4 @@ In order to create your own splashscreen image, before building,
 overwrite the `splashscreen.jpg` with your own JPEG, using
 * "Progressive" turned off, and
 * "4:2:0 (chroma quartered)" Subsampling
+
