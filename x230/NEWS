@@ -3,6 +3,7 @@ skulls-x230 0.1.7 - unreleased
 ---------------------------------------
 This release includes the following changes:
 * update coreboot-sdk to version d70f5fae1c
+* based on coreboot commit 4357a82076
 
 skulls-x230 0.1.6 - released 2019-06-07
 ---------------------------------------
