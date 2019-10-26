@@ -1,4 +1,4 @@
-# Skulls - [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230) and X230T
+up to date: Frequently a new image with the latest versions of all components# Skulls - [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230) and X230T
 
 ![seabios_bootmenu](front.jpg)
 
@@ -151,6 +151,8 @@ or ethernet to `sudo apt-get install flashrom`
 
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
+
+**Note**: For beginner users please reference [this photo](https://coinsh.red/u/vgdhgdsavd.png).
 
 #### Hardware Example: CH341A based
 The CH341A from [Winchiphead](http://www.wch.cn/), a USB interface chip,
