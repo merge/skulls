@@ -9,7 +9,7 @@ set -e
 
 cd "$(dirname "$0")"
 
-IFDTOOL_PATH=./util/ifdtool/ifdtool
+IFDTOOL=./util/ifdtool/ifdtool
 ME_CLEANER_PATH=./util/me_cleaner/me_cleaner.py
 have_chipname=0
 have_backupname=0
@@ -188,8 +188,8 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 fi
 
 make -C util/ifdtool
-if [ ! -e ${IFDTOOL_PATH} ] ; then
-	echo "ifdtool not found at ${IFDTOOL_PATH}"
+if [ ! -e ${IFDTOOL} ] ; then
+	echo "ifdtool not found at ${IFDTOOL}"
 	exit 1
 fi
 
@@ -241,9 +241,9 @@ else
 fi
 
 if [ ! "$lock" -gt 0 ] ; then
-	${IFDTOOL_PATH} -u "${TEMP_DIR}"/work.rom
+	${IFDTOOL} -u "${TEMP_DIR}"/work.rom
 else
-	${IFDTOOL_PATH} -l "${TEMP_DIR}"/work.rom
+	${IFDTOOL} -l "${TEMP_DIR}"/work.rom
 fi
 
 if [ ! -e "${TEMP_DIR}"/work.rom.new ] ; then
