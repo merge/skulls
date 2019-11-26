@@ -118,9 +118,9 @@ fi
 
 force_x230_and_root
 
-BIOS_VENDOR=$(dmidecode -t bios | grep Vendor | cut -d':' -f2)
+BIOS_VENDOR=$(${DMIDECODE} -t bios | grep Vendor | cut -d':' -f2)
 if [[ $BIOS_VENDOR != *"coreboot"* ]] ; then
-	BIOS_VERSION=$(dmidecode -s bios-version | grep -o '[1-2].[0-7][0-9]')
+	BIOS_VERSION=$(${DMIDECODE} -s bios-version | grep -o '[1-2].[0-7][0-9]')
 	bios_major=$(echo "$BIOS_VERSION" | cut -d. -f1)
 	bios_minor=$(echo "$BIOS_VERSION" | cut -d. -f2)
 
@@ -203,7 +203,7 @@ check_battery
 while true; do
 	read -r -p "Flash the BIOS now? y/N: " yn
 	case $yn in
-		[Yy]* ) cd ${OUTPUT_PATH} && flashrom -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
+		[Yy]* ) cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
 		[Nn]* ) exit;;
 		* ) exit;;
 	esac

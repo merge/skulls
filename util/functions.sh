@@ -6,11 +6,20 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
+FLASHROM=$(whereis -b flashrom | cut -d ' ' -f 2)
+DMIDECODE=$(whereis -b dmidecode | cut -d ' ' -f 2)
+
 force_x230_and_root()
 {
-	command -v dmidecode >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install dmidecode and run as root.${NC}"; exit 1; }
+	if [ "$EUID" -ne 0 ] ; then
+		echo -e "${RED}Please run this as root.${NC} And make sure you have the following programs:"
+		echo "dmidecode"
+		echo "flashrom"
 
-	local LAPTOP=$(dmidecode | grep -i x230 | sort -u)
+		exit 1
+	fi
+
+	local LAPTOP=$(${DMIDECODE} | grep -i x230 | sort -u)
 	if [ -z "$LAPTOP" ] ; then
 		echo "This is no Thinkpad X230. This script is useless then."
 		exit 0
