@@ -9,6 +9,7 @@ cd "$(dirname "$0")"
 source "util/functions.sh"
 
 have_input_image=0
+extended_mode=0
 
 usage()
 {
@@ -21,9 +22,15 @@ usage()
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
 	echo "Usage: $0 -i <heads_image>.rom"
+	echo ""
+	echo "  (EXPERIMENTAL) Extended Bios:"
+	echo "  -x use extended mode"
+	echo ""
+	echo "Usage example:"
+	echo "Flash an extended Heads image: $0 -x -i <heads_image>.rom"
 }
 
-args=$(getopt -o i:h -- "$@")
+args=$(getopt -o xi:h -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -37,6 +44,9 @@ do
 		INPUT_IMAGE_PATH=$2
 		have_input_image=1
 		shift
+		;;
+	-x)
+		extended_mode=1
 		;;
 	-h)
 		usage
@@ -82,14 +92,12 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 	done
 fi
 
-
 OUTPUT_PATH=output
 INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
 OUTPUT_IMAGE_NAME=${INPUT_IMAGE_NAME%%.*}_prepared.rom
-OUTPUT_IMAGE_PATH=${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}
 
 echo -e "input: ${INPUT_IMAGE_NAME}"
-echo -e "output: ${OUTPUT_IMAGE_PATH}"
+echo -e "output: ${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}"
 
 input_filesize=$(wc -c <"$INPUT_IMAGE_PATH")
 reference_filesize=12582912
@@ -101,13 +109,21 @@ fi
 rm -rf ${OUTPUT_PATH}
 mkdir ${OUTPUT_PATH}
 
-cp "${INPUT_IMAGE_PATH}" "${OUTPUT_IMAGE_PATH}"
+cp "${INPUT_IMAGE_PATH}" "${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}"
 LAYOUT_FILENAME="x230-layout-heads.txt"
 
-echo "0x00000000:0x00000fff ifd" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
-echo "0x00001000:0x00002fff gbe" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
-echo "0x00003000:0x004fffff me" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
-echo "0x00500000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+if [ ! "$extended_mode" -gt 0 ] ; then
+	echo "0x00000000:0x00000fff ifd" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+	echo "0x00001000:0x00002fff gbe" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+	echo "0x00003000:0x004fffff me" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+	echo "0x00500000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+else
+	echo -e "${YELLOW}EXPERIMENTAL: extended flash image${NC}"
+	echo "0x00000000:0x00000fff ifd" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+	echo "0x00001000:0x00002fff gbe" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+	echo "0x00003000:0x0001afff me" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+	echo "0x0001b000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+fi
 
 echo -e "${YELLOW}WARNING${NC}: Make sure not to power off your computer or interrupt this process in any way!"
 echo -e "         Interrupting this process may result in irreparable damage to your computer!"
@@ -115,9 +131,22 @@ check_battery
 while true; do
 	read -r -p "Flash the BIOS now? y/N: " yn
 	case $yn in
-		[Yy]* ) cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
-		[Nn]* ) exit;;
-		* ) exit;;
+		[Yy]* )
+			if [ ! "$extended_mode" -gt 0 ] ; then
+				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"
+			else
+				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image ifd -w "${OUTPUT_IMAGE_NAME}"
+				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image me -w "${OUTPUT_IMAGE_NAME}"
+				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"
+			fi
+			break
+			;;
+		[Nn]* )
+			exit
+			;;
+		* )
+			exit
+			;;
 	esac
 done
 
