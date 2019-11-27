@@ -194,7 +194,10 @@ dd if="${INPUT_IMAGE_PATH}" oflag=append conv=notrunc of="${OUTPUT_IMAGE_PATH}" 
 
 LAYOUT_FILENAME="x230-layout.txt"
 
-echo "0x00000000:0x007fffff ifdmegbe" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+echo "0x00000000:0x00000fff ifd" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+echo "0x00001000:0x00002fff gbe" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+echo "0x00003000:0x004fffff me" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
+echo "0x00500000:0x007fffff unused" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 
 echo -e "${YELLOW}WARNING${NC}: Make sure not to power off your computer or interrupt this process in any way!"
