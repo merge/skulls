@@ -136,8 +136,8 @@ while true; do
 				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"
 			else
 				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image ifd -w "${OUTPUT_IMAGE_NAME}"
-				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image me -w "${OUTPUT_IMAGE_NAME}"
-				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"
+				${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image me -w "${OUTPUT_IMAGE_NAME}"
+				${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"
 			fi
 			break
 			;;
@@ -153,10 +153,10 @@ done
 rm -rf ${OUTPUT_PATH}
 
 while true; do
-	read -r -p "Reboot now? (please do!) Y/n: " yn
+	read -r -p "Power off now? (please do!) Y/n: " yn
 	case $yn in
-		[Yy]* ) reboot ;;
+		[Yy]* ) systemctl poweroff ;;
 		[Nn]* ) exit;;
-		* ) reboot;;
+		* ) systemctl poweroff ;;
 	esac
 done
