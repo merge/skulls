@@ -152,6 +152,9 @@ or ethernet to `sudo apt-get install flashrom`
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
 
+**Note**: Beginners may want to consider [this photo](https://coinsh.red/u/vgdhgdsavd.png).
+<br/>It demostrates a simple method as to which wire connects to which connection on the clip.
+
 #### Hardware Example: CH341A based
 The CH341A from [Winchiphead](http://www.wch.cn/), a USB interface chip,
 is used by some cheap memory programmers.
