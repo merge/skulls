@@ -85,7 +85,7 @@ at [github.com/hamishcoleman/thinkpad-ec](https://github.com/hamishcoleman/think
 [aliexpress](https://de.aliexpress.com/item/POMONA-SOIC-CLIP-5250-8pin-eeprom-for-tacho-8pin-cable-for-pomana-soic-8pin/32814247676.html) or
 [elsewhere](https://geizhals.eu/?fs=pomona+test+clip+5250))
 or alternatively hooks like
-[E-Z-Hook](http://catalog.e-z-hook.com/viewitems/test-hooks/e-z-micro-hooks-single-hook-style) [XKM](https://catalog.e-z-hook.com/item/test-hooks/e-z-micro-hooks-single-hook-style/xkm-1)
+[E-Z-Hook XKM](https://e-z-hook.com/test-hooks/micro-hook/xkm/)
 * 6 [female](https://electronics.stackexchange.com/questions/37783/how-can-i-create-a-female-jumper-wire-connector)
 [jumper wires](https://en.wikipedia.org/wiki/Jump_wire) like
 [these](https://geizhals.eu/jumper-cable-female-female-20cm-a1471094.html)
