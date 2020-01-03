@@ -1,4 +1,10 @@
 
+skulls-x230 0.1.8 - released 2020-01-03
+---------------------------------------
+This release includes the following changes:
+* based on coreboot commit 6af55e583d
+* update SeaBIOS to version 1.13.0
+
 skulls-x230 0.1.7 - released 2019-10-22
 ---------------------------------------
 This release includes the following changes:
