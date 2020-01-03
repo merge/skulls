@@ -215,10 +215,10 @@ done
 rm -rf ${OUTPUT_PATH}
 
 while true; do
-	read -r -p "Reboot now? (please do!) Y/n: " yn
+	read -r -p "Power off now? (please do!) Y/n: " yn
 	case $yn in
-		[Yy]* ) reboot ;;
+		[Yy]* ) systemctl poweroff ;;
 		[Nn]* ) exit;;
-		* ) reboot;;
+		* ) systemctl poweroff ;;
 	esac
 done
