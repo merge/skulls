@@ -64,13 +64,15 @@ supported anymore, once you're running coreboot (You'd have to manually
 flash back your backup images first, see later chapters).
 
 This updates the BIOS _and_ Embedded Controller (EC) firmware. The EC
-is not updated anymore, when running coreboot. The latest EC version is 1.14
-and that's unlikely to change.
+is not updated anymore, when running coreboot. The latest EC version is 1.15
+which is included with the latest official BIOS release 2.77 from 04 Oct 2019.
+
 
 You have 2 options:
 
 * use [the latest original CD](https://pcsupport.lenovo.com/us/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230/downloads/ds029187) and burn it, or
 * use the same, only with a patched EC firmware that allows using any aftermarket-battery:
+(this is only possible up to EC Firmware 1.14)
 By default, only original Lenovo batteries are allowed.
 Thanks to [this](http://zmatt.net/unlocking-my-lenovo-laptop-part-3/)
 [project](https://github.com/eigenmatt/mec-tools) we can use Lenovo's bootable
