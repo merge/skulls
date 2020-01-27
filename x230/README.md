@@ -64,8 +64,9 @@ supported anymore, once you're running coreboot (You'd have to manually
 flash back your backup images first, see later chapters).
 
 This updates the BIOS _and_ Embedded Controller (EC) firmware. The EC
-is not updated anymore, when running coreboot. The latest EC version is 1.15
-which is included with the latest official BIOS release 2.77 from 04 Oct 2019.
+is not updated anymore, when running coreboot. Since official BIOS release 2.77 and
+its EC version 1.15 Lenovo includes a digital signature check, which prevents
+further firmware patching.
 
 
 You have 2 options:
