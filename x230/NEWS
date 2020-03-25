@@ -1,4 +1,10 @@
 
+skulls-x230 0.1.9 - released 2020-03-24
+---------------------------------------
+This release includes the following changes:
+* based on coreboot commit 4bd6927388
+* removed memtest secondary payload from SeaBIOS
+
 skulls-x230 0.1.8 - released 2020-01-03
 ---------------------------------------
 This release includes the following changes:
