@@ -206,7 +206,7 @@ check_battery
 while true; do
 	read -r -p "Flash the BIOS now? y/N: " yn
 	case $yn in
-		[Yy]* ) cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
+		[Yy]* ) cd ${OUTPUT_PATH} && ${FLASHROM} --force --noverify-all -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"; break;;
 		[Nn]* ) exit;;
 		* ) exit;;
 	esac

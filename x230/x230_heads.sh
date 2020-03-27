@@ -133,7 +133,7 @@ while true; do
 	case $yn in
 		[Yy]* )
 			if [ ! "$extended_mode" -gt 0 ] ; then
-				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"
+				cd ${OUTPUT_PATH} && ${FLASHROM} --force --noverify-all -p internal --layout ${LAYOUT_FILENAME} --image bios -w "${OUTPUT_IMAGE_NAME}"
 			else
 				cd ${OUTPUT_PATH} && ${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image ifd -w "${OUTPUT_IMAGE_NAME}"
 				${FLASHROM} -p internal --layout ${LAYOUT_FILENAME} --image me -w "${OUTPUT_IMAGE_NAME}"
