@@ -87,7 +87,7 @@ elif [ "$CLEAN_SLATE" ]; then
 fi
 
 ## Run Docker
-docker run --rm -it \
+docker run --rm -it --network host \
     --user "$(id -u):$(id -g)" \
     -v "$PWD/$MODEL/build:$DOCKER_COREBOOT_DIR" \
     -v "$PWD/$MODEL:$DOCKER_SCRIPT_DIR" \
