@@ -57,3 +57,11 @@ warn_not_root() {
 		echo -e "${YELLOW}WARNING:${NC} This should not be executed as root!"
 	fi
 }
+
+poweroff() {
+    if command -v systemctl 2>/dev/null; then
+        systemctl poweroff
+    else
+        shutdown -P now
+    fi
+}
