@@ -115,7 +115,7 @@ if [ ! "$filesize" -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
-RELEASE_DIR="skulls-x230-${version}"
+RELEASE_DIR="skulls-x230t-${version}"
 rm -rf "$RELEASE_DIR"
 mkdir -p "$RELEASE_DIR"
 
@@ -132,9 +132,9 @@ sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_2} > "${RELEASE_DIR}/${RELEASE_IMA
 cp ../SOURCE.md "$RELEASE_DIR"
 cp -a ../util "$RELEASE_DIR"
 
-# copy in x230 stuff
+# copy in x230t stuff
 cp -a README.md NEWS LICENSE* \
-	x230_skulls.sh x230_heads.sh \
+	x230t_skulls.sh \
 	external_install_bottom.sh external_install_top.sh \
 	"$RELEASE_DIR"
 
@@ -143,7 +143,7 @@ tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
 rm -rf "$RELEASE_DIR"
 
 git commit -a -m "update to ${version}"
-git tag -s "${version}" -m "skulls-x230 ${version}"
+git tag -s "${version}" -m "skulls-x230t ${version}"
 
 sha256sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha256
 sha512sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha512

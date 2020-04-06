@@ -20,9 +20,9 @@ rpi_frequency=0
 
 usage()
 {
-	echo "Skulls for the X230"
+	echo "Skulls for the X230 Tablet"
 	echo "  Run this script on an external computer with a flasher"
-	echo "  connected to the X230's bottom chip (farther away from"
+	echo "  connected to the X230T's bottom chip (farther away from"
 	echo "  the display, closer to you)."
 	echo ""
 	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-b <spispeed>] [-c <chip>]"

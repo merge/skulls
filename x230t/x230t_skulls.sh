@@ -14,8 +14,8 @@ verbose=0
 
 usage()
 {
-	echo "Skulls for the X230"
-	echo "  Run this script on the X230 directly."
+	echo "Skulls for the X230 Tablet"
+	echo "  Run this script on the X230 Tablet directly."
 	echo ""
 	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
@@ -76,9 +76,9 @@ if [ "$request_update" -gt 0 ] ; then
 
 	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases/latest | grep browser_download_url | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
-	UPSTREAM_X230=$(echo ${UPSTREAM_FILE} | grep x230)
-	if [[ -z "$UPSTREAM_X230" ]] ; then
-		echo "The latest release didn't include the X230"
+	UPSTREAM_X230T=$(echo ${UPSTREAM_FILE} | grep x230t)
+	if [[ -z "$UPSTREAM_X230T" ]] ; then
+		echo "The latest release didn't include the X230 Tablet"
 		exit 0
 	fi
 
@@ -87,10 +87,10 @@ if [ "$request_update" -gt 0 ] ; then
 	fi
 
 	if [[ "$CURRENT_VERSION" = "$UPSTREAM_VERSION" ]] ; then
-		echo -e "${GREEN}You are using the latest version of Skulls for the X230${NC}"
+		echo -e "${GREEN}You are using the latest version of Skulls for the X230 Tablet${NC}"
 		exit 0
 	elif [[ "$CURRENT_VERSION" < "$UPSTREAM_VERSION" ]] ; then
-		echo -e "${RED}You have ${CURRENT_VERSION} but there is version ${UPSTREAM_VERSION} available for the X230. Please update.${NC}"
+		echo -e "${RED}You have ${CURRENT_VERSION} but there is version ${UPSTREAM_VERSION} available for the X230 Tablet. Please update.${NC}"
 		read -r -p "Download it to the parent directory now? [y/N] " response
 		case "$response" in
 			[yY][eE][sS]|[yY])
@@ -100,9 +100,9 @@ if [ "$request_update" -gt 0 ] ; then
 				curl -LO ${UPSTREAM_URL}
 				curl -LO ${UPSTREAM_URL_SHA256}
 				sha256sum -c ${UPSTREAM_FILE}.sha256
-				mkdir skulls-x230-${UPSTREAM_VERSION}
-				tar -xf ${UPSTREAM_FILE} -C skulls-x230-${UPSTREAM_VERSION}/
-				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-x230-${UPSTREAM_VERSION}/"
+				mkdir skulls-x230t-${UPSTREAM_VERSION}
+				tar -xf ${UPSTREAM_FILE} -C skulls-x230t-${UPSTREAM_VERSION}/
+				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-x230t-${UPSTREAM_VERSION}/"
 				echo "Please continue in the new directory."
 				;;
 			*)
@@ -110,7 +110,7 @@ if [ "$request_update" -gt 0 ] ; then
 			;;
 		esac
 	else
-		echo "You seem to use a development version. Please use release package skulls-x230 ${UPSTREAM_VERSION} for flashing."
+		echo "You seem to use a development version. Please use release package skulls-x230t ${UPSTREAM_VERSION} for flashing."
 	fi
 
 	exit 0
@@ -145,7 +145,7 @@ if [[ "$verbose" -gt 0 ]] ; then
 fi
 
 if [ ! "$have_input_image" -gt 0 ] ; then
-	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
+	image_available=$(ls -1 | grep x230t_coreboot_seabios || true)
 	if [ -z "${image_available}" ] ; then
 		echo "No image file found. Please add -i <file>"
 		echo ""
@@ -154,7 +154,7 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 	fi
 
 	prompt="file not specified. Please select a file to flash. Please read the README for details about the differences:"
-	options=( $(find -maxdepth 1 -name "x230_coreboot_seabios*rom" -print0 | xargs -0) )
+	options=( $(find -maxdepth 1 -name "x230t_coreboot_seabios*rom" -print0 | xargs -0) )
 
 	PS3="$prompt "
 	select INPUT_IMAGE_PATH in "${options[@]}" "Quit" ; do

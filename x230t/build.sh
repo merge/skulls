@@ -7,7 +7,7 @@ have_config=0
 
 usage()
 {
-	echo "Skulls for the X230"
+	echo "Skulls for the X230 Tablet"
 	echo "  Run this script to rebuild a released image"
 	echo ""
 	echo "Usage: $0 [-c <config_file>]"
@@ -77,5 +77,5 @@ CONFIGFILE_READY=$(echo $CONFIGFILE | cut -d'-' -f2-)
 cp $CONFIGFILE $CONFIGFILE_READY
 
 cd ..
-./build.sh --clean-slate --commit $(ls -1 x230/defconfig-* |  cut -d'-' -f2-) x230
-rm -f x230/defconfig-*
+./build.sh --clean-slate --commit $(ls -1 x230t/defconfig-* |  cut -d'-' -f2-) x230t
+rm -f x230t/defconfig-*

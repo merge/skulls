@@ -15,7 +15,7 @@ rpi_frequency=0
 
 usage()
 {
-	echo "Skulls for the X230"
+	echo "Skulls for the X230 Tablet"
 	echo "  Run this script on an external computer with a flasher"
 	echo "  connected to the X230's top chip (closer to the display"
 	echo "  and farther from you)"
@@ -83,7 +83,7 @@ command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flash
 command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
 if [ ! "$have_input_image" -gt 0 ] ; then
-	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
+	image_available=$(ls -1 | grep x230t_coreboot_seabios || true)
 	if [ -z "${image_available}" ] ; then
 		echo "No image file found. Please add -i <file>"
 		echo ""

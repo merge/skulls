@@ -1,4 +1,4 @@
-# Skulls - [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230) and X230T
+# Skulls - [Thinkpad X230 Tablet](https://pcsupport.lenovo.com/us/en/products/laptops-and-netbooks/thinkpad-x-series-tablet-laptops/thinkpad-x230-tablet)
 
 ![seabios_bootmenu](front.jpg)
 
@@ -12,10 +12,10 @@ Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
 We release multiple different, but _very similar_ images you can choose from.
 They all should work on all versions of the X230/X230T. These are the
 differences; (xxxxxxxxxx stands for random characters in the filename):
-* `x230_coreboot_seabios_xxxxxxxxxx_top.rom` includes the _proprietary_
+* `x230t_coreboot_seabios_xxxxxxxxxx_top.rom` includes the _proprietary_
 [VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS) from [Intel](https://www.intel.com/content/www/us/en/intelligent-systems/intel-embedded-graphics-drivers/faq-bios-firmware.html)
 which is non-free software. It is executed in "secure" mode.
-* `x230_coreboot_seabios_free_xxxxxxxxxx_top.rom` includes the
+* `x230t_coreboot_seabios_free_xxxxxxxxxx_top.rom` includes the
 [VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS)
 [SeaVGABIOS](https://www.seabios.org/SeaVGABIOS) which is free software.
 While technically more interesting, visually this is currently not as
@@ -33,13 +33,13 @@ beautiful:
 * [How to rebuild](#how-to-reproduce-the-release-images)
 
 ## TL;DR
-1. run `sudo ./x230_skulls.sh` on your current X230 Linux system
+1. run `sudo ./x230t_skulls.sh` on your current X230 Linux system
 2. Power down, remove the battery. Remove the keyboard and palmrest. Connect
 a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip clip
 can directly be used), and run
 `sudo ./external_install_bottom.sh` on the lower chip
 and `sudo ./external_install_top.sh` on the top chip of the two.
-3. For updating later, run `./x230_skulls.sh`. No need to disassemble.
+3. For updating later, run `./x230t_skulls.sh`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
 package. This will be tested. The git master
@@ -47,15 +47,15 @@ branch is _not_ meant to be stable. Use it for testing only.
 
 ## First-time installation
 #### before you begin
-Run Linux on your X230, install `dmidecode` and run
-`sudo ./x230_skulls.sh`. It simply prints system information and
+Run Linux on your X230 Tablet, install `dmidecode` and run
+`sudo ./x230t_skulls.sh`. It simply prints system information and
 helps you to be up to date.
 
-Make sure you have the latest skulls-x230 package release by running
-`./x230_skulls.sh -U`.
+Make sure you have the latest skulls-x230t package release by running
+`./x230t_skulls.sh -U`.
 
 #### original BIOS update / EC firmware (optional)
-If the script, `sudo ./x230_skulls.sh` says "The installed original BIOS is very
+If the script, `sudo ./x230t_skulls.sh` says "The installed original BIOS is very
 old.", it means that you have a BIOS version that may include an EC version
 older than 1.14.
 
@@ -71,7 +71,7 @@ further firmware patching.
 
 You have 2 options:
 
-* use [the latest original CD](https://pcsupport.lenovo.com/us/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230/downloads/ds029187) and burn it, or
+* use [the latest original CD](https://pcsupport.lenovo.com/us/en/products/laptops-and-netbooks/thinkpad-x-series-tablet-laptops/thinkpad-x230-tablet/downloads/DS029683) and burn it, or
 * use the same, only with a patched EC firmware that allows using any aftermarket-battery:
 (this is only possible up to EC Firmware 1.14)
 By default, only original Lenovo batteries are allowed.
