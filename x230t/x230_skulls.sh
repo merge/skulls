@@ -14,8 +14,8 @@ verbose=0
 
 usage()
 {
-	echo "Skulls for the X230 Tablet"
-	echo "  Run this script on the X230 Tablet directly."
+	echo "Skulls for the X230"
+	echo "  Run this script on the X230 directly."
 	echo ""
 	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
@@ -217,8 +217,8 @@ rm -rf ${OUTPUT_PATH}
 while true; do
 	read -r -p "Power off now? (please do!) Y/n: " yn
 	case $yn in
-		[Yy]* ) systemctl poweroff ;;
+		[Yy]* ) poweroff ;;
 		[Nn]* ) exit;;
-		* ) systemctl poweroff ;;
+		* ) poweroff ;;
 	esac
 done

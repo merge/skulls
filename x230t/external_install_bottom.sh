@@ -20,9 +20,9 @@ rpi_frequency=0
 
 usage()
 {
-	echo "Skulls for the X230 Tablet"
+	echo "Skulls for the X230"
 	echo "  Run this script on an external computer with a flasher"
-	echo "  connected to the X230T's bottom chip (farther away from"
+	echo "  connected to the X230's bottom chip (farther away from"
 	echo "  the display, closer to you)."
 	echo ""
 	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-b <spispeed>] [-c <chip>]"
@@ -92,7 +92,7 @@ command -v make >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install make and 
 command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
 if [ ! "$have_flasher" -gt 0 ] ; then
-	echo "Skulls for the X230 Tablet"
+	echo "Skulls for the X230"
 	echo ""
 	echo "Please select the hardware you use:"
 	PS3='Please select the hardware flasher: '

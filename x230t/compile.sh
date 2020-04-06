@@ -11,7 +11,7 @@ source /home/coreboot/common_scripts/config_and_make.sh
 ## MODEL VARIABLES
 ################################################################################
 MAINBOARD="lenovo"
-MODEL="x230t"
+MODEL="x230"
 
 ################################################################################
 
