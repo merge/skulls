@@ -1,4 +1,10 @@
 
+skulls-x230 0.1.10 - unreleased
+---------------------------------------
+This release includes the following changes:
+* update coreboot-sdk to version 65718760fa
+* make internal flashing more reliable
+
 skulls-x230 0.1.9 - released 2020-03-24
 ---------------------------------------
 This release includes the following changes:
