@@ -59,7 +59,7 @@ warn_not_root() {
 }
 
 poweroff() {
-    if command -v systemctl 2>/dev/null; then
+    if [ "$(command -v systemctl 2>/dev/null 2>&1)" ]; then
         systemctl poweroff
     else
         shutdown -P now
