@@ -43,3 +43,7 @@ and the TPM.
 * [libreboot](https://libreboot.org/) - a coreboot distribution with pre-built
 image releases. The X230 is currently not supported (the X200 is) - libreboot
 images are built from free software only and include the GRUB bootloader.
+
+## Sponsors
+none. [become a sponsor](https://github.com/sponsors/merge) and you can
+be listed here. any compensation is very much appreciated.
