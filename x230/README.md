@@ -1,16 +1,16 @@
-# Skulls - [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230) and X230T
+# Skulls - [Thinkpad X230](https://pcsupport.lenovo.com/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x230)
 
 ![seabios_bootmenu](front.jpg)
 
 ## Latest release
-Get it from our [release page](https://github.com/merge/coreboot-x230/releases)
+Get it from our [release page](https://github.com/merge/skulls/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
 * __microcode update__: revision `0x21` from 2019-02-13
 * __SeaBIOS__: version [1.12.1](https://seabios.org/Releases) from 2019-02-04
 
 ### release images to choose from
 We release multiple different, but _very similar_ images you can choose from.
-They all should work on all versions of the X230/X230T. These are the
+They all should work on all versions of the X230. These are the
 differences; (xxxxxxxxxx stands for random characters in the filename):
 * `x230_coreboot_seabios_xxxxxxxxxx_top.rom` includes the _proprietary_
 [VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS) from [Intel](https://www.intel.com/content/www/us/en/intelligent-systems/intel-embedded-graphics-drivers/faq-bios-firmware.html)
@@ -41,7 +41,7 @@ can directly be used), and run
 and `sudo ./external_install_top.sh` on the top chip of the two.
 3. For updating later, run `./x230_skulls.sh`. No need to disassemble.
 
-And always use the latest [released](https://github.com/merge/coreboot-x230/releases)
+And always use the latest [released](https://github.com/merge/skulls/releases)
 package. This will be tested. The git master
 branch is _not_ meant to be stable. Use it for testing only.
 
