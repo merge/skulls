@@ -143,7 +143,7 @@ tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
 rm -rf "$RELEASE_DIR"
 
 git commit -a -m "update to ${version}"
-git tag -s "${version}" -m "skulls-x230 ${version}"
+git tag -s "x230-${version}" -m "skulls-x230 ${version}"
 
 sha256sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha256
 sha512sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha512
