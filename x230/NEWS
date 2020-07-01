@@ -2,6 +2,7 @@
 skulls-x230 0.1.10 - unreleased
 ---------------------------------------
 This release includes the following changes:
+* based on coreboot commit 24e6221706
 * update coreboot-sdk to version 65718760fa
 * make internal flashing more reliable
 
