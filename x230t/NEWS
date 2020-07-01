@@ -4,4 +4,4 @@ skulls-x230t 0.0.1 - unreleased
 This release includes the following changes:
 * initial seperate release for the X230T
   based on the X230 configuration
-* based on coreboot commit TODO
+* based on coreboot commit 24e6221706
