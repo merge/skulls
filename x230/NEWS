@@ -1,6 +1,6 @@
 
-skulls-x230 0.1.10 - unreleased
----------------------------------------
+skulls-x230 0.1.10 - released 2020-07-01
+----------------------------------------
 This release includes the following changes:
 * based on coreboot commit 24e6221706
 * update coreboot-sdk to version 65718760fa
