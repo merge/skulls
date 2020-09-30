@@ -1,4 +1,10 @@
 
+skulls-x230t 0.0.2 - released 2020-10-02
+---------------------------------------
+This release includes the following changes:
+* based on coreboot commit 8053595370
+* update SeaBIOS to version 1.14.0
+
 skulls-x230t 0.0.1 - released 2020-07-01
 ----------------------------------------
 * initial seperate release for the X230T
