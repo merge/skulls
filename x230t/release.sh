@@ -115,7 +115,7 @@ if [ ! "$filesize" -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
-RELEASE_DIR="skulls-x230t-${version}"
+RELEASE_DIR="skulls-${version}"
 rm -rf "$RELEASE_DIR"
 mkdir -p "$RELEASE_DIR"
 
@@ -142,8 +142,8 @@ tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
 
 rm -rf "$RELEASE_DIR"
 
-git commit -a -m "release skulls-x230t ${version}"
-git tag -s "x230t-${version}" -m "skulls-x230t ${version}"
+git commit -a -m "release skulls ${version}"
+git tag -s "${version}" -m "skulls ${version}"
 
 sha256sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha256
 sha512sum "$RELEASE_DIR".tar.xz > "$RELEASE_DIR".tar.xz.sha512
