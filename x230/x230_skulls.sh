@@ -94,8 +94,8 @@ if [ "$request_update" -gt 0 ] ; then
 		read -r -p "Download it to the parent directory now? [y/N] " response
 		case "$response" in
 			[yY][eE][sS]|[yY])
-				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases/latest | grep browser_download_url | cut -d'"' -f4 | head -n 1)
-				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases/latest | grep browser_download_url | cut -d'"' -f4 | head -n 3 | tail -n 1)
+				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230- | cut -d'"' -f4 | head -n 1)
+				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230- | cut -d'"' -f4 | head -n 3 | tail -n 1)
 				cd ..
 				curl -LO ${UPSTREAM_URL}
 				curl -LO ${UPSTREAM_URL_SHA256}
