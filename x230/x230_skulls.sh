@@ -70,6 +70,20 @@ if [ "$request_update" -gt 0 ] ; then
 
 	command -v curl >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install curl.${NC}"; exit 1; }
 
+	REMOTE_SHA256=$(curl -sL https://raw.githubusercontent.com/merge/skulls/master/x230/x230_skulls.sh | sha256sum | cut -d' ' -f1)
+
+	CURRENT_SHA256=$(sha256sum $0 | cut -d' ' -f1)
+
+	if [[ $CURRENT_SHA256 != $REMOTE_SHA256 ]] ; then
+		echo -e "${RED}Script not equal to latest version on Github${NC}"
+		mv $0 $0.old
+		curl -sLO https://raw.githubusercontent.com/merge/skulls/master/x230/x230_skulls.sh
+		chmod +rwx $0
+		echo "Downloaded the latest version from Github and backed up the old version to $0.old" 
+		echo "Run command again" 
+		exit
+	fi;
+
 	CURRENT_VERSION=$(head -2 NEWS | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
 	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
