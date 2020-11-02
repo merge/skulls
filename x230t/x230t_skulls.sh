@@ -72,9 +72,9 @@ if [ "$request_update" -gt 0 ] ; then
 
 	CURRENT_VERSION=$(head -2 NEWS | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
-	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases/latest | grep browser_download_url | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
+	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230t- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
 
-	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases/latest | grep browser_download_url | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
+	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230t- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
 	UPSTREAM_X230=$(echo ${UPSTREAM_FILE} | grep x230t)
 	if [[ -z "$UPSTREAM_X230" ]] ; then
