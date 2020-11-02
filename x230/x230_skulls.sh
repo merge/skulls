@@ -101,7 +101,7 @@ if [ "$request_update" -gt 0 ] ; then
 				curl -LO ${UPSTREAM_URL_SHA256}
 				sha256sum -c ${UPSTREAM_FILE}.sha256
 				mkdir skulls-x230-${UPSTREAM_VERSION}
-				tar -xf ${UPSTREAM_FILE} -C skulls-x230-${UPSTREAM_VERSION}/
+				tar -xf ${UPSTREAM_FILE}
 				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-x230-${UPSTREAM_VERSION}/"
 				echo "Please continue in the new directory."
 				;;
