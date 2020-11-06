@@ -94,14 +94,14 @@ if [ "$request_update" -gt 0 ] ; then
 		read -r -p "Download it to the parent directory now? [y/N] " response
 		case "$response" in
 			[yY][eE][sS]|[yY])
-				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases/latest | grep browser_download_url | cut -d'"' -f4 | head -n 1)
-				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases/latest | grep browser_download_url | cut -d'"' -f4 | head -n 3 | tail -n 1)
+				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230t- | cut -d'"' -f4 | head -n 1)
+				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230t- | cut -d'"' -f4 | head -n 3 | tail -n 1)
 				cd ..
 				curl -LO ${UPSTREAM_URL}
 				curl -LO ${UPSTREAM_URL_SHA256}
 				sha256sum -c ${UPSTREAM_FILE}.sha256
 				mkdir skulls-x230t-${UPSTREAM_VERSION}
-				tar -xf ${UPSTREAM_FILE} -C skulls-x230t-${UPSTREAM_VERSION}/
+				tar -xf ${UPSTREAM_FILE}
 				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-x230t-${UPSTREAM_VERSION}/"
 				echo "Please continue in the new directory."
 				;;
