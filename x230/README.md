@@ -183,11 +183,13 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 #### ifd unlock and me_cleaner: the 8MB chip
 
-Flashing the bottom chip (closer to you) is optional. It has the same pinout
-than the upper chip. This allows you to enable/disable in-system flashing
-(without disassembling the Thinkpad) and/or to neuter the
-[Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
-for [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities).
+Flashing the bottom chip (closer to you) is optional but highly recommended.
+It has the same pinout as the upper chip. When you don't unlock the bottom chip
+with an external flasher, you can't flash internally and fix the
+[security issues](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities)
+in the
+[Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine).
+
 
 
 	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
