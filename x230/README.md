@@ -183,11 +183,11 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 #### ifd unlock and me_cleaner: the 8MB chip
 
-Flashing the bottom chip (closer to you) is optional. It has the same pinout
-than the upper chip. This allows you to enable/disable in-system flashing
-(without disassembling the Thinkpad) and/or to neuter the
+Flashing the bottom chip (closer to you) is highly recommended. It has the same pinout
+than the upper chip. When you dont unlock the bottom chip with external flasher, you cant fix the known critical security issues in the Intel Management Engine. Recently Intel release security updates for the CPU-Microcode (updates included in the skulls releases) for the CPUs build into the x230, but does not release any security updates for the long known issues in the Management engine.
 [Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
-for [security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities).
+[security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities).
+When you dont flash the bottom 8MB chip, you additionaly to the security issues cant use from end of 2020 onwards released Heads "maximized" releases that are discussed here: https://github.com/osresearch/heads/pull/703
 
 
 	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
