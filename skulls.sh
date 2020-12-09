@@ -103,15 +103,9 @@ if [ "$request_update" -gt 0 ] ; then
 
 	CURRENT_VERSION=$(head -2 NEWS | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
-	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
+	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
 
-	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
-
-	UPSTREAM_X230=$(echo ${UPSTREAM_FILE} | grep $BOARD)
-	if [[ -z "$UPSTREAM_X230" ]] ; then
-		echo "The latest release didn't include the X230"
-		exit 0
-	fi
+	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
 	if [[ $verbose -gt 0 ]] ; then
 		echo "This is v$CURRENT_VERSION and latest is v$UPSTREAM_VERSION"
@@ -125,8 +119,8 @@ if [ "$request_update" -gt 0 ] ; then
 		read -r -p "Download it to the parent directory now? [y/N] " response
 		case "$response" in
 			[yY][eE][sS]|[yY])
-				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | head -n 1)
-				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | head -n 3 | tail -n 1)
+				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | head -n 1)
+				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | head -n 3 | tail -n 1)
 				cd ..
 				curl -LO ${UPSTREAM_URL}
 				curl -LO ${UPSTREAM_URL_SHA256}
