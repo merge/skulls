@@ -11,6 +11,8 @@ source "util/functions.sh"
 have_input_image=0
 request_update=0
 verbose=0
+have_board=0
+BOARD=""
 
 usage()
 {
@@ -20,15 +22,16 @@ usage()
 	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
-	echo "Usage: $0 [-i <4mb_top_image>.rom] [-U] [-h]"
+	echo "Usage: $0 -b (x230|x230t) [-i <4mb_top_image>.rom] [-U] [-h]"
 	echo "Options:"
+	echo "  -b	board to flash. This must be \"x230\" or \x230t\""
 	echo "  -i	path to the image to flash"
 	echo "  -U	update: check for a new Skulls package online"
 	echo "  -v	verbose output. prints more information"
 	echo "  -h	print this help text"
 }
 
-args=$(getopt -o i:hUv -- "$@")
+args=$(getopt -o b:i:hUv -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -38,6 +41,11 @@ eval set -- "$args"
 while [ $# -gt 0 ]
 do
 	case "$1" in
+	-b)
+		BOARD=$2
+		have_board=1
+		shift
+		;;
 	-i)
 		INPUT_IMAGE_PATH=$2
 		have_input_image=1
@@ -65,6 +73,29 @@ do
 	shift
 done
 
+# TODO make interactive
+if [ ! "$have_board" -gt 0 ] ; then
+	echo "No board specified. Please add -b <board>"
+	echo ""
+	usage
+	exit 1
+fi
+
+if [[ $BOARD == "x230" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "x230t" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+else
+	echo "Unsupported board: $BOARD"
+	echo ""
+	usage
+	exit 1
+fi
+
 if [ "$request_update" -gt 0 ] ; then
 	warn_not_root
 
@@ -72,11 +103,11 @@ if [ "$request_update" -gt 0 ] ; then
 
 	CURRENT_VERSION=$(head -2 NEWS | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
-	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
+	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
 
-	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
+	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
 
-	UPSTREAM_X230=$(echo ${UPSTREAM_FILE} | grep x230)
+	UPSTREAM_X230=$(echo ${UPSTREAM_FILE} | grep $BOARD)
 	if [[ -z "$UPSTREAM_X230" ]] ; then
 		echo "The latest release didn't include the X230"
 		exit 0
@@ -94,15 +125,15 @@ if [ "$request_update" -gt 0 ] ; then
 		read -r -p "Download it to the parent directory now? [y/N] " response
 		case "$response" in
 			[yY][eE][sS]|[yY])
-				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230- | cut -d'"' -f4 | head -n 1)
-				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-x230- | cut -d'"' -f4 | head -n 3 | tail -n 1)
+				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | head -n 1)
+				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | grep skulls-$BOARD- | cut -d'"' -f4 | head -n 3 | tail -n 1)
 				cd ..
 				curl -LO ${UPSTREAM_URL}
 				curl -LO ${UPSTREAM_URL_SHA256}
 				sha256sum -c ${UPSTREAM_FILE}.sha256
-				mkdir skulls-x230-${UPSTREAM_VERSION}
+				mkdir skulls-$BOARD-${UPSTREAM_VERSION}
 				tar -xf ${UPSTREAM_FILE}
-				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-x230-${UPSTREAM_VERSION}/"
+				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-$BOARD-${UPSTREAM_VERSION}/"
 				echo "Please continue in the new directory."
 				;;
 			*)
@@ -110,7 +141,7 @@ if [ "$request_update" -gt 0 ] ; then
 			;;
 		esac
 	else
-		echo "You seem to use a development version. Please use release package skulls-x230 ${UPSTREAM_VERSION} for flashing."
+		echo "You seem to use a development version. Please use release package skulls-$BOARD ${UPSTREAM_VERSION} for flashing."
 	fi
 
 	exit 0
@@ -145,7 +176,7 @@ if [[ "$verbose" -gt 0 ]] ; then
 fi
 
 if [ ! "$have_input_image" -gt 0 ] ; then
-	image_available=$(ls -1 | grep x230_coreboot_seabios || true)
+	image_available=$(ls -1 | grep ${BOARD}_coreboot_seabios || true)
 	if [ -z "${image_available}" ] ; then
 		echo "No image file found. Please add -i <file>"
 		echo ""
@@ -154,7 +185,7 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 	fi
 
 	prompt="file not specified. Please select a file to flash. Please read the README for details about the differences:"
-	options=( $(find -maxdepth 1 -name "x230_coreboot_seabios*rom" -print0 | xargs -0) )
+	options=( $(find -maxdepth 1 -name "${BOARD}_coreboot_seabios*rom" -print0 | xargs -0) )
 
 	PS3="$prompt "
 	select INPUT_IMAGE_PATH in "${options[@]}" "Quit" ; do
