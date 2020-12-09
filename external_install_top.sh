@@ -15,24 +15,27 @@ have_chipname=0
 have_backupname=0
 have_flasher=0
 rpi_frequency=0
+have_board=0
+BOARD=""
 
 usage()
 {
-	echo "Skulls for the X230T"
+	echo "Skulls for the X230"
 	echo "  Run this script on an external computer with a flasher"
-	echo "  connected to the X230T's top chip (closer to the display"
+	echo "  connected to the X230's top chip (closer to the display"
 	echo "  and farther from you)"
 	echo ""
-	echo "Usage: $0 [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-b <spispeed>]"
+	echo "Usage: $0 -b (x230|x230t) [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>]"
 	echo ""
+	echo " -b (x230|x230t)		board to flash. This must be \"x230\" or \"x230t\""
 	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a"
 	echo " -i <image>              path to image to flash"
 	echo " -c <chipname>           to use for flashrom"
 	echo " -k <backup>             save the current image as"
-	echo " -b <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
+	echo " -s <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
 }
 
-args=$(getopt -o f:i:c:k:hb: -- "$@")
+args=$(getopt -o f:i:c:k:hs:b: -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -42,6 +45,11 @@ eval set -- "$args"
 while [ $# -gt 0 ]
 do
 	case "$1" in
+	-b)
+		BOARD=$2
+		have_board=1
+		shift
+		;;
 	-f)
 		FLASHER=$2
 		have_flasher=1
@@ -62,7 +70,7 @@ do
 		have_backupname=1
 		shift
 		;;
-	-b)
+	-s)
 		rpi_frequency=$2
 		shift
 		;;
@@ -82,10 +90,34 @@ do
 	shift
 done
 
+# TODO make interactive and move to functions
+if [ ! "$have_board" -gt 0 ] ; then
+	echo "No board specified. Please add -b <board>"
+	echo ""
+	usage
+	exit 1
+fi
+
+if [[ $BOARD == "x230" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "x230t" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+else
+	echo "Unsupported board: $BOARD"
+	echo ""
+	usage
+	exit 1
+fi
+
+command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flashrom and run as root${NC}."; exit 1; }
 command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
 if [ ! "$have_input_image" -gt 0 ] ; then
-	image_available=$(ls -1 | grep x230t_coreboot_seabios || true)
+	image_available=$(ls -1 | grep ${BOARD}_coreboot_seabios || true)
 	if [ -z "${image_available}" ] ; then
 		echo "No image file found. Please add -i <file>"
 		echo ""
