@@ -33,13 +33,13 @@ beautiful:
 * [How to rebuild](#how-to-reproduce-the-release-images)
 
 ## TL;DR
-1. run `sudo ./x230t_skulls.sh` on your current X230T Linux system
+1. run `sudo ./skulls.sh -b x230t` on your current X230T Linux system
 2. Power down, remove the battery. Remove the keyboard and palmrest. Connect
 a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip clip
 can directly be used), and run
 `sudo ./external_install_bottom.sh` on the lower chip
-and `sudo ./external_install_top.sh` on the top chip of the two.
-3. For updating later, run `./x230t_skulls.sh`. No need to disassemble.
+and `sudo ./external_install_top.sh -b x230t` on the top chip of the two.
+3. For updating later, run `./skulls.sh -b x230t`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/skulls/releases)
 package. This will be tested. The git master
@@ -48,14 +48,14 @@ branch is _not_ meant to be stable. Use it for testing only.
 ## First-time installation
 #### before you begin
 Run Linux on your X230T, install `dmidecode` and run
-`sudo ./x230t_skulls.sh`. It simply prints system information and
+`sudo ./skulls.sh -b x230t`. It simply prints system information and
 helps you to be up to date.
 
 Make sure you have the latest skulls-x230t package release by running
-`./x230t_skulls.sh -U`.
+`./skulls.sh -b x230t -U`.
 
 #### original BIOS update / EC firmware (optional)
-If the script, `sudo ./x230t_skulls.sh` says "The installed original BIOS is very
+If the script, `sudo ./skulls.sh -b x230t` says "The installed original BIOS is very
 old.", it means that you have a BIOS version that may include an EC version
 older than 1.14.
 
@@ -204,7 +204,7 @@ Now it's time to make your choice! Choose one of the images included in our
 release and select it during running:
 
 
-	sudo ./external_install_top.sh -k <backup-file-to-create>
+	sudo ./external_install_top.sh -b x230t -k <backup-file-to-create>
 
 
 This selects and flashes it and that's it.
@@ -213,16 +213,16 @@ turn on the X230T. coreboot will do hardware init and start SeaBIOS.
 
 ## Updating
 If you have locked your flash (i.e. `./external_install_bottom -l`) you can
-flash externally using `external_install_top.sh` just like the
+flash externally using `external_install_top.sh -b x230t` just like the
 first time, see above. Only the "upper" 4MB chip has to be written.
 
 It is recommended to do the the update directly on your X230T using Linux
 though. This is considered more safe for your hardware and is very convenient -
-just install the "flashrom" program and run  `./x230t_skulls.sh`, see below.
+just install the "flashrom" program and run  `./skulls.sh -b x230t`, see below.
 
 1. boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
-2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it or check for updates by running `./x230t_skulls.sh -U`.
-3. run `sudo ./x230t_skulls.sh` and choose the image to flash.
+2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it or check for updates by running `./skulls.sh -b x230t -U`.
+3. run `sudo ./skulls.sh -b x230t` and choose the image to flash.
 
 Hint: In case your Linux distribution's GRUB bootloader doesn't use the full
 screen, put the line `GRUB_GFXMODE=1366x768x32` in your `/etc/default/grub` file
@@ -244,7 +244,7 @@ That's it. Heads is a completely different project. Please read the
 [over there](https://github.com/osresearch/heads/issues)
 
 Switching back to Skulls is the same as [updating](#updating). Just run
-`./x230t_skulls.sh`.
+`./skulls.sh -b x230t`.
 
 ## Why does this work?
 On the X230T, there are 2 physical "BIOS" chips. The "upper" 4MB
