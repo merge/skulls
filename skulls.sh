@@ -73,7 +73,7 @@ do
 	shift
 done
 
-# TODO make interactive
+# TODO make interactive and move to functions
 if [ ! "$have_board" -gt 0 ] ; then
 	echo "No board specified. Please add -b <board>"
 	echo ""
