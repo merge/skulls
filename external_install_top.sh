@@ -20,7 +20,7 @@ BOARD=""
 
 usage()
 {
-	echo "Skulls for the X230"
+	echo "The Skulls coreboot distribution"
 	echo "  Run this script on an external computer with a flasher"
 	echo "  connected to the X230's top chip (closer to the display"
 	echo "  and farther from you)"
