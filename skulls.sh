@@ -16,8 +16,8 @@ BOARD=""
 
 usage()
 {
-	echo "Skulls for the X230"
-	echo "  Run this script on the X230 directly."
+	echo "The Skulls coreboot distribution:"
+	echo "  Run this script on the Laptop directly."
 	echo ""
 	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
@@ -118,10 +118,10 @@ if [ "$request_update" -gt 0 ] ; then
 	fi
 
 	if [[ "$CURRENT_VERSION" = "$UPSTREAM_VERSION" ]] ; then
-		echo -e "${GREEN}You are using the latest version of Skulls for the X230${NC}"
+		echo -e "${GREEN}You are using the latest version of Skulls${NC}"
 		exit 0
 	elif [[ "$CURRENT_VERSION" < "$UPSTREAM_VERSION" ]] ; then
-		echo -e "${RED}You have ${CURRENT_VERSION} but there is version ${UPSTREAM_VERSION} available for the X230. Please update.${NC}"
+		echo -e "${RED}You have ${CURRENT_VERSION} but there is version ${UPSTREAM_VERSION} available. Please update.${NC}"
 		read -r -p "Download it to the parent directory now? [y/N] " response
 		case "$response" in
 			[yY][eE][sS]|[yY])
