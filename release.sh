@@ -8,13 +8,15 @@ set -e
 have_version=0
 have_image=0
 have_image_2=0
+have_image_3=0
+have_image_4=0
 
 usage()
 {
-        echo "Usage: $0 -v version -i release_image -f second_release_image"
+        echo "Usage: $0 -v version -i img -f img -g img -h img"
 }
 
-args=$(getopt -o v:i:f: -- "$@")
+args=$(getopt -o v:i:f:g:h: -- "$@")
 if [ $? -ne 0 ] ; then
         usage
         exit 1
@@ -31,6 +33,16 @@ do
 	-f)
 		RELEASE_IMAGE_2=$2
 		have_image_2=1
+		shift
+		;;
+	-g)
+		RELEASE_IMAGE_3=$2
+		have_image_3=1
+		shift
+		;;
+	-h)
+		RELEASE_IMAGE_4=$2
+		have_image_4=1
 		shift
 		;;
         -v)
@@ -52,15 +64,27 @@ do
 done
 
 if [ ! "$have_image" -gt 0 ] ; then
-	echo "we currently need 2 release images"
+	echo "image missing"
 	usage
 	exit 1
 fi
 if [ ! "$have_image_2" -gt 0 ] ; then
-	echo "we currently need 2 release images"
+	echo "image missing"
 	usage
 	exit 1
 fi
+
+if [ ! "$have_image_3" -gt 0 ] ; then
+	echo "image missing"
+	usage
+	exit 1
+fi
+if [ ! "$have_image_4" -gt 0 ] ; then
+	echo "image missing"
+	usage
+	exit 1
+fi
+
 
 # Do we have a desired version number?
 if [ "$have_version" -gt 0 ] ; then
@@ -115,6 +139,19 @@ if [ ! "$filesize" -eq "$reference_filesize" ] ; then
 	exit 1
 fi
 
+filesize=$(wc -c <"${RELEASE_IMAGE_3}")
+reference_filesize=4194304
+if [ ! "$filesize" -eq "$reference_filesize" ] ; then
+	echo "filesize of release image is wrong"
+	exit 1
+fi
+filesize=$(wc -c <"${RELEASE_IMAGE_4}")
+reference_filesize=4194304
+if [ ! "$filesize" -eq "$reference_filesize" ] ; then
+	echo "filesize of release image is wrong"
+	exit 1
+fi
+
 RELEASE_DIR="skulls-${version}"
 rm -rf "$RELEASE_DIR"
 mkdir -p "$RELEASE_DIR"
@@ -122,20 +159,33 @@ mkdir -p "$RELEASE_DIR"
 # copy-in the ROMs
 cp "${RELEASE_IMAGE}" "$RELEASE_DIR"
 cp "${RELEASE_IMAGE_2}" "$RELEASE_DIR"
+cp "${RELEASE_IMAGE_3}" "$RELEASE_DIR"
+cp "${RELEASE_IMAGE_4}" "$RELEASE_DIR"
 
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
 sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE}.sha256"
 RELEASE_IMAGE_FILE_2=$(basename "${RELEASE_IMAGE_2}")
 sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_2} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE_2}.sha256"
+RELEASE_IMAGE_FILE_3=$(basename "${RELEASE_IMAGE_3}")
+sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_3} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE_3}.sha256"
+RELEASE_IMAGE_FILE_4=$(basename "${RELEASE_IMAGE_4}")
+sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_4} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE_4}.sha256"
 
 # copy in device independent stuff
-cp ../SOURCE.md "$RELEASE_DIR"
-cp -a ../util "$RELEASE_DIR"
+cp SOURCE.md "$RELEASE_DIR"
+cp NEWS "$RELEASE_DIR"
+cp LICENSE* "$RELEASE_DIR"
+cp external_install_bottom.sh ../external_install_top.sh ../skulls.sh "$RELEASE_DIR"
+cp -a util "$RELEASE_DIR"
+
+# copy in x230 stuff
+cp -a x230/README.md \
+	x230/x230_heads.sh \
+	"$RELEASE_DIR"
 
 # copy in x230t stuff
-cp -a README.md NEWS LICENSE* \
-	x230t_skulls.sh x230t_heads.sh \
-	external_install_bottom.sh external_install_top.sh \
+cp -a x230t/README.md \
+	x230t/x230t_heads.sh \
 	"$RELEASE_DIR"
 
 tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
