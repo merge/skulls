@@ -21,9 +21,9 @@ rpi_frequency=0
 
 usage()
 {
-	echo "Skulls for the X230T"
+	echo "The Skulls coreboot distribution"
 	echo "  Run this script on an external computer with a flasher"
-	echo "  connected to the X230T's bottom chip (farther away from"
+	echo "  connected to the X230's bottom chip (farther away from"
 	echo "  the display, closer to you)."
 	echo ""
 	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-b <spispeed>] [-c <chip>]"
@@ -33,10 +33,10 @@ usage()
 	echo " -m                      apply me_cleaner -S -d"
 	echo " -l                      lock the flash instead of unlocking it"
 	echo " -k <backup>             save the current image as"
-	echo " -b <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
+	echo " -s <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
 }
 
-args=$(getopt -o f:mlc:k:hb: -- "$@")
+args=$(getopt -o f:mlc:k:hs: -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -67,7 +67,7 @@ do
 		have_backupname=1
 		shift
 		;;
-	-b)
+	-s)
 		rpi_frequency=$2
 		shift
 		;;
@@ -92,7 +92,7 @@ command -v make >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install make and 
 command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
 if [ ! "$have_flasher" -gt 0 ] ; then
-	echo "Skulls for the X230T"
+	echo "Skulls"
 	echo ""
 	echo "Please select the hardware you use:"
 	PS3='Please select the hardware flasher: '
