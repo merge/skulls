@@ -6,11 +6,30 @@ This release includes the following changes:
 * update coreboot-sdk to version 0ad5fbd48d
 * fix x230_skulls -U
 
+skulls 0.2.0 - unreleased
+---------------------------------------
+This release includes the following changes:
+* spi speed is now set with -s
+* board (x230|x230t) is set with -b
+* one release for all boards
+
+skulls x230t-0.0.2 - released 2020-10-25
+----------------------------------------
+This release includes the following changes:
+* based on coreboot commit 8053595370
+* update SeaBIOS to version 1.14.0
+
 skulls x230-0.1.11 - released 2020-10-25
 ----------------------------------------
 This release includes the following changes:
 * based on coreboot commit 8053595370
 * update SeaBIOS to version 1.14.0
+
+skulls-x230t 0.0.1 - released 2020-07-01
+----------------------------------------
+* initial seperate release for the X230T
+  based on the X230 configuration
+* based on coreboot commit 24e6221706
 
 skulls-x230 0.1.10 - released 2020-07-01
 ----------------------------------------
