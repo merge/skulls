@@ -8,6 +8,7 @@ NC='\033[0m'
 set -e
 
 cd "$(dirname "$0")"
+source "util/functions.sh"
 
 IFDTOOL=./util/ifdtool/ifdtool
 ME_CLEANER_PATH=./util/me_cleaner/me_cleaner.py
@@ -87,7 +88,6 @@ do
 	shift
 done
 
-command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flashrom and run as root${NC}."; exit 1; }
 command -v make >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install make and a C compiler${NC}."; exit 1; }
 command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
@@ -142,7 +142,7 @@ fi
 
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
-	flashrom -p ${programmer} &> "${TEMP_DIR}"/chips || true
+	${FLASHROM} -p ${programmer} &> "${TEMP_DIR}"/chips || true
 	flashrom_error=""
 	flashrom_error=$(cat "${TEMP_DIR}"/chips | grep -i error || true)
 	if [ ! -z "${flashrom_error}" ] ; then
@@ -178,7 +178,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 
 	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
-		flashrom -p ${programmer} || true
+		${FLASHROM} -p ${programmer} || true
 		rm -rf "${TEMP_DIR}"
 		echo "chip not detected. Please find it manually and rerun with the -c parameter."
 		exit 1
@@ -214,8 +214,8 @@ if [ "$me_clean" -gt 0 ] ; then
 fi
 
 echo "Start reading 2 times. Please be patient..."
-flashrom -p ${programmer} -c ${CHIPNAME} -r "${TEMP_DIR}"/test1.rom
-flashrom -p ${programmer} -c ${CHIPNAME} -r "${TEMP_DIR}"/test2.rom
+${FLASHROM} -p ${programmer} -c ${CHIPNAME} -r "${TEMP_DIR}"/test1.rom
+${FLASHROM} -p ${programmer} -c ${CHIPNAME} -r "${TEMP_DIR}"/test2.rom
 cmp --silent "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
 	cp "${TEMP_DIR}"/test1.rom "${BACKUPNAME}"
@@ -260,6 +260,6 @@ make clean -C util/ifdtool
 
 echo "start writing..."
 
-flashrom -p ${programmer} -c "${CHIPNAME}" -w "${TEMP_DIR}"/work.rom.new
+${FLASHROM} -p ${programmer} -c "${CHIPNAME}" -w "${TEMP_DIR}"/work.rom.new
 rm -rf "${TEMP_DIR}"
 echo -e "${GREEN}DONE${NC}"

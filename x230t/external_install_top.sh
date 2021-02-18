@@ -7,6 +7,9 @@ NC='\033[0m'
 
 set -e
 
+cd "$(dirname "$0")"
+source "util/functions.sh"
+
 have_input_image=0
 have_chipname=0
 have_backupname=0
@@ -79,7 +82,6 @@ do
 	shift
 done
 
-command -v flashrom >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install flashrom and run as root${NC}."; exit 1; }
 command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
 
 if [ ! "$have_input_image" -gt 0 ] ; then
@@ -154,7 +156,7 @@ fi
 
 if [ ! "$have_chipname" -gt 0 ] ; then
 	echo "trying to detect the chip..."
-	flashrom -p ${programmer} &> "${TEMP_DIR}"/chips || true
+	${FLASHROM} -p ${programmer} &> "${TEMP_DIR}"/chips || true
 	flashrom_error=""
 	flashrom_error=$(cat "${TEMP_DIR}"/chips | grep -i error || true)
 	if [ ! -z "${flashrom_error}" ] ; then
@@ -181,7 +183,7 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 
 	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
-		flashrom -p ${programmer} || true
+		${FLASHROM} -p ${programmer} || true
 		rm -rf "${TEMP_DIR}"
 		echo "Please find it manually in the list above and rerun with the -c parameter."
 		exit 1
@@ -199,8 +201,8 @@ if [ ! "$INPUT_IMAGE_SIZE" -eq "$reference_filesize" ] ; then
 fi
 
 echo "verifying SPI connection by reading 2 times. please wait."
-flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
-flashrom -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
+${FLASHROM} -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test1.rom
+${FLASHROM} -p ${programmer} -c ${CHIPNAME} -r ${TEMP_DIR}/test2.rom
 cmp --silent "${TEMP_DIR}"/test1.rom "${TEMP_DIR}"/test2.rom
 if [ "$have_backupname" -gt 0 ] ; then
 	cp "${TEMP_DIR}"/test1.rom "${BACKUPNAME}"
@@ -215,5 +217,5 @@ fi
 rm -rf "${TEMP_DIR}"
 
 echo -e "${GREEN}connection ok${NC}. flashing ${INPUT_IMAGE_NAME}"
-flashrom -p ${programmer} -c "${CHIPNAME}" -w "${INPUT_IMAGE_PATH}"
+${FLASHROM} -p ${programmer} -c "${CHIPNAME}" -w "${INPUT_IMAGE_PATH}"
 echo -e "${GREEN}DONE${NC}"
