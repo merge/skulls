@@ -19,7 +19,7 @@ function gitUpdate() {
     git submodule update --init --recursive --remote
 
     # blobs are ignored from updates.  Manually clone to prevent compile errors later from non empty directory cloning
-    git clone https://github.com/coreboot/blobs.git 3rdparty/blobs/
+    # git clone https://github.com/coreboot/blobs.git 3rdparty/blobs/
   else
     cd "$DOCKER_COREBOOT_DIR" || exit
     git fetch --all --tags --prune
