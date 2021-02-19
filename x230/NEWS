@@ -1,4 +1,11 @@
 
+skulls x230-0.1.12 - released 2021-02-19
+----------------------------------------
+This release includes the following changes:
+* based on coreboot commit a2642d0ffe
+* update coreboot-sdk to version 0ad5fbd48d
+* fix x230_skulls -U
+
 skulls x230-0.1.11 - released 2020-10-25
 ----------------------------------------
 This release includes the following changes:
