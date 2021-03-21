@@ -180,12 +180,10 @@ cp -a util "$RELEASE_DIR"
 
 # copy in x230 stuff
 cp -a x230/README.md \
-	x230/x230_heads.sh \
 	"$RELEASE_DIR"
 
 # copy in x230t stuff
 cp -a x230t/README.md \
-	x230t/x230t_heads.sh \
 	"$RELEASE_DIR"
 
 tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
