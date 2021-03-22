@@ -1,4 +1,11 @@
 
+skulls 1.0.0 - released 2021-03-22
+----------------------------------
+This pre-release includes the following changes:
+* based on coreboot commit 4de7610b32
+* one unified release package
+* add support for the T430
+
 skulls x230-0.1.12 - released 2021-02-19
 ----------------------------------------
 This release includes the following changes:
