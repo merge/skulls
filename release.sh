@@ -10,13 +10,14 @@ have_image=0
 have_image_2=0
 have_image_3=0
 have_image_4=0
+have_image_5=0
 
 usage()
 {
         echo "Usage: $0 -v version -i img -f img -g img -h img"
 }
 
-args=$(getopt -o v:i:f:g:h: -- "$@")
+args=$(getopt -o v:i:f:g:h:j: -- "$@")
 if [ $? -ne 0 ] ; then
         usage
         exit 1
@@ -43,6 +44,11 @@ do
 	-h)
 		RELEASE_IMAGE_4=$2
 		have_image_4=1
+		shift
+		;;
+	-h)
+		RELEASE_IMAGE_5=$2
+		have_image_5=1
 		shift
 		;;
         -v)
@@ -80,6 +86,11 @@ if [ ! "$have_image_3" -gt 0 ] ; then
 	exit 1
 fi
 if [ ! "$have_image_4" -gt 0 ] ; then
+	echo "image missing"
+	usage
+	exit 1
+fi
+if [ ! "$have_image_5" -gt 0 ] ; then
 	echo "image missing"
 	usage
 	exit 1
@@ -161,6 +172,7 @@ cp "${RELEASE_IMAGE}" "$RELEASE_DIR"
 cp "${RELEASE_IMAGE_2}" "$RELEASE_DIR"
 cp "${RELEASE_IMAGE_3}" "$RELEASE_DIR"
 cp "${RELEASE_IMAGE_4}" "$RELEASE_DIR"
+cp "${RELEASE_IMAGE_5}" "$RELEASE_DIR"
 
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
 sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE}.sha256"
@@ -170,6 +182,8 @@ RELEASE_IMAGE_FILE_3=$(basename "${RELEASE_IMAGE_3}")
 sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_3} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE_3}.sha256"
 RELEASE_IMAGE_FILE_4=$(basename "${RELEASE_IMAGE_4}")
 sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_4} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE_4}.sha256"
+RELEASE_IMAGE_FILE_5=$(basename "${RELEASE_IMAGE_5}")
+sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_5} > "${RELEASE_DIR}/${RELEASE_IMAGE_FILE_5}.sha256"
 
 # copy in device independent stuff
 cp SOURCE.md "$RELEASE_DIR"
