@@ -14,7 +14,7 @@ have_image_5=0
 
 usage()
 {
-        echo "Usage: $0 -v version -i img -f img -g img -h img"
+        echo "Usage: $0 -v version -i img -f img -g img -h img -j img"
 }
 
 args=$(getopt -o v:i:f:g:h:j: -- "$@")
@@ -46,7 +46,7 @@ do
 		have_image_4=1
 		shift
 		;;
-	-h)
+	-j)
 		RELEASE_IMAGE_5=$2
 		have_image_5=1
 		shift
@@ -189,16 +189,20 @@ sha256sum ${RELEASE_DIR}/${RELEASE_IMAGE_FILE_5} > "${RELEASE_DIR}/${RELEASE_IMA
 cp SOURCE.md "$RELEASE_DIR"
 cp NEWS "$RELEASE_DIR"
 cp LICENSE* "$RELEASE_DIR"
-cp external_install_bottom.sh ../external_install_top.sh ../skulls.sh "$RELEASE_DIR"
+cp external_install_bottom.sh external_install_top.sh skulls.sh "$RELEASE_DIR"
 cp -a util "$RELEASE_DIR"
 
 # copy in x230 stuff
-cp -a x230/README.md \
-	"$RELEASE_DIR"
+cp x230/README.md \
+	"$RELEASE_DIR/README_X230.md"
 
 # copy in x230t stuff
-cp -a x230t/README.md \
-	"$RELEASE_DIR"
+cp x230t/README.md \
+	"$RELEASE_DIR/README_X230T.md"
+
+# copy in t430 stuff
+cp t430/README.md \
+	"$RELEASE_DIR/README_T430.md"
 
 tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
 
