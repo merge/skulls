@@ -22,9 +22,9 @@ usage()
 	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
-	echo "Usage: $0 -b (x230|x230t) [-i <4mb_top_image>.rom] [-U] [-h]"
+	echo "Usage: $0 -b (x230|x230t|t430) [-i <4mb_top_image>.rom] [-U] [-h]"
 	echo "Options:"
-	echo "  -b	board to flash. This must be \"x230\" or \x230t\""
+	echo "  -b	board to flash. This must be \"x230\", \"x230t\" or \"t430\""
 	echo "  -i	path to the image to flash"
 	echo "  -U	update: check for a new Skulls package online"
 	echo "  -v	verbose output. prints more information"
@@ -89,6 +89,10 @@ elif [[ $BOARD == "x230t" ]] ; then
 	if [[ $verbose -gt 0 ]] ; then
 		echo "Board: $BOARD"
 	fi
+elif [[ $BOARD == "t430" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
 else
 	echo "Unsupported board: $BOARD"
 	echo ""
@@ -141,7 +145,7 @@ if [ "$request_update" -gt 0 ] ; then
 	exit 0
 fi
 
-force_x230_and_root
+check_board_and_root
 
 BIOS_VENDOR=$(${DMIDECODE} -t bios | grep Vendor | cut -d':' -f2)
 if [[ $BIOS_VENDOR != *"coreboot"* ]] ; then
@@ -217,7 +221,7 @@ mkdir ${OUTPUT_PATH}
 dd if=/dev/zero of="${OUTPUT_IMAGE_PATH}" bs=4M count=2 status=none
 dd if="${INPUT_IMAGE_PATH}" oflag=append conv=notrunc of="${OUTPUT_IMAGE_PATH}" bs=4M status=none
 
-LAYOUT_FILENAME="x230-layout.txt"
+LAYOUT_FILENAME="layout.txt"
 
 echo "0x00000000:0x00000fff ifd" > ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00001000:0x00002fff gbe" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}

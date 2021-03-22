@@ -9,7 +9,7 @@ NC='\033[0m'
 FLASHROM=$(whereis -b flashrom | cut -d ' ' -f 2)
 DMIDECODE=$(whereis -b dmidecode | cut -d ' ' -f 2)
 
-force_x230_and_root()
+check_board_and_root()
 {
 	if [ "$EUID" -ne 0 ] ; then
 		echo -e "${RED}Please run this as root.${NC} And make sure you have the following programs:"
@@ -21,8 +21,11 @@ force_x230_and_root()
 
 	local LAPTOP=$(${DMIDECODE} | grep -i x230 | sort -u)
 	if [ -z "$LAPTOP" ] ; then
-		echo "This is no Thinkpad X230. This script is useless then."
-		exit 0
+		local LAPTOP=$(${DMIDECODE} | grep -i t430 | sort -u)
+		if [ -z "$LAPTOP" ] ; then
+			echo "This is no supported Thinkpad."
+			exit 0
+		fi
 	fi
 }
 
