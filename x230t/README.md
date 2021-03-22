@@ -177,8 +177,8 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 #### unpack the Skulls release archive
 
 
-	tar -xf skulls-x230t-<version>.tar.xz
-	cd skulls-x230t-<version>
+	tar -xf skulls-<version>.tar.xz
+	cd skulls-<version>
 
 
 #### ifd unlock and me_cleaner: the 8MB chip

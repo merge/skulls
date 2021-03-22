@@ -177,7 +177,7 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 #### unpack the Skulls release archive
 
 
-	tar -xf skulls-x230-<version>.tar.xz
+	tar -xf skulls-<version>.tar.xz
 	cd skulls-x230-<version>
 
 
@@ -192,7 +192,7 @@ in the
 
 
 
-	sudo ./external_install_bottom.sh -b x230 -m -k <backup-file-to-create>
+	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
 
 
 That's it. Keep the backup safe. Here are the options (just so you know):
@@ -207,7 +207,7 @@ Now it's time to make your choice! Choose one of the images included in our
 release and select it during running:
 
 
-	sudo ./external_install_top.sh -k <backup-file-to-create>
+	sudo ./external_install_top.sh -b x230 -k <backup-file-to-create>
 
 
 This selects and flashes it and that's it.
