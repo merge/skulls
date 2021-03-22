@@ -64,7 +64,7 @@ do
 	shift
 done
 
-force_x230_and_root
+check_board_and_root
 
 if [ ! "$have_input_image" -gt 0 ] ; then
 	image_available=$(ls -1 | grep rom || true)
