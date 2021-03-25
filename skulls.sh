@@ -169,6 +169,7 @@ if [[ "$verbose" -gt 0 ]] ; then
 		bat_last_full=$(cat /sys/class/power_supply/BAT0/charge_full)
 		bat_design_cap=$(cat /sys/class/power_supply/BAT0/charge_full_design)
 		bat_health=$(echo "scale=2 ; $bat_last_full/$bat_design_cap" | bc | sed 's/^\./0./')
+		bat_health=$(echo "$bat_health*100" | bc)
 		echo "INFO: Battery hardware health is $bat_health%"
 	fi
 fi
