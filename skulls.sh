@@ -129,9 +129,9 @@ if [ "$request_update" -gt 0 ] ; then
 				curl -LO ${UPSTREAM_URL}
 				curl -LO ${UPSTREAM_URL_SHA256}
 				sha256sum -c ${UPSTREAM_FILE}.sha256
-				mkdir skulls-$BOARD-${UPSTREAM_VERSION}
+				mkdir skulls-${UPSTREAM_VERSION}
 				tar -xf ${UPSTREAM_FILE}
-				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-$BOARD-${UPSTREAM_VERSION}/"
+				echo "Version ${UPSTREAM_VERSION} extracted to ../skulls-${UPSTREAM_VERSION}/"
 				echo "Please continue in the new directory."
 				;;
 			*)
@@ -139,7 +139,7 @@ if [ "$request_update" -gt 0 ] ; then
 			;;
 		esac
 	else
-		echo "You seem to use a development version. Please use release package skulls-$BOARD ${UPSTREAM_VERSION} for flashing."
+		echo "You seem to use a development version. Please use release package skulls ${UPSTREAM_VERSION} for flashing."
 	fi
 
 	exit 0
