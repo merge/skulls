@@ -47,7 +47,7 @@ Run Linux on your X230, install `dmidecode` and run
 `sudo ./skulls.sh -b x230`. It simply prints system information and
 helps you to be up to date.
 
-Make sure you have the latest skulls-x230 package release by running
+Make sure you have the latest skulls package release by running
 `./skulls.sh -b x230 -U`.
 
 #### original BIOS update / EC firmware (optional)
@@ -169,7 +169,7 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 
 	tar -xf skulls-<version>.tar.xz
-	cd skulls-x230-<version>
+	cd skulls-<version>
 
 
 #### ifd unlock and me_cleaner: the 8MB chip
