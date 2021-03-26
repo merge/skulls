@@ -13,7 +13,7 @@ We release multiple different, but _very similar_ images you can choose from.
 They all should work on all versions of the X230. These are the
 differences; (xxxxxxxxxx stands for random characters in the filename):
 * `x230_coreboot_seabios_xxxxxxxxxx_top.rom` includes the _proprietary_
-[VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS) from [Intel](https://www.intel.com/content/www/us/en/intelligent-systems/intel-embedded-graphics-drivers/faq-bios-firmware.html)
+[VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS) from Intel
 which is non-free software. It is executed in "secure" mode.
 * `x230_coreboot_seabios_free_xxxxxxxxxx_top.rom` includes the
 [VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS)
@@ -84,11 +84,6 @@ at [github.com/hamishcoleman/thinkpad-ec](https://github.com/hamishcoleman/think
 #### preparation: required hardware
 * An 8 Pin SOIC Clip, for example from
 [Pomona electronics](https://www.pomonaelectronics.com/products/test-clips/soic-clip-8-pin)
-(for availability, check
-[aliexpress](https://de.aliexpress.com/item/POMONA-SOIC-CLIP-5250-8pin-eeprom-for-tacho-8pin-cable-for-pomana-soic-8pin/32814247676.html) or
-[elsewhere](https://geizhals.eu/?fs=pomona+test+clip+5250))
-or alternatively hooks like
-[E-Z-Hook XKM](https://e-z-hook.com/test-hooks/micro-hook/xkm/)
 * 6 [female](https://electronics.stackexchange.com/questions/37783/how-can-i-create-a-female-jumper-wire-connector)
 [jumper wires](https://en.wikipedia.org/wiki/Jump_wire) like
 [these](https://geizhals.eu/jumper-cable-female-female-20cm-a1471094.html)
