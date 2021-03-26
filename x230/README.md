@@ -18,10 +18,6 @@ which is non-free software. It is executed in "secure" mode.
 * `x230_coreboot_seabios_free_xxxxxxxxxx_top.rom` includes the
 [VGA BIOS](https://en.wikipedia.org/wiki/Video_BIOS)
 [SeaVGABIOS](https://www.seabios.org/SeaVGABIOS) which is free software.
-While technically more interesting, visually this is currently not as
-beautiful:
-  * The [bootspash image is not shown](https://github.com/merge/skulls/issues/59).
-  * Early boot console messages (after your HDD's bootloader has started a kernel) might be [missing](https://github.com/merge/skulls/issues/46).
 
 
 ## table of contents
