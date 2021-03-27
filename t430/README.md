@@ -134,7 +134,8 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 #### ifd unlock and me_cleaner: the 8MB chip
 
-Flashing the left chip is optional but highly recommended.
+With the chips at the edge of the board closer to you, this is the left
+chip. Flashing the left chip is optional but highly recommended.
 It has the same pinout as the other chip. When you don't unlock it
 with an external flasher, you can't flash internally and fix the
 [security issues](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities)
@@ -153,9 +154,8 @@ That's it. Keep the backup safe. Here are the options (just so you know):
 * The `-l` option will (re-)lock your flash ROM, in case you want to force
 yourself (and others) to hardware-flashing, see [updating](#updating).
 
-#### Your BIOS choice: the 4MB chip
-Now it's time to make your choice! Choose one of the images included in our
-release and select it during running:
+#### Your BIOS: the 4MB chip
+This is the right chip of the 2. Choose the image to flash during running:
 
 
 	sudo ./external_install_top.sh -b t430 -k <backup-file-to-create>
