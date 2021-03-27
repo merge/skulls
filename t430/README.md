@@ -170,7 +170,7 @@ If you have locked your flash (i.e. `./external_install_bottom -l`) you can
 flash externally using `external_install_top.sh -b t430` just like the
 first time, see above. Only the "upper" 4MB chip has to be written.
 
-It is recommended to do the the update directly on your T430 using Linux
+It is recommended to do the update directly on your T430 using Linux
 though. This is considered more safe for your hardware and is very convenient -
 just install the "flashrom" program and run  `./skulls.sh -b t430`, see below.
 
