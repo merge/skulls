@@ -130,7 +130,7 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 	fi
 
 	prompt="Please select a file to flash or start with the -i option to use a different one:"
-	options=( $(find -maxdepth 1 -name "*rom" -print0 | xargs -0) )
+	options=( $(find -maxdepth 1 -name "${BOARD}_coreboot*rom" -print0 | xargs -0) )
 
 	PS3="$prompt "
 	select INPUT_IMAGE_PATH in "${options[@]}" "Quit" ; do
