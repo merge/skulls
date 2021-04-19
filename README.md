@@ -42,6 +42,9 @@ software updates, it's easy to move to alternative systems from it:
 with pre-built (or reproducibly buildable) flash images (for the X230 and others). Heads
 includes Linux, with tools to create a trusted boot chain using your GPG key
 and the TPM.
+* [osboot](https://osboot.org/) - a new coreboot distribution that wants
+to release pre-built images. Technically similar to Skulls and wants to
+release images with different payloads like GRUB too.
 * [libreboot](https://libreboot.org/) - a coreboot distribution with pre-built
 image releases. The X230 is currently not supported (the X200 is) - libreboot
 images are built from free software only and include the GRUB bootloader.
