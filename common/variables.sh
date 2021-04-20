@@ -5,7 +5,7 @@
 ################################################################################
 ## VARIABLES
 ################################################################################
-export COREBOOT_SDK_VERSION="0ad5fbd48d"
+export COREBOOT_SDK_VERSION="2021-04-06_7014f8258e"
 
 export DOCKER_ROOT_DIR="/home/coreboot"
 export DOCKER_SCRIPT_DIR="$DOCKER_ROOT_DIR/scripts"
