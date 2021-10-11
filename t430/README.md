@@ -1,4 +1,4 @@
-# Skulls - [Thinkpad T430](https://www.lenovo.com/us/en/laptops/thinkpad/t-series/t430/)
+# Skulls - [Thinkpad T430](https://pcsupport.lenovo.com/uu/de/products/laptops-and-netbooks/thinkpad-t-series-laptops/thinkpad-t430)
 
 
 ## Latest release

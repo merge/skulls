@@ -34,11 +34,14 @@ function configAndMake() {
     fi
   fi
 
-  #################################
-  ##  Copy in the X230 VGA BIOS  ##
-  #################################
+  #####################################
+  ##  Copy in the potential binaries ##
+  #####################################
   if [ -f "$DOCKER_SCRIPT_DIR/pci8086,0166.rom" ]; then
     cp "$DOCKER_SCRIPT_DIR/pci8086,0166.rom" "$DOCKER_COREBOOT_DIR/pci8086,0166.rom"
+  fi
+  if [ -f "$DOCKER_SCRIPT_DIR/mrc.bin" ]; then
+    cp "$DOCKER_SCRIPT_DIR/mrc.bin" "$DOCKER_COREBOOT_DIR/mrc.bin"
   fi
 
   ###############################
