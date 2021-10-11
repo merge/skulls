@@ -25,9 +25,9 @@ usage()
 	echo "  connected to the X230's top chip (closer to the display"
 	echo "  and farther from you)"
 	echo ""
-	echo "Usage: $0 -b (x230|x230t) [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>]"
+	echo "Usage: $0 -b <board> [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>]"
 	echo ""
-	echo " -b (x230|x230t|t430)		board to flash."
+	echo " -b (x230|x230t|t430|t440p)		board to flash."
 	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a"
 	echo " -i <image>              path to image to flash"
 	echo " -c <chipname>           to use for flashrom"
@@ -107,6 +107,10 @@ elif [[ $BOARD == "x230t" ]] ; then
 		echo "Board: $BOARD"
 	fi
 elif [[ $BOARD == "t430" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "t440p" ]] ; then
 	if [[ $verbose -gt 0 ]] ; then
 		echo "Board: $BOARD"
 	fi

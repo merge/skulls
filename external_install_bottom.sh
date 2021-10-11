@@ -23,7 +23,7 @@ usage()
 {
 	echo "The Skulls coreboot distribution"
 	echo "  Run this script on an external computer with a flasher"
-	echo "  connected to the X230's bottom chip (farther away from"
+	echo "  connected to the 8M (bottom) chip (on the X230 farther away from"
 	echo "  the display, closer to you)."
 	echo ""
 	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-b <spispeed>] [-c <chip>]"
