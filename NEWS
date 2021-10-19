@@ -1,3 +1,10 @@
+skulls 1.0.2 - released 2021-10-19
+----------------------------------
+This release includes the following changes:
+* based on coreboot commit 45ce84113e
+* add support for the Thinkpad T440p
+* minor bugfixes
+
 skulls 1.0.1 - released 2021-04-20
 ----------------------------------
 This release includes the following changes:
