@@ -1,4 +1,4 @@
-# Skulls - not quite Heads
+# Skulls - not quite Heads [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/5326/badge)](https://bestpractices.coreinfrastructure.org/projects/5326)
 pre-built [coreboot](https://www.coreboot.org/) images with an easy
 installation process
 
