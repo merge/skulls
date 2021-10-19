@@ -18,7 +18,7 @@ usage()
         echo "Usage: $0 -v version -i img -f img -g img -h img -j img -k img"
 }
 
-args=$(getopt -o v:i:f:g:h:j: -- "$@")
+args=$(getopt -o v:i:f:g:h:j:k: -- "$@")
 if [ $? -ne 0 ] ; then
         usage
         exit 1
