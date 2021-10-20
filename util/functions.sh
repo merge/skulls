@@ -19,13 +19,10 @@ check_board_and_root()
 		exit 1
 	fi
 
-	local LAPTOP=$(${DMIDECODE} | grep -i x230 | sort -u)
+	local LAPTOP=$(${DMIDECODE} | grep -i -e x230 -e t430 -e t440p | sort -u)
 	if [ -z "$LAPTOP" ] ; then
-		local LAPTOP=$(${DMIDECODE} | grep -i t430 | sort -u)
-		if [ -z "$LAPTOP" ] ; then
-			echo "This is no supported Thinkpad."
-			exit 0
-		fi
+		echo "This is no supported Thinkpad."
+		exit 0
 	fi
 
 	local flashrom_major_version=$(${FLASHROM} --version|grep "flashrom v"| sed s/v// | cut -d " " -f 2 | cut -d "." -f 1)
