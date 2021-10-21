@@ -143,8 +143,7 @@ or ethernet to `sudo apt-get install flashrom`
 
 ##### Plug your RPI into an 8 Pin SOIC Clip
 
-![Raspberry Pi at work](rpi_clip.jpg)
-
+'''
   Pin \#   25xx signal     Raspberry Pi
   -------- --------------  ------------
   1        CS              24
@@ -155,8 +154,12 @@ or ethernet to `sudo apt-get install flashrom`
   6        CLK             23
   7        *not used*      *not used*
   8        3.3V
-  
+'''  
+Table from OSBoot's wiki: https://osboot.org/docs/install/rpi_setup.html
+
 Connect corresponding RPI Pins, according to the images above.
+
+![Raspberry Pi at work](rpi_clip.jpg)
 
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
