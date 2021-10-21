@@ -154,7 +154,6 @@ or ethernet to `sudo apt-get install flashrom`
 | 7 | *not used* | *not used* |
 | 8 | 3.3V |  |
 
-Table from OSBoot's wiki: https://osboot.org/docs/install/rpi_setup.html
 
 Connect corresponding RPI Pins, according to the images above.
 
