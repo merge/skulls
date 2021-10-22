@@ -1,5 +1,6 @@
 # Skulls - [Thinkpad T440P](https://pcsupport.lenovo.com/us/zh/products/laptops-and-netbooks/thinkpad-t-series-laptops/thinkpad-t440p)
 
+![front_bootsplash](front.jpg)
 
 ## Latest release
 Get it from our [release page](https://github.com/merge/skulls/releases)
