@@ -90,6 +90,7 @@ done
 
 command -v make >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install make and a C compiler${NC}."; exit 1; }
 command -v mktemp >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install mktemp (coreutils)${NC}."; exit 1; }
+command -v python >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install python (or python-is-python3)${NC}."; exit 1; }
 
 if [ ! "$have_flasher" -gt 0 ] ; then
 	echo "Skulls"
