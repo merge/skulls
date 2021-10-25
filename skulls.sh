@@ -187,6 +187,13 @@ if [ ! "$have_input_image" -gt 0 ] ; then
 	done
 fi
 
+if [ -e ${INPUT_IMAGE_PATH}.sha256 ] ; then
+	cd $(dirname "${INPUT_IMAGE_PATH}")
+	sha256sum -c ${INPUT_IMAGE_PATH}.sha256
+	cd - > /dev/null
+else
+	echo -e "${YELLOW}Warning:${NC} Cannot verify image hash"
+fi
 
 OUTPUT_PATH=output
 INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
