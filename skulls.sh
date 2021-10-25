@@ -199,7 +199,7 @@ echo -e "output: ${OUTPUT_IMAGE_PATH}"
 input_filesize=$(wc -c <"$INPUT_IMAGE_PATH")
 reference_filesize=4194304
 if [ ! "$input_filesize" -eq "$reference_filesize" ] ; then
-	echo "Error: input file must be 4MB of size"
+	echo -e "${RED}Error:${NC} input file must be 4MB of size"
 	exit 1
 fi
 
@@ -217,7 +217,7 @@ echo "0x00003000:0x004fffff me" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00500000:0x007fffff unused" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 
-echo -e "${YELLOW}WARNING${NC}: Make sure not to power off your computer or interrupt this process in any way!"
+echo -e "${YELLOW}Warning:${NC} Make sure not to power off your computer or interrupt this process in any way!"
 echo -e "         Interrupting this process may result in irreparable damage to your computer!"
 check_battery
 while true; do
