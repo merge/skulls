@@ -75,4 +75,25 @@ poweroff() {
 	else
 		shutdown -hP now
 	fi
+
+	# TODO for other boards
+	local LAPTOP_X230=$(${DMIDECODE} | grep -i x230 | sort -u)
+	if [ "$LAPTOP_X230" ] ; then
+		BIOS_VENDOR=$(${DMIDECODE} -t bios | grep Vendor | cut -d':' -f2)
+		if [[ $BIOS_VENDOR != *"coreboot"* ]] ; then
+			BIOS_VERSION=$(${DMIDECODE} -s bios-version | grep -o '[1-2].[0-7][0-9]')
+			bios_major=$(echo "$BIOS_VERSION" | cut -d. -f1)
+			bios_minor=$(echo "$BIOS_VERSION" | cut -d. -f2)
+
+			if [ "${bios_minor}" -ge "61" ] ; then
+				echo "Ready to use external_install_bottom.sh and external_install_top.sh"
+				echo "Please run both scripts from a different computer with a"
+				echo "hardware SPI flasher."
+			else
+				echo -e "The installed original BIOS is very old."
+				echo -e "${RED}Please upgrade${NC} from lenovo.com before installing coreboot."
+			fi
+			exit 0
+		fi
+	fi
 }
