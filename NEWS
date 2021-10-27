@@ -1,3 +1,11 @@
+skulls 1.0.3 - released 2021-10-27
+----------------------------------
+This release includes the following changes:
+* based on coreboot commit 45ce84113e
+* updated coreboot-sdk to 2021-09-23_b0d87f753c
+* verify image before flashing if possible
+* bugfixes
+
 skulls 1.0.2 - released 2021-10-19
 ----------------------------------
 This release includes the following changes:
