@@ -8,6 +8,8 @@ Get it from our [release page](https://github.com/merge/skulls/releases)
 * __microcode update__: revision `0x28` from 2019-11-12
 * __SeaBIOS__: version [1.14.0](https://seabios.org/Releases) from 2020-08-10
 
+Note: This release includes a non-free binary blob `mrc.bin` that is used
+for dram initialisation.
 
 ## table of contents
 * [TL;DR](#tldr)
