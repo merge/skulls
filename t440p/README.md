@@ -54,7 +54,8 @@ to connect the clip to a hardware flasher (if not included with the clip)
 
 #### open up the T440P
 Follow any disassembly tutorial you can find online. You need to almost
-fully disassemble. The 2 chips are rotated 180 degrees to one another on
+fully disassemble if you want to flash (unlock and me_cleaner) the 8M chip
+too. The 2 chips are rotated 180 degrees to one another on
 the board.
 
 ![flash_4m](ch341a_4m.jpg)
@@ -98,6 +99,22 @@ or ethernet to `sudo apt-get install flashrom`
 		 E                                 (VCC)         CLK
 		   Body of Pi (closest to you)
 
+
+##### Plug your RPI into an 8 Pin SOIC Clip
+
+| Pin Number | Clip (25xx signal) | Raspberry Pi |
+| --------------- | --------------- | --------------- |
+| 1 | CS | 24 |
+| 2 | MISO | 21 |
+| 3 | *not used* | *not used* |
+| 4 | GND | 25 |
+| 5 | MOSI | 19 |
+| 6 | CLK | 23 |
+| 7 | *not used* | *not used* |
+| 8 | 3.3V |  |
+
+
+Connect corresponding RPI Pins, according to the images above.
 
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
