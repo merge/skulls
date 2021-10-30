@@ -279,3 +279,9 @@ overwrite the `splashscreen.jpg` with your own JPEG, using
 * "Progressive" turned off, and
 * "4:2:0 (chroma quartered)" Subsampling
 
+You can use 'imagemagick' to prepare a JPG/.jpg file using:
+'mogrify logo.jpg -interlace none <splashscreen>'
+'mogrify logo.jpg -sampling-factor 4:2:0 <splashscreen>'
+
+you can also use 'imagemagick' to convert images of another format into .jpg using the [convert](https://imagemagick.org/script/convert.php) tool.
+note: replace <splashscreen> with the file name.
