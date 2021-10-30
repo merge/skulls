@@ -279,7 +279,7 @@ overwrite the `bootsplash.jpg` with your own JPEG, using
 * "Progressive" turned off, and
 * "4:2:0 (chroma quartered)" Subsampling
 
-You can also use `imagemagick` to prepare a JPG/.jpg file using:
+You can use `imagemagick` to prepare the .jpg file using:
 * `mogrify logo.jpg -interlace none <splashscreen>`
 * `mogrify logo.jpg -sampling-factor 4:2:0 <splashscreen>`
 
