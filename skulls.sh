@@ -22,9 +22,9 @@ usage()
 	echo "  This flashes the BIOS with the given image."
 	echo "  Make sure you booted Linux with iomem=relaxed"
 	echo ""
-	echo "Usage: $0 -b (x230|x230t|t430|t440p) [-i <4mb_top_image>.rom] [-U] [-h]"
+	echo "Usage: $0 -b (x230|x230t|t430|t440p|t530) [-i <4mb_top_image>.rom] [-U] [-h]"
 	echo "Options:"
-	echo "  -b	board to flash. This must be \"x230\", \"x230t\" ,\"t430\" or \"t440p\""
+	echo "  -b	board to flash. This must be \"x230\", \"x230t\", \"t430\", \"t440p\" or \"t530\""
 	echo "  -i	path to the image to flash"
 	echo "  -U	update: check for a new Skulls package online"
 	echo "  -v	verbose output. prints more information"
@@ -94,6 +94,10 @@ elif [[ $BOARD == "t430" ]] ; then
 		echo "Board: $BOARD"
 	fi
 elif [[ $BOARD == "t440p" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "t530" ]] ; then
 	if [[ $verbose -gt 0 ]] ; then
 		echo "Board: $BOARD"
 	fi

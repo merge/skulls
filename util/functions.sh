@@ -19,7 +19,7 @@ check_board_and_root()
 		exit 1
 	fi
 
-	local LAPTOP=$(${DMIDECODE} | grep -i -e x230 -e t430 -e t440p | sort -u)
+	local LAPTOP=$(${DMIDECODE} | grep -i -e x230 -e t430 -e t440p -e t530 | sort -u)
 	if [ -z "$LAPTOP" ] ; then
 		echo "This is no supported Thinkpad."
 		exit 0
