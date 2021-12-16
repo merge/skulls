@@ -5,7 +5,7 @@
 Get it from our [release page](https://github.com/merge/skulls/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
 * __microcode update__: revision `0x21` from 2019-02-13
-* __SeaBIOS__: version [1.14.0](https://seabios.org/Releases) from 2020-08-10
+* __SeaBIOS__: version [1.15.0](https://seabios.org/Releases) from 2021-12-02
 
 
 ## table of contents
