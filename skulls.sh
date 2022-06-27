@@ -73,41 +73,6 @@ do
 	shift
 done
 
-# TODO make interactive and move to functions
-if [ ! "$have_board" -gt 0 ] ; then
-	echo "No board specified. Please add -b <board>"
-	echo ""
-	usage
-	exit 1
-fi
-
-if [[ $BOARD == "x230" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
-elif [[ $BOARD == "x230t" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
-elif [[ $BOARD == "t430" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
-elif [[ $BOARD == "t440p" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
-elif [[ $BOARD == "t530" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
-else
-	echo "Unsupported board: $BOARD"
-	echo ""
-	usage
-	exit 1
-fi
-
 if [ "$request_update" -gt 0 ] ; then
 	warn_not_root
 
@@ -151,6 +116,41 @@ if [ "$request_update" -gt 0 ] ; then
 	fi
 
 	exit 0
+fi
+
+# TODO make interactive and move to functions
+if [ ! "$have_board" -gt 0 ] ; then
+	echo "No board specified. Please add -b <board>"
+	echo ""
+	usage
+	exit 1
+fi
+
+if [[ $BOARD == "x230" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "x230t" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "t430" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "t440p" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+elif [[ $BOARD == "t530" ]] ; then
+	if [[ $verbose -gt 0 ]] ; then
+		echo "Board: $BOARD"
+	fi
+else
+	echo "Unsupported board: $BOARD"
+	echo ""
+	usage
+	exit 1
 fi
 
 check_board_and_root
