@@ -74,15 +74,12 @@ do
 done
 
 if [ "$request_update" -gt 0 ] ; then
-	warn_not_root
 
 	command -v curl >/dev/null 2>&1 || { echo -e >&2 "${RED}Please install curl.${NC}"; exit 1; }
 
 	CURRENT_VERSION=$(head -2 NEWS | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
-
-	UPSTREAM_FILE=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1)
-
-	UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | cut -d'/' -f9 | head -n 1 | egrep -o "([0-9]{1,}\.)+[0-9]{1,}")
+	
+	UPSTREAM_VERSION=$(curl -s 'https://api.github.com/repos/merge/skulls/releases/latest' 2> /dev/null | grep tag_name | cut -d '"' -f4)
 
 	if [[ $verbose -gt 0 ]] ; then
 		echo "This is v$CURRENT_VERSION and latest is v$UPSTREAM_VERSION"
@@ -96,8 +93,9 @@ if [ "$request_update" -gt 0 ] ; then
 		read -r -p "Download it to the parent directory now? [y/N] " response
 		case "$response" in
 			[yY][eE][sS]|[yY])
-				UPSTREAM_URL=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | head -n 1)
-				UPSTREAM_URL_SHA256=$(curl -s https://api.github.com/repos/merge/skulls/releases | grep browser_download_url | cut -d'"' -f4 | head -n 3 | tail -n 1)
+				UPSTREAM_URL=$(curl -s 'https://api.github.com/repos/merge/skulls/releases/latest' 2> /dev/null | grep browser_download_url | cut -d'"' -f4 | head -n 1)
+				UPSTREAM_FILE=$(basename "${UPSTREAM_URL}")
+				UPSTREAM_URL_SHA256="${UPSTREAM_URL}".sha256
 				cd ..
 				curl -LO ${UPSTREAM_URL}
 				curl -LO ${UPSTREAM_URL_SHA256}
