@@ -217,7 +217,7 @@ for more details.
 
 ### replace the splashscreen image
 In order to create your own splashscreen image, before building,
-overwrite the `splashscreen.jpg` with your own JPEG, using
+overwrite the `bootsplash.jpg` with your own JPEG, using
 * "Progressive" turned off, and
 * "4:2:0 (chroma quartered)" Subsampling
 
