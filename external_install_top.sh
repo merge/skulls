@@ -28,7 +28,7 @@ usage()
 	echo "Usage: $0 -b <board> [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>]"
 	echo ""
 	echo " -b (x230|x230t|t430|t440p|t530)		board to flash."
-	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a"
+	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, tigard"
 	echo " -i <image>              path to image to flash"
 	echo " -c <chipname>           to use for flashrom"
 	echo " -k <backup>             save the current image as"
@@ -157,7 +157,7 @@ fi
 if [ ! "$have_flasher" -gt 0 ] ; then
 	echo "Please select the hardware you use:"
 	PS3='Please select the hardware flasher: '
-	options=("Raspberry Pi" "CH341A" "Quit")
+	options=("Raspberry Pi" "CH341A" "Tigard" "Quit")
 	select opt in "${options[@]}"
 	do
 		case $opt in
@@ -169,6 +169,10 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 				FLASHER="ch341a"
 				break
 				;;
+			"Tigard")
+                                FLASHER="Tigard"
+                                break
+                                ;;
 			"Quit")
 				exit 0
 				;;
@@ -186,6 +190,8 @@ if [ "${FLASHER}" = "rpi" ] ; then
 	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=${rpi_frequency}"
 elif [ "${FLASHER}" = "ch341a" ] ; then
 	programmer="ch341a_spi"
+elif [ "${FLASHER}" = "Tigard" ] ; then
+        programmer="Tigard"
 else
 	echo "invalid flashrom programmer"
 	usage
