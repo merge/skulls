@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 source "util/functions.sh"
 
 warn_not_root

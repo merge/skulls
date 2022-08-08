@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0+
 # Copyright (C) 2018, Martin Kepplinger <martink@posteo.de>
 RED='\033[0;31m'

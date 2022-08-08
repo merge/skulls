@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0+
 # Copyright (C) 2019, Martin Kepplinger <martink@posteo.de>
 
