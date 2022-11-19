@@ -58,7 +58,11 @@ fully disassemble if you want to flash (unlock and me_cleaner) the 8M chip
 too. The 2 chips are rotated 180 degrees to one another on
 the board.
 
+The 4MB chip:
+
 ![flash_4m](ch341a_4m.jpg)
+
+The 8MB chip:
 
 ![flash_8m](ch341a_8m.jpg)
 
@@ -147,9 +151,10 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 #### ifd unlock and me_cleaner: the 8MB chip
 
-With the chips at the edge of the board closer to you, this is the left
-chip. Flashing the left chip is optional but highly recommended.
-It has the same pinout as the other chip. When you don't unlock it
+With the chips at the edge of the board closer to you, this is the right
+chip. Flashing the 8MB chip is optional but highly recommended.
+It has the same pinout as the 4MB chip, but the two chips are soldered
+the opposite way around. When you don't unlock the 8MB chip
 with an external flasher, you can't flash internally and fix the
 [security issues](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities)
 in the
@@ -168,7 +173,7 @@ That's it. Keep the backup safe. Here are the options (just so you know):
 yourself (and others) to hardware-flashing, see [updating](#updating).
 
 #### Your BIOS: the 4MB chip
-This is the right chip of the 2. Choose the image to flash during running:
+This is the left chip of the 2. Choose the image to flash during running:
 
 
 	sudo ./external_install_top.sh -b t440p -k <backup-file-to-create>
