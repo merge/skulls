@@ -26,7 +26,7 @@ usage()
 	echo "  connected to the 8M (bottom) chip (on the X230 farther away from"
 	echo "  the display, closer to you)."
 	echo ""
-	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-b <spispeed>] [-c <chip>]"
+	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-s <spispeed>] [-c <chip>]"
 	echo ""
 	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, tigard"
 	echo " -c <chipname>           flashrom chip name to use"
