@@ -1,3 +1,11 @@
+skulls 1.0.6 - released 2022-12-14
+----------------------------------
+This release includes the following changes:
+* based on coreboot commit 3c528f2830
+* updated coreboot-sdk to 2022-09-18_c8870b1334
+* Added the Tigard programmer
+* minor documentation and script fixes
+
 skulls 1.0.5 - released 2022-05-30
 ----------------------------------
 This release includes the following changes:
