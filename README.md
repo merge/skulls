@@ -17,6 +17,7 @@ coreboot-based BIOS on your laptop.
 * [Lenovo Thinkpad X230T](x230t/README.md)
 * [Lenovo Thinkpad T430](t430/README.md)
 * [Lenovo Thinkpad T530](t530/README.md)
+* [Lenovo Thinkpad W530](w530/README.md)
 * [Lenovo Thinkpad T440p](t440p/README.md)
 
 ## When do we do a release?

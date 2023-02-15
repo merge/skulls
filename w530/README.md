@@ -1,4 +1,4 @@
-# Skulls - [Thinkpad T530](https://pcsupport.lenovo.com/uu/de/products/laptops-and-netbooks/thinkpad-t-series-laptops/thinkpad-t530)
+# Skulls - [Thinkpad W530](https://pcsupport.lenovo.com/uu/de/products/laptops-and-netbooks/thinkpad-t-series-laptops/thinkpad-w530)
 
 
 ## Latest release
@@ -16,13 +16,13 @@ Get it from our [release page](https://github.com/merge/skulls/releases)
 * [How to rebuild](#how-to-reproduce-the-release-images)
 
 ## TL;DR
-1. run `sudo ./skulls.sh -b t530` on your current T530 Linux system
+1. run `sudo ./skulls.sh -b w530` on your current W530 Linux system
 2. Power down, remove the battery. Remove the keyboard and palmrest. Connect
 a hardware flasher to an external PC (or a Raspberry Pi with a SPI 8-pin chip clip
 can directly be used), and run
 `sudo ./external_install_bottom.sh` on the lower chip
-and `sudo ./external_install_top.sh -b t530` on the top chip of the two.
-3. For updating later, run `./skulls.sh -b t530`. No need to disassemble.
+and `sudo ./external_install_top.sh -b w530` on the top chip of the two.
+3. For updating later, run `./skulls.sh -b w530`. No need to disassemble.
 
 And always use the latest [released](https://github.com/merge/skulls/releases)
 package. This will be tested. The git master
@@ -30,12 +30,12 @@ branch is _not_ meant to be stable. Use it for testing only.
 
 ## First-time installation
 #### before you begin
-Run Linux on your T530, install `dmidecode` and run
-`sudo ./skulls.sh -b t530`. It simply prints system information and
+Run Linux on your W530, install `dmidecode` and run
+`sudo ./skulls.sh -b w530`. It simply prints system information and
 helps you to be up to date.
 
 Make sure you have the latest skulls package release by running
-`./skulls.sh -b t530 -U`.
+`./skulls.sh -b w530 -U`.
 
 #### preparation: required hardware
 * An 8 Pin SOIC Clip, for example from
@@ -49,7 +49,7 @@ to connect the clip to a hardware flasher (if not included with the clip)
 * a hardware flasher
 [supported by flashrom](https://www.flashrom.org/Flashrom/0.9.9/Supported_Hardware#USB_Devices), see below for the examples we support
 
-#### open up the T530
+#### open up the W530
 Follow any disassembly tutorial you can find online. You need to almost
 fully disassemble:
 
@@ -174,32 +174,32 @@ yourself (and others) to hardware-flashing, see [updating](#updating).
 This is the right chip of the 2. Choose the image to flash during running:
 
 
-	sudo ./external_install_top.sh -b t530 -k <backup-file-to-create>
+	sudo ./external_install_top.sh -b w530 -k <backup-file-to-create>
 
 
 This selects and flashes it and that's it.
 Keep the backup safe, assemble and
-turn on the T530. coreboot will do hardware init and start SeaBIOS.
+turn on the W530. coreboot will do hardware init and start SeaBIOS.
 
 ## Updating
 If you have locked your flash (i.e. `./external_install_bottom -l`) you can
-flash externally using `external_install_top.sh -b t530` just like the
+flash externally using `external_install_top.sh -b w530` just like the
 first time, see above. Only the "upper" 4MB chip has to be written.
 
-It is recommended to do the update directly on your T530 using Linux
+It is recommended to do the update directly on your W530 using Linux
 though. This is considered more safe for your hardware and is very convenient -
-just install the "flashrom" program and run  `./skulls.sh -b t530`, see below.
+just install the "flashrom" program and run  `./skulls.sh -b w530`, see below.
 
 1. boot Linux with the `iomem=relaxed` boot parameter (for example in /etc/default/grub `GRUB_CMDLINE_LINUX_DEFAULT`)
-2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it or check for updates by running `./skulls.sh -b t530 -U`.
-3. run `sudo ./skulls.sh -b t530` and choose the image to flash.
+2. [download](https://github.com/merge/skulls/releases) the latest Skulls release tarball and unpack it or check for updates by running `./skulls.sh -b w530 -U`.
+3. run `sudo ./skulls.sh -b w530` and choose the image to flash.
 
 Hint: In case your Linux distribution's GRUB bootloader doesn't use the full
 screen, put the line `GRUB_GFXMODE=1366x768x32` in your `/etc/default/grub` file
 (and run `update_grub`).
 
 ## Why does this work?
-On the T530, there are 2 physical "BIOS" chips. The 4MB
+On the W530, there are 2 physical "BIOS" chips. The 4MB
 one holds the actual bios we can generate using coreboot, and the 8MB
 one holds the rest that you can [modify yourself once](#first-time-installation),
 if you like, but strictly speaking, you
@@ -211,7 +211,7 @@ for more details.
 
 ## how to reproduce the release images
 * `git clone https://github.com/merge/skulls`
-* `cd skulls/t530`
+* `cd skulls/w530`
 * `git checkout 1.0.0` for the release you want to build.
 * `./build.sh` and choose the configuration you want to build.
 

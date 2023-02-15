@@ -7,7 +7,7 @@ have_config=0
 
 usage()
 {
-	echo "Skulls for the T530"
+	echo "Skulls for the W530"
 	echo "  Run this script to rebuild a released image"
 	echo ""
 	echo "Usage: $0 [-c <config_file>]"
@@ -77,5 +77,5 @@ CONFIGFILE_READY=$(echo $CONFIGFILE | cut -d'-' -f2-)
 cp $CONFIGFILE $CONFIGFILE_READY
 
 cd ..
-./build.sh --clean-slate --commit $(ls -1 t530/defconfig-* |  cut -d'-' -f2-) t530
-rm -f t530/defconfig-*
+./build.sh --clean-slate --commit $(ls -1 w530/defconfig-* |  cut -d'-' -f2-) w530
+rm -f w530/defconfig-*
