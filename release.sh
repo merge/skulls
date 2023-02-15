@@ -13,13 +13,14 @@ have_image_4=0
 have_image_5=0
 have_image_6=0
 have_image_7=0
+have_image_8=0
 
 usage()
 {
-        echo "Usage: $0 -v version -i img -f img -g img -h img -j img -k img -l img"
+        echo "Usage: $0 -v version -f img -g img -h img -i img -j img -k img -l img -m img"
 }
 
-args=$(getopt -o v:i:f:g:h:j:k:l: -- "$@")
+args=$(getopt -o v:i:f:g:h:j:k:l:m: -- "$@")
 if [ $? -ne 0 ] ; then
         usage
         exit 1
@@ -61,6 +62,11 @@ do
 	-l)
 		RELEASE_IMAGE_7=$2
 		have_image_7=1
+		shift
+		;;
+	-m)
+		RELEASE_IMAGE_8=$2
+		have_image_8=1
 		shift
 		;;
         -v)
@@ -117,6 +123,12 @@ if [ ! "$have_image_7" -gt 0 ] ; then
 	usage
 	exit 1
 fi
+if [ ! "$have_image_8" -gt 0 ] ; then
+	echo "image missing"
+	usage
+	exit 1
+fi
+
 
 # Do we have a desired version number?
 if [ "$have_version" -gt 0 ] ; then
@@ -201,6 +213,12 @@ if [ ! "$filesize" -eq "$reference_filesize" ] ; then
 	echo "filesize of release image is wrong"
 	exit 1
 fi
+filesize=$(wc -c <"${RELEASE_IMAGE_8}")
+reference_filesize=4194304
+if [ ! "$filesize" -eq "$reference_filesize" ] ; then
+	echo "filesize of release image is wrong"
+	exit 1
+fi
 
 
 RELEASE_DIR="skulls-${version}"
@@ -215,6 +233,7 @@ cp "${RELEASE_IMAGE_4}" "$RELEASE_DIR"
 cp "${RELEASE_IMAGE_5}" "$RELEASE_DIR"
 cp "${RELEASE_IMAGE_6}" "$RELEASE_DIR"
 cp "${RELEASE_IMAGE_7}" "$RELEASE_DIR"
+cp "${RELEASE_IMAGE_8}" "$RELEASE_DIR"
 
 RELEASE_IMAGE_FILE=$(basename "${RELEASE_IMAGE}")
 cd ${RELEASE_DIR}
@@ -231,6 +250,8 @@ RELEASE_IMAGE_FILE_6=$(basename "${RELEASE_IMAGE_6}")
 sha256sum ${RELEASE_IMAGE_FILE_6} > "${RELEASE_IMAGE_FILE_6}.sha256"
 RELEASE_IMAGE_FILE_7=$(basename "${RELEASE_IMAGE_7}")
 sha256sum ${RELEASE_IMAGE_FILE_7} > "${RELEASE_IMAGE_FILE_7}.sha256"
+RELEASE_IMAGE_FILE_8=$(basename "${RELEASE_IMAGE_8}")
+sha256sum ${RELEASE_IMAGE_FILE_8} > "${RELEASE_IMAGE_FILE_8}.sha256"
 cd -
 
 # copy in device independent stuff
@@ -259,6 +280,10 @@ cp t440p/README.md \
 # copy in t530 stuff
 cp t530/README.md \
 	"$RELEASE_DIR/README_T530.md"
+
+# copy in w530 stuff
+cp w530/README.md \
+	"$RELEASE_DIR/README_W530.md"
 
 tar -cJf "$RELEASE_DIR".tar.xz "$RELEASE_DIR"
 
