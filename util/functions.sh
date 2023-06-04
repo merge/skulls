@@ -25,8 +25,8 @@ check_board_and_root()
 		exit 0
 	fi
 
-	local flashrom_major_version=$(${FLASHROM} --version|grep "flashrom v"| sed s/v// | cut -d " " -f 2 | cut -d "." -f 1)
-	local flashrom_minor_version=$(${FLASHROM} --version|grep "flashrom v"| sed s/v// | cut -d " " -f 2 | cut -d "." -f 2)
+	local flashrom_major_version=$(${FLASHROM} --version|grep "flashrom"|grep on | sed s/v// | cut -d " " -f 2 | cut -d "." -f 1)
+	local flashrom_minor_version=$(${FLASHROM} --version|grep "flashrom"|grep on | sed s/v// | cut -d " " -f 2 | cut -d "." -f 2)
 	if [ "${flashrom_major_version}" != 1 ] ; then
 		echo "Please use flashrom v1.2 or later. You seem to use $flashrom_major_version.$flashrom_minor_version"
 		exit 1
