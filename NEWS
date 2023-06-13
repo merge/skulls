@@ -1,3 +1,10 @@
+skulls 1.0.8 - released 2023-06-13
+----------------------------------
+This release includes the following changes:
+* based on coreboot commit aa1efece74
+* update SeaBIOS to version 1.16.2
+* added support for the Thinkpad W530
+
 skulls 1.0.7 - released 2023-02-15
 ----------------------------------
 This release includes the following changes:
