@@ -1,6 +1,6 @@
 # Skulls - TODO list
 
-* refactor to be one command, and release something that can be installed systemwide
+* release something that can be installed systemwide
 * coreboot: fix the bootsplash image size when using SeaVGABIOS / native graphics init
 * create a live USB Linux for flashing including Skulls, flashrom and iomem=relaxed
   ( https://github.com/ivandavidov/minimal )
