@@ -28,7 +28,7 @@ usage()
 	echo ""
 	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-s <spispeed>] [-c <chip>]"
 	echo ""
-	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, tigard"
+	echo " -f <hardware_flasher>   supported flashers: rpi, rpi_pico, ch341a, tigard"
 	echo " -c <chipname>           flashrom chip name to use"
 	echo " -m                      apply me_cleaner -S -d"
 	echo " -l                      lock the flash instead of unlocking it"
@@ -97,12 +97,16 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 	echo ""
 	echo "Please select the hardware you use:"
 	PS3='Please select the hardware flasher: '
-	options=("Raspberry Pi" "CH341A" "Tigard" "Exit")
+	options=("Raspberry Pi" "Raspberry Pi pico" "CH341A" "Tigard" "Exit")
 	select opt in "${options[@]}"
 	do
 		case $opt in
 			"Raspberry Pi")
 				FLASHER="rpi"
+				break
+				;;
+			"Raspberry Pi pico")
+				FLASHER="rpi_pico"
 				break
 				;;
 			"CH341A")
@@ -130,6 +134,10 @@ programmer=""
 if [ "${FLASHER}" = "rpi" ] ; then
 	echo "Ok. Run this on a Rasperry Pi."
 	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=${rpi_frequency}"
+elif [ "${FLASHER}" = "rpi_pico" ] ; then
+	echo "Ok. Run this on a Rasperry Pi pico (serprog)."
+	serprog_dev=$(ls /dev/ttyACM*)
+	programmer="serprog:dev=${serprog_dev}:115200"
 elif [ "${FLASHER}" = "ch341a" ] ; then
 	echo "Ok. Connect a CH341A programmer"
 	programmer="ch341a_spi"
