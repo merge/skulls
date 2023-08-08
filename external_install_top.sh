@@ -28,7 +28,7 @@ usage()
 	echo "Usage: $0 -b <board> [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>]"
 	echo ""
 	echo " -b (x230|x230t|t430|t440p|t530|w530)	board to flash."
-	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, tigard"
+	echo " -f <hardware_flasher>   supported flashers: rpi, rpi_pico, ch341a, tigard"
 	echo " -i <image>              path to image to flash"
 	echo " -c <chipname>           to use for flashrom"
 	echo " -k <backup>             save the current image as"
@@ -169,6 +169,10 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 				FLASHER="rpi"
 				break
 				;;
+			"Raspberry Pi pico")
+				FLASHER="rpi_pico"
+				break
+				;;
 			"CH341A")
 				FLASHER="ch341a"
 				break
@@ -192,6 +196,10 @@ fi
 programmer=""
 if [ "${FLASHER}" = "rpi" ] ; then
 	programmer="linux_spi:dev=/dev/spidev0.0,spispeed=${rpi_frequency}"
+elif [ "${FLASHER}" = "rpi_pico" ] ; then
+	echo "Ok. Run this on a Rasperry Pi pico (serprog)."
+	serprog_dev=$(ls /dev/ttyACM*)
+	programmer="serprog:dev=${serprog_dev}:115200"
 elif [ "${FLASHER}" = "ch341a" ] ; then
 	programmer="ch341a_spi"
 elif [ "${FLASHER}" = "Tigard" ] ; then
