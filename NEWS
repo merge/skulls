@@ -1,3 +1,8 @@
+skulls 1.0.9 - unreleased
+----------------------------------
+* based on coreboot commit 310698cb95
+* updated coreboot-sdk to 2023-06-04_44f676afc9
+
 skulls 1.0.8 - released 2023-06-13
 ----------------------------------
 This release includes the following changes:
