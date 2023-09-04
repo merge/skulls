@@ -1,4 +1,4 @@
-skulls 1.0.9 - unreleased
+skulls 1.0.9 - released 2023-09-04
 ----------------------------------
 * based on coreboot commit 310698cb95
 * updated coreboot-sdk to 2023-06-04_44f676afc9
