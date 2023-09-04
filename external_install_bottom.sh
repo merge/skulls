@@ -28,7 +28,7 @@ usage()
 	echo ""
 	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-s <spispeed>] [-c <chip>]"
 	echo ""
-	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, tigard"
+	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, Tigard"
 	echo " -c <chipname>           flashrom chip name to use"
 	echo " -m                      apply me_cleaner -S -d"
 	echo " -l                      lock the flash instead of unlocking it"
