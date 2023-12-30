@@ -28,7 +28,7 @@ usage()
 	echo "Usage: $0 -b <board> [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>]"
 	echo ""
 	echo " -b (x230|x230t|t430|t440p|t530|w530)	board to flash."
-	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, Tigard"
+	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, FT232H, Tigard"
 	echo " -i <image>              path to image to flash"
 	echo " -c <chipname>           to use for flashrom"
 	echo " -k <backup>             save the current image as"
@@ -161,7 +161,7 @@ fi
 if [ ! "$have_flasher" -gt 0 ] ; then
 	echo "Please select the hardware you use:"
 	PS3='Please select the hardware flasher: '
-	options=("Raspberry Pi" "CH341A" "Tigard" "Quit")
+	options=("Raspberry Pi" "CH341A" "Tigard" "FT232H" "Quit")
 	select opt in "${options[@]}"
 	do
 		case $opt in
@@ -174,9 +174,13 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 				break
 				;;
 			"Tigard")
-                                FLASHER="Tigard"
-                                break
-                                ;;
+ 				FLASHER="Tigard"
+ 				break
+ 				;;
+			"FT232H")
+ 				FLASHER="ft232h"
+ 				break
+ 				;;
 			"Quit")
 				exit 0
 				;;
@@ -195,7 +199,9 @@ if [ "${FLASHER}" = "rpi" ] ; then
 elif [ "${FLASHER}" = "ch341a" ] ; then
 	programmer="ch341a_spi"
 elif [ "${FLASHER}" = "Tigard" ] ; then
-        programmer="ft2232_spi:type=2232H,port=B,divisor=4"
+	programmer="ft2232_spi:type=2232H,port=B,divisor=4"
+elif [ "${FLASHER}" = "ft232h" ] ; then
+	programmer="ft2232_spi:type=232H,port=A,divisor=8"
 else
 	echo "invalid flashrom programmer"
 	usage
