@@ -99,29 +99,17 @@ if [ ! "$have_board" -gt 0 ] ; then
 fi
 
 if [[ $BOARD == "x230" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
+	echo "Board: $BOARD"
 elif [[ $BOARD == "x230t" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
+	echo "Board: $BOARD"
 elif [[ $BOARD == "t430" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
+	echo "Board: $BOARD"
 elif [[ $BOARD == "t440p" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
+	echo "Board: $BOARD"
 elif [[ $BOARD == "t530" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
+	echo "Board: $BOARD"
 elif [[ $BOARD == "w530" ]] ; then
-	if [[ $verbose -gt 0 ]] ; then
-		echo "Board: $BOARD"
-	fi
+	echo "Board: $BOARD"
 else
 	echo "Unsupported board: $BOARD"
 	echo ""
