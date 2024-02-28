@@ -1,3 +1,9 @@
+skulls 1.1.0 - released 2024-02-28
+----------------------------------
+* based on coreboot commit 04d6eb1eae
+* updated coreboot-sdk to 2024-02-24_04d6eb1eae
+* updated SeaBIOS to version 1.16.3
+
 skulls 1.0.9 - released 2023-09-04
 ----------------------------------
 * based on coreboot commit 310698cb95
