@@ -4,9 +4,7 @@
 ## Latest release
 Get it from our [release page](https://github.com/merge/skulls/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
-* __microcode update__: revision `0x21` from 2019-02-13
-* __SeaBIOS__: version [1.16.3](https://seabios.org/Releases) from 2023-11-07
-
+![[common/doc/ivybridge_latest_versions.md]]
 
 
 ## table of contents
@@ -69,58 +67,7 @@ fully disassemble:
 ... choose __one of the following__ supported flashing hardware examples:
 
 #### Hardware Example: Raspberry Pi 3
-
-A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
-Use a test clip or hooks, see [required hardware](#preparation-required-hardware).
-
-On the RPi we run [Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
-and have the following setup:
-* Connect to the console: Either
-  * connect a screen and a keyboard, or
-  * Use the [Serial connection](https://elinux.org/RPi_Serial_Connection) using a
-USB-to-serial cable (like [Adafruit 954](http://www.adafruit.com/products/954),
-[FTDI TTL-232R-RPI](http://www.ftdichip.com/Products/Cables/RPi.htm) or
-[others](https://geizhals.eu/usb-to-ttl-serial-adapter-cable-a1461312.html)) and
-picocom (`picocom -b 115200 /dev/ttyUSB0`) or minicom
-* in the SD Cards's `/boot/config.txt` file `enable_uart=1` and `dtparam=spi=on`
-* [For flashrom](https://www.flashrom.org/RaspberryPi) we put `spi_bcm2835`
-and `spidev` in /etc/modules
-* [Connect to a wifi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
-or ethernet to `sudo apt-get install flashrom`
-* connect the Clip to the Raspberry Pi 3 (there are
-[prettier images](https://github.com/splitbrain/rpibplusleaf) too):
-
-
-		   Edge of pi (furthest from you)
-		               (UART)
-		 L           GND TX  RX                           CS
-		 E            |   |   |                           |
-		 F +---------------------------------------------------------------------------------+
-		 T |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
-		   |  x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x   x  |
-		 E +----------------------------------^---^---^---^-------------------------------^--+
-		 D                                    |   |   |   |                               |
-		 G                                   3.3V MOSIMISO|                              GND
-		 E                                 (VCC)         CLK
-		   Body of Pi (closest to you)
-
-
-##### Plug your RPI into an 8 Pin SOIC Clip
-
-| Pin Number | Clip (25xx signal) | Raspberry Pi |
-| --------------- | --------------- | --------------- |
-| 1 | CS | 24 |
-| 2 | MISO | 21 |
-| 3 | *not used* | *not used* |
-| 4 | GND | 25 |
-| 5 | MOSI | 19 |
-| 6 | CLK | 23 |
-| 7 | *not used* | *not used* |
-| 8 | 3.3V |  |
-
-
-Connect corresponding RPI Pins, according to the images above.
-
+![[common/doc/hw_rpi.md]]
 
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
@@ -219,17 +166,4 @@ for more details.
 * `./build.sh` and choose the configuration you want to build.
 
 ### replace the splashscreen image
-In order to create your own splashscreen image, before building,
-overwrite the `bootsplash.jpg` with your own JPEG, using
-* "Progressive" turned off, and
-* "4:2:0 (chroma quartered)" Subsampling
-
-You can use `imagemagick` to prepare the .jpg file using:
-* `mogrify logo.jpg -interlace none <splashscreen>`
-* `mogrify logo.jpg -sampling-factor 4:2:0 <splashscreen>`
-* `convert <splashscreen> -resize 1024x768! <splashscreen> # optional, but converts image size to match screen dimensions`
-
-`ImageMagick` can also be used to convert images of another format into .jpg using the [convert](https://imagemagick.org/script/convert.php) tool.
-
-**Note**: replace `<splashscreen>` with the file name.
-
+![[common/doc/splashscreen.md]]
