@@ -50,5 +50,8 @@ image releases. Supports a lot of devices these days, including most of
 what Skulls supports.
 
 ## Sponsors
-none. [become a sponsor](https://github.com/sponsors/merge) and you can
+
+* [Mayan EDMS](https://www.mayan-edms.com/)
+
+[become a sponsor](https://github.com/sponsors/merge) and you can
 be listed here. any compensation is very much appreciated.
