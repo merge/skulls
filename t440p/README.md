@@ -8,6 +8,7 @@ Get it from our [release page](https://github.com/merge/skulls/releases)
 * __microcode update__: revision `0x28` from 2019-11-12
 * __SeaBIOS__: version [1.16.3](https://seabios.org/Releases) from 2023-11-07
 
+
 Note: This release includes a non-free binary blob `mrc.bin` that is used
 for dram initialisation.
 
@@ -69,6 +70,7 @@ The 8MB chip:
 ... choose __one of the following__ supported flashing hardware examples:
 
 #### Hardware Example: Raspberry Pi 3
+
 A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
 Use a test clip or hooks, see [required hardware](#preparation-required-hardware).
 
@@ -119,6 +121,7 @@ or ethernet to `sudo apt-get install flashrom`
 
 
 Connect corresponding RPI Pins, according to the images above.
+
 
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
@@ -222,4 +225,13 @@ In order to create your own splashscreen image, before building,
 overwrite the `bootsplash.jpg` with your own JPEG, using
 * "Progressive" turned off, and
 * "4:2:0 (chroma quartered)" Subsampling
+
+You can use `imagemagick` to prepare the .jpg file using:
+* `mogrify logo.jpg -interlace none <splashscreen>`
+* `mogrify logo.jpg -sampling-factor 4:2:0 <splashscreen>`
+* `convert <splashscreen> -resize 1024x768! <splashscreen> # optional, but converts image size to match screen dimensions`
+
+`ImageMagick` can also be used to convert images of another format into .jpg using the [convert](https://imagemagick.org/script/convert.php) tool.
+
+**Note**: replace `<splashscreen>` with the file name.
 
