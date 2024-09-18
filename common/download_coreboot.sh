@@ -16,7 +16,7 @@ function gitUpdate() {
     # Clone Coreboot and fetch submodules
     git clone https://github.com/coreboot/coreboot.git "$DOCKER_COREBOOT_DIR"
     cd "$DOCKER_COREBOOT_DIR" || exit
-    git submodule update --init --recursive --remote
+    git submodule update --init --checkout --recursive
 
     # blobs are ignored from updates.  Manually clone to prevent compile errors later from non empty directory cloning
     # git clone https://github.com/coreboot/blobs.git 3rdparty/blobs/
@@ -38,7 +38,7 @@ function gitUpdate() {
 function checkoutTag() {
   cd "$DOCKER_COREBOOT_DIR" || exit
   git checkout tags/"$COREBOOT_TAG" || exit
-  git submodule update --recursive --remote
+  git submodule update --checkout --recursive
 }
 ################################################################################
 
@@ -56,7 +56,7 @@ function checkoutCommit() {
     git pull --all
   fi
 
-  git submodule update --recursive --remote
+  git submodule update --checkout --recursive
 }
 ################################################################################
 
