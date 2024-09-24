@@ -38,7 +38,7 @@ function gitUpdate() {
 function checkoutTag() {
   cd "$DOCKER_COREBOOT_DIR" || exit
   git checkout tags/"$COREBOOT_TAG" || exit
-  git submodule update --checkout --recursive
+  git submodule update --init --checkout --recursive
 }
 ################################################################################
 
@@ -56,7 +56,7 @@ function checkoutCommit() {
     git pull --all
   fi
 
-  git submodule update --checkout --recursive
+  git submodule update --init --checkout --recursive
 }
 ################################################################################
 
