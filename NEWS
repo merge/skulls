@@ -1,3 +1,8 @@
+skulls 1.1.1 - unreleased
+----------------------------------
+* based on coreboot commit de3eb9c9d9
+* use the "latest" coreboot-sdk
+
 skulls 1.1.0 - released 2024-02-28
 ----------------------------------
 * based on coreboot commit 04d6eb1eae
