@@ -140,8 +140,6 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 * Connect your clip or hooks to the rest of the programmer's SPI pins
 * Connect the programmer (and power supply, if USB) to your PC's USB port
 
-![ch341a programmer with extra USB power supply](ch341a.jpg)
-
 #### unpack the Skulls release archive
 
 
