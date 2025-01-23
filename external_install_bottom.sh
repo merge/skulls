@@ -192,6 +192,13 @@ if [ ! "$have_chipname" -gt 0 ] ; then
 	fi
 
 	if [ ! "$chip_found" -gt 0 ] ; then
+		CHIPNAME=$(cat "${TEMP_DIR}"/chips | grep Found | grep "W25Q64JV-.Q" | grep -o '".*"' | grep -oP '"\K[^"\047]+(?=["\047])' || true)
+		if [ ! -z "${CHIPNAME}" ] ; then
+			chip_found=1
+		fi
+	fi
+
+	if [ ! "$chip_found" -gt 0 ] ; then
 		echo "chip not detected."
 		${FLASHROM} -p ${programmer} || true
 		rm -rf "${TEMP_DIR}"
