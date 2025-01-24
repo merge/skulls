@@ -14,7 +14,7 @@ IS_BUILD_DIR_EMPTY=$(ls -A "$DOCKER_COREBOOT_DIR")
 function gitUpdate() {
   if [ -z "$IS_BUILD_DIR_EMPTY" ]; then
     # Clone Coreboot and fetch submodules
-    git clone https://github.com/coreboot/coreboot.git "$DOCKER_COREBOOT_DIR"
+    git clone https://review.coreboot.org/coreboot "$DOCKER_COREBOOT_DIR"
     cd "$DOCKER_COREBOOT_DIR" || exit
     git submodule update --init --checkout --recursive
 
@@ -49,10 +49,10 @@ function checkoutTag() {
 ################################################################################
 function checkoutCommit() {
   cd "$DOCKER_COREBOOT_DIR" || exit
-  # bleeding-edge should checkout master
+  # bleeding-edge should checkout main
   git checkout "$COREBOOT_COMMIT" || exit
 
-  if  [ "$COREBOOT_COMMIT" == "master"  ]; then
+  if  [ "$COREBOOT_COMMIT" == "main"  ]; then
     git pull --all
   fi
 
