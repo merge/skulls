@@ -25,6 +25,7 @@ usage()
   echo "  -c, --commit <commit>        Git commit hash"
   echo "  -h, --help                   Show this help"
   echo "  -i, --config                 Execute with interactive make config"
+  echo "  -p, --patchset <patchset>    Cherry-pick a patch set which is not merged yet"
   echo "  -t, --tag <tag>              Git tag/version"
   echo
   echo "If a tag, commit or bleeding-edge flag is not given, the latest Coreboot release will be built."
@@ -55,6 +56,9 @@ do
       -i | --config)
         COREBOOT_CONFIG=true
         shift 1;;
+      -p | --patchset)
+        COREBOOT_PATCHSET="$2"
+        shift 2;;
       -t | --tag)
         COREBOOT_TAG="$2"
         shift 2;;
@@ -93,6 +97,7 @@ docker run --rm -it \
     -v "$PWD/$MODEL:$DOCKER_SCRIPT_DIR" \
     -v "$PWD/common:$DOCKER_COMMON_SCRIPT_DIR" \
     -e COREBOOT_COMMIT="$COREBOOT_COMMIT" \
+    -e COREBOOT_PATCHSET="$COREBOOT_PATCHSET" \
     -e COREBOOT_TAG="$COREBOOT_TAG" \
     -e COREBOOT_CONFIG="$COREBOOT_CONFIG" \
     coreboot/coreboot-sdk:"$COREBOOT_SDK_VERSION" \
