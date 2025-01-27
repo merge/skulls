@@ -1,3 +1,5 @@
+**Warning**: Connect the 3.3v only once everything else is connected and the Raspberry Pi is running. Then plugin the 3.3V pin ( pin 8 on the chip ) into pin 1 on the Raspberry Pi.
+
 # Skulls - [Thinkpad T440P](https://pcsupport.lenovo.com/us/zh/products/laptops-and-netbooks/thinkpad-t-series-laptops/thinkpad-t440p)
 
 ![front_bootsplash](front.jpg)
@@ -117,6 +119,7 @@ or ethernet to `sudo apt-get install flashrom`
 | 7 | *not used* | *not used* |
 | 8 | 3.3V |  |
 
+**Warning**: Connect the 3.3v only once everything else is connected and the Raspberry Pi is running. Then plugin the 3.3V pin ( pin 8 on the chip ) into pin 1 on the Raspberry Pi.
 
 Connect corresponding RPI Pins, according to the images above.
 
