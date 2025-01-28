@@ -198,16 +198,13 @@ if [ -e ${INPUT_IMAGE_PATH}.sha256 ] ; then
 	sha256sum -c ${INPUT_IMAGE_PATH}.sha256
 	cd - > /dev/null
 else
-	echo -e "${YELLOW}Warning:${NC} Cannot verify image hash"
+	echo -e "${YELLOW}WARNING:${NC} Cannot verify image hash"
 fi
 
 OUTPUT_PATH=output
 INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
 OUTPUT_IMAGE_NAME=${INPUT_IMAGE_NAME%%.*}_prepared_12mb.rom
 OUTPUT_IMAGE_PATH=${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}
-
-echo -e "	input: ${INPUT_IMAGE_NAME}"
-echo -e "	output: ${OUTPUT_IMAGE_PATH}"
 
 input_filesize=$(wc -c <"$INPUT_IMAGE_PATH")
 reference_filesize=4194304
