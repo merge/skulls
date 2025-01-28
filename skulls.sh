@@ -20,7 +20,7 @@ usage()
 	echo "  Run this script on the Laptop directly."
 	echo ""
 	echo "  This flashes the BIOS with the given image."
-	echo "  Make sure you booted Linux with iomem=relaxed"
+	echo "  Make sure you booted Linux with iomem=relaxed and don't interrupt the process."
 	echo ""
 	echo "Usage: $0 -b (x230|x230t|t430|t440p|t530|w530) [-i <4mb_top_image>.rom] [-U] [-h]"
 	echo "Options:"
@@ -206,8 +206,8 @@ INPUT_IMAGE_NAME=$(basename "${INPUT_IMAGE_PATH}")
 OUTPUT_IMAGE_NAME=${INPUT_IMAGE_NAME%%.*}_prepared_12mb.rom
 OUTPUT_IMAGE_PATH=${OUTPUT_PATH}/${OUTPUT_IMAGE_NAME}
 
-echo -e "input: ${INPUT_IMAGE_NAME}"
-echo -e "output: ${OUTPUT_IMAGE_PATH}"
+echo -e "	input: ${INPUT_IMAGE_NAME}"
+echo -e "	output: ${OUTPUT_IMAGE_PATH}"
 
 input_filesize=$(wc -c <"$INPUT_IMAGE_PATH")
 reference_filesize=4194304
@@ -230,8 +230,6 @@ echo "0x00003000:0x004fffff me" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00500000:0x007fffff unused" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 echo "0x00800000:0x00bfffff bios" >> ${OUTPUT_PATH}/${LAYOUT_FILENAME}
 
-echo -e "${YELLOW}Warning:${NC} Make sure not to power off your computer or interrupt this process in any way!"
-echo -e "         Interrupting this process may result in irreparable damage to your computer!"
 check_battery
 while true; do
 	read -r -p "Flash the BIOS now? y/N: " yn
