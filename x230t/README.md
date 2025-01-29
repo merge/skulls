@@ -5,8 +5,9 @@
 ## Latest release
 Get it from our [release page](https://github.com/merge/skulls/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
-* __microcode update__: revision `0x21` from 2019-02-13
+* __microcode update__: revision `0x21` from 2019-02-13 ([info about open SRBDS hw-vulnerability](https://bugzilla.kernel.org/show_bug.cgi?id=210671))
 * __SeaBIOS__: version [1.16.3](https://seabios.org/Releases) from 2023-11-07
+
 
 ### release images to choose from
 We release multiple different, but _very similar_ images you can choose from.
@@ -106,6 +107,7 @@ below. This is how the SPI connection looks like on both of the X230T's chips:
 ... choose __one of the following__ supported flashing hardware examples:
 
 #### Hardware Example: Raspberry Pi 3
+
 A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
 Use a test clip or hooks, see [required hardware](#preparation-required-hardware).
 
@@ -157,6 +159,7 @@ or ethernet to `sudo apt-get install flashrom`
 
 Connect corresponding RPI Pins, according to the images above.
 
+
 ![Raspberry Pi at work](rpi_clip.jpg)
 
 Now copy the Skulls release tarball over to the Rasperry Pi and
@@ -190,11 +193,14 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 
 #### ifd unlock and me_cleaner: the 8MB chip
 
-Flashing the bottom chip (closer to you) is highly recommended. It has the same pinout
-than the upper chip. When you dont unlock the bottom chip with external flasher, you cant fix the known critical security issues in the Intel Management Engine. Recently Intel release security updates for the CPU-Microcode (updates included in the skulls releases) for the CPUs build into the x230t, but does not release any security updates for the long known issues in the Management engine.
-[Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine)
-[security reasons](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities).
-When you dont flash the bottom 8MB chip, you additionaly to the security issues cant use from end of 2020 onwards released Heads "maximized" releases that are discussed here: https://github.com/osresearch/heads/pull/703
+Flashing the bottom chip (closer to you) is optional but highly recommended.
+It has the same pinout as the upper chip. When you don't unlock the bottom chip
+with an external flasher, you can't flash internally and fix the
+[security issues](https://en.wikipedia.org/wiki/Intel_Management_Engine#Security_vulnerabilities)
+in the
+[Intel Management Engine](https://en.wikipedia.org/wiki/Intel_Management_Engine).
+
+
 
 	sudo ./external_install_bottom.sh -m -k <backup-file-to-create>
 
@@ -275,4 +281,13 @@ In order to create your own splashscreen image, before building,
 overwrite the `bootsplash.jpg` with your own JPEG, using
 * "Progressive" turned off, and
 * "4:2:0 (chroma quartered)" Subsampling
+
+You can use `imagemagick` to prepare the .jpg file using:
+* `mogrify logo.jpg -interlace none <splashscreen>`
+* `mogrify logo.jpg -sampling-factor 4:2:0 <splashscreen>`
+* `convert <splashscreen> -resize 1024x768! <splashscreen> # optional, but converts image size to match screen dimensions`
+
+`ImageMagick` can also be used to convert images of another format into .jpg using the [convert](https://imagemagick.org/script/convert.php) tool.
+
+**Note**: replace `<splashscreen>` with the file name.
 
