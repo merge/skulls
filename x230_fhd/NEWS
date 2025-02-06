@@ -1,0 +1,5 @@
+skulls-x230_fhd 0.0.1 - released 2020-09-01
+----------------------------------------
+* initial seperate release for the X230 with FHD mod
+  based on the X230 configuration
+* based on coreboot commit f5b3a49b76

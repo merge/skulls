@@ -60,6 +60,20 @@ function checkoutCommit() {
 }
 ################################################################################
 
+################################################################################
+## Cherry-pick a patchset
+################################################################################
+function cherryPickPatchset() {
+  cd "$DOCKER_COREBOOT_DIR" || exit
+
+  # Workaround git complaining about unset email
+  git config --global user.email "dummys@docker.com" && git config --global user.name "skull.docker"
+
+  git fetch "https://review.coreboot.org/coreboot" "$COREBOOT_PATCHSET" || exit
+  git cherry-pick FETCH_HEAD  || exit
+
+  git submodule update --recursive --remote
+}
 
 ################################################################################
 ## Download the latest released version of Coreboot
@@ -99,6 +113,10 @@ function downloadOrUpdateCoreboot() {
   elif [ "$COREBOOT_TAG" ]; then
     gitUpdate
     checkoutTag
+  fi
+
+  if [ "$COREBOOT_PATCHSET" ]; then
+    cherryPickPatchset
   fi
 }
 ################################################################################
