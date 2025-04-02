@@ -77,5 +77,5 @@ CONFIGFILE_READY=$(echo $CONFIGFILE | cut -d'-' -f2-)
 cp $CONFIGFILE $CONFIGFILE_READY
 
 cd ..
-./build.sh --clean-slate --commit $(ls -1 x230t/defconfig-* |  cut -d'-' -f2-) x230t
+./common/build.sh --clean-slate --commit $(ls -1 x230t/defconfig-* |  cut -d'-' -f2-) x230t
 rm -f x230t/defconfig-*
