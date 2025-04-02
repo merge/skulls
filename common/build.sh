@@ -11,7 +11,7 @@ set -e
 ################################################################################
 
 ## Parse avialble models from directory names
-AVAILABLE_MODELS=$(find ./ -maxdepth 1 -mindepth 1 -type d | sed  's/\.\///g' | grep -Ev "common|git")
+AVAILABLE_MODELS=$(find ./ -maxdepth 1 -mindepth 1 -type d | sed  's/\.\///g' | grep -Ev "common|git|util")
 
 ## Help menu
 usage()

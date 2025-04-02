@@ -77,5 +77,5 @@ CONFIGFILE_READY=$(echo $CONFIGFILE | cut -d'-' -f2-)
 cp $CONFIGFILE $CONFIGFILE_READY
 
 cd ..
-./build.sh --clean-slate --commit $(ls -1 t530/defconfig-* |  cut -d'-' -f2-) t530
+./common/build.sh --clean-slate --commit $(ls -1 t530/defconfig-* |  cut -d'-' -f2-) t530
 rm -f t530/defconfig-*

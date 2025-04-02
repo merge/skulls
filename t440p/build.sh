@@ -77,5 +77,5 @@ CONFIGFILE_READY=$(echo $CONFIGFILE | cut -d'-' -f2-)
 cp $CONFIGFILE $CONFIGFILE_READY
 
 cd ..
-./build.sh --clean-slate --commit $(ls -1 t440p/defconfig-* |  cut -d'-' -f2-) t440p
+./common/build.sh --clean-slate --commit $(ls -1 t440p/defconfig-* |  cut -d'-' -f2-) t440p
 rm -f t440p/defconfig-*
