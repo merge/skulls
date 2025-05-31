@@ -40,6 +40,9 @@ function configAndMake() {
   if [ -f "$DOCKER_SCRIPT_DIR/vgabios.bin" ]; then
     cp "$DOCKER_SCRIPT_DIR/vgabios.bin" "$DOCKER_COREBOOT_DIR/vgabios.bin"
   fi
+  if [ -f "$DOCKER_SCRIPT_DIR/vgabios_dgpu.bin" ]; then
+    cp "$DOCKER_SCRIPT_DIR/vgabios_dgpu.bin" "$DOCKER_COREBOOT_DIR/vgabios_dgpu.bin"
+  fi
   if [ -f "$DOCKER_SCRIPT_DIR/mrc.bin" ]; then
     cp "$DOCKER_SCRIPT_DIR/mrc.bin" "$DOCKER_COREBOOT_DIR/mrc.bin"
   fi
