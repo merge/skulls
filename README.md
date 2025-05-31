@@ -2,7 +2,18 @@
 
 W.I.P. [Skulls](https://github.com/merge/skulls) fork with optional builds with vgabios blob included.
 
+Useful for the following situations:
+- Using discrete GPU on models that have them
+- Simply having display output on those models (a requirement since both DisplayPort and VGA D-Sub are wired through the dGPU)
+- Windows compatibility (lack of vgabios creates problems on Windows)
+
+For all other circumstances, use normal Skulls.
+
+</br>
+
 No releases for now.
+
+Currently, only T530(non dgpu), X230, and X230T have optional vgabios. T430 and W530-k2000m coming next.
 
 May also tweak configuration and include a couple more boards in the future.
 
