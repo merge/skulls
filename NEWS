@@ -1,3 +1,8 @@
+skulls 1.1.3 - released 2025-08-26
+----------------------------------
+* based on coreboot commit 4931b978d9
+* updated SeaBIOS to version 1.17.0
+
 skulls 1.1.2 - released 2025-01-29
 ----------------------------------
 * based on coreboot commit 5243dd96de
