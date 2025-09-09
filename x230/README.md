@@ -155,9 +155,12 @@ or ethernet to `sudo apt-get install flashrom`
 | 8 | 3.3V |  |
 
 
+**Warning**: Connect the 3.3v only once everything else is connected and the Raspberry Pi is running. Then plugin the 3.3V pin ( pin 8 on the chip ) into pin 1 on the Raspberry Pi.
+ 
 Connect corresponding RPI Pins, according to the images above.
 
 ![Raspberry Pi at work](rpi_clip.jpg)
+
 
 Now copy the Skulls release tarball over to the Rasperry Pi and
 [continue](#unpack-the-skulls-release-archive) on the Pi.
