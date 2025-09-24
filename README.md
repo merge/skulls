@@ -35,6 +35,8 @@ Either when
 [these](https://github.com/Thrilleratplay/coreboot-builder-scripts)
 scripts that use the
 [coreboot-sdk](https://hub.docker.com/r/coreboot/coreboot-sdk/).
+* we generate the markdown docs using `common/parseMd.sh x230/README.md.in > x230/README.md`
+so that we can use shared files from `common/doc/`
 
 ## Alternatives
 We aim to be the easiest possible coreboot distribution - both

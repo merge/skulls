@@ -5,8 +5,9 @@
 ## Latest release
 Get it from our [release page](https://github.com/merge/skulls/releases)
 * __coreboot__: We take coreboot's master branch at the time we build a release image.
-* __microcode update__: revision `0x21` from 2019-02-13
+* __microcode update__: revision `0x21` from 2019-02-13 ([info about open SRBDS hw-vulnerability](https://bugzilla.kernel.org/show_bug.cgi?id=210671))
 * __SeaBIOS__: version [1.16.3](https://seabios.org/Releases) from 2023-11-07
+
 
 ### release images to choose from
 We release multiple different, but _very similar_ images you can choose from.
@@ -106,6 +107,7 @@ below. This is how the SPI connection looks like on both of the X230's chips:
 ... choose __one of the following__ supported flashing hardware examples:
 
 #### Hardware Example: Raspberry Pi 3
+
 A Raspberry Pi can directly be a flasher through it's I/O pins, see below.
 Use a test clip or hooks, see [required hardware](#preparation-required-hardware).
 
@@ -156,6 +158,7 @@ or ethernet to `sudo apt-get install flashrom`
 
 
 Connect corresponding RPI Pins, according to the images above.
+
 
 ![Raspberry Pi at work](rpi_clip.jpg)
 
@@ -287,3 +290,4 @@ You can use `imagemagick` to prepare the .jpg file using:
 `ImageMagick` can also be used to convert images of another format into .jpg using the [convert](https://imagemagick.org/script/convert.php) tool.
 
 **Note**: replace `<splashscreen>` with the file name.
+
