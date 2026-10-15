@@ -18,6 +18,7 @@ me_clean=0
 lock=0
 have_flasher=0
 rpi_frequency=0
+serprog_dev="/dev/ttyACM0"
 
 usage()
 {
@@ -26,17 +27,18 @@ usage()
 	echo "  connected to the 8M (bottom) chip (on the X230 farther away from"
 	echo "  the display, closer to you)."
 	echo ""
-	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-s <spispeed>] [-c <chip>]"
+	echo "Usage: $0 [-m] [-k <backup_filename>] [-l] [-f <flasher>] [-s <spispeed>] [-d <device>] [-c <chip>]"
 	echo ""
-	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, FT232H, Tigard"
+	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, FT232H, Tigard, serprog"
 	echo " -c <chipname>           flashrom chip name to use"
 	echo " -m                      apply me_cleaner -S -d"
 	echo " -l                      lock the flash instead of unlocking it"
 	echo " -k <backup>             save the current image as"
 	echo " -s <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
+	echo " -d <device>             serial device for serprog flashers. default: /dev/ttyACM0"
 }
 
-args=$(getopt -o f:mlc:k:hs: -- "$@")
+args=$(getopt -o f:mlc:k:hs:d: -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -71,6 +73,10 @@ do
 		rpi_frequency=$2
 		shift
 		;;
+	-d)
+		serprog_dev=$2
+		shift
+		;;
 	-h)
 		usage
 		exit 1
@@ -97,7 +103,7 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 	echo ""
 	echo "Please select the hardware you use:"
 	PS3='Please select the hardware flasher: '
-	options=("Raspberry Pi" "CH341A" "Tigard" "FT232H" "Exit")
+	options=("Raspberry Pi" "CH341A" "Tigard" "FT232H" "Pico (serprog)" "Exit")
 	select opt in "${options[@]}"
 	do
 		case $opt in
@@ -115,6 +121,10 @@ if [ ! "$have_flasher" -gt 0 ] ; then
 				;;
 			"FT232H")
 				FLASHER="ft232h"
+				break
+				;;
+			"Pico (serprog)")
+				FLASHER="serprog"
 				break
 				;;
 			"Exit")
@@ -142,6 +152,9 @@ elif [ "${FLASHER}" = "Tigard" ] ; then
 elif [ "${FLASHER}" = "ft232h" ] ; then
         echo "Ok. Connect an FT232H programmer"
         programmer="ft2232_spi:type=232H,port=A,divisor=8"
+elif [ "${FLASHER}" = "serprog" ] ; then
+        echo "Ok. Connect a serprog programmer (e.g. Raspberry Pi Pico) at ${serprog_dev}"
+        programmer="serprog:dev=${serprog_dev},spispeed=16M"
 else
 	echo "invalid flashrom programmer"
 	usage

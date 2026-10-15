@@ -15,6 +15,7 @@ have_chipname=0
 have_backupname=0
 have_flasher=0
 rpi_frequency=0
+serprog_dev="/dev/ttyACM0"
 have_board=0
 BOARD=""
 
@@ -25,17 +26,18 @@ usage()
 	echo "  connected to the X230's top chip (closer to the display"
 	echo "  and farther from you)"
 	echo ""
-	echo "Usage: $0 -b <board> [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>]"
+	echo "Usage: $0 -b <board> [-i <image.rom>] [-c <chipname>] [-k <backup_filename>] [-f <flasher>] [-s <spispeed>] [-d <device>]"
 	echo ""
 	echo " -b (x230|x230t|t430|t440p|t530|w530)	board to flash."
-	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, FT232H, Tigard"
+	echo " -f <hardware_flasher>   supported flashers: rpi, ch341a, FT232H, Tigard, serprog"
 	echo " -i <image>              path to image to flash"
 	echo " -c <chipname>           to use for flashrom"
 	echo " -k <backup>             save the current image as"
 	echo " -s <spi frequency>      frequency of the RPi SPI bus in Hz. default: 128"
+	echo " -d <device>             serial device for serprog flashers. default: /dev/ttyACM0"
 }
 
-args=$(getopt -o f:i:c:k:hs:b: -- "$@")
+args=$(getopt -o f:i:c:k:hs:b:d: -- "$@")
 if [ $? -ne 0 ] ; then
 	usage
 	exit 1
@@ -72,6 +74,10 @@ do
 		;;
 	-s)
 		rpi_frequency=$2
+		shift
+		;;
+	-d)
+		serprog_dev=$2
 		shift
 		;;
 	-h)
@@ -149,7 +155,7 @@ fi
 if [ ! "$have_flasher" -gt 0 ] ; then
 	echo "Please select the hardware you use:"
 	PS3='Please select the hardware flasher: '
-	options=("Raspberry Pi" "CH341A" "Tigard" "FT232H" "Quit")
+	options=("Raspberry Pi" "CH341A" "Tigard" "FT232H" "Pico (serprog)" "Quit")
 	select opt in "${options[@]}"
 	do
 		case $opt in
@@ -169,6 +175,10 @@ if [ ! "$have_flasher" -gt 0 ] ; then
  				FLASHER="ft232h"
  				break
  				;;
+			"Pico (serprog)")
+				FLASHER="serprog"
+				break
+				;;
 			"Quit")
 				exit 0
 				;;
@@ -190,6 +200,8 @@ elif [ "${FLASHER}" = "Tigard" ] ; then
 	programmer="ft2232_spi:type=2232H,port=B,divisor=4"
 elif [ "${FLASHER}" = "ft232h" ] ; then
 	programmer="ft2232_spi:type=232H,port=A,divisor=8"
+elif [ "${FLASHER}" = "serprog" ] ; then
+	programmer="serprog:dev=${serprog_dev},spispeed=16M"
 else
 	echo "invalid flashrom programmer"
 	usage
