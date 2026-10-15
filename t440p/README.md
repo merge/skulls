@@ -140,6 +140,37 @@ based supply for a second USB port (like [this](https://de.aliexpress.com/item/1
 * Connect your clip or hooks to the rest of the programmer's SPI pins
 * Connect the programmer (and power supply, if USB) to your PC's USB port
 
+#### Hardware Example: Raspberry Pi Pico (serprog)
+
+A Raspberry Pi Pico (RP2040) running [pico-serprog](https://codeberg.org/libreboot/pico-serprog)
+firmware works as a flasher with 3.3V logic. Get a Pico H if you don't want to
+solder headers. Like the CH341A, this needs a different computer running a
+Linux based system.
+
+* Download a pre-built `.uf2` from the Pico serprog tarball in the
+  [Libreboot releases](https://libreboot.org/download.html), or build it from source
+* Hold the BOOTSEL button while plugging the Pico in, and copy the `.uf2` file
+  to the drive that appears
+* After it restarts, it shows up as a USB serial device, usually `/dev/ttyACM0`
+  (check `dmesg`)
+* Power the clip's VCC from a separate 3.3V supply, as in the CH341A example,
+  and connect the supply's GND to a GND pin on the Pico
+* Connect the rest of the clip:
+
+| Pin Number | Clip (25xx signal) | Pico (physical pin) |
+| ---------- | ------------------ | ------------------- |
+| 1          | CS                 | 7 (GP5)             |
+| 2          | MISO               | 6 (GP4)             |
+| 3          | *not used*         | *not used*          |
+| 4          | GND                | 3 (GND)             |
+| 5          | MOSI               | 5 (GP3)             |
+| 6          | CLK                | 4 (GP2)             |
+| 7          | *not used*         | *not used*          |
+| 8          | 3.3V               | separate 3.3V supply |
+
+Then pass `-f serprog` to the install scripts, or choose "Pico (serprog)" from
+the menu. Add `-d /dev/ttyACMx` if your Pico isn't at `/dev/ttyACM0`.
+
 #### unpack the Skulls release archive
 
 
